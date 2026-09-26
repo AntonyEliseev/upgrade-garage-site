@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+import { primaryPhone, telHref } from '../lib/data';
+---
+<Base title="Страница не найдена — Космос Wrap × Апгрейд Garage" description="Такой страницы нет. Вернитесь на главную, откройте калькулятор или позвоните." noindex>
+  <section class="nf" data-name="Page404">
+    <svg class="nf__lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-name="BrokenAmbient">
+      <path class="draw pink" pathLength="1" d="M0 640 C 220 640, 360 520, 560 520" />
+      <path class="draw lime" pathLength="1" d="M880 520 C 1080 520, 1220 420, 1440 420" />
+      <circle cx="560" cy="520" r="4" class="dot-pink" />
+      <circle cx="880" cy="520" r="4" class="dot-lime" />
+      <path class="gap" d="M600 520 H 840" />
+    </svg>
+    <div class="container nf__in">
+      <span class="nf__code" aria-hidden="true">404</span>
+      <h1 class="nf__title">Контакт отошёл — страницы нет</h1>
+      <p class="nf__text">Возможно, ссылка устарела или в адресе опечатка. Вернитесь на главную или позвоните — подскажем.</p>
+      <div class="nf__btns">
+        <a href={url('/')} class="btn btn--primary btn--l">На главную</a>
+        <a href={url('/calculator')} class="btn btn--secondary btn--l">Калькулятор</a>
+        <a href={telHref(primaryPhone.tel)} class="btn btn--secondary btn--l">{primaryPhone.display}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { position: relative; overflow: hidden; background: var(--ug-bg); min-height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+  .nf__lines { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; pointer-events: none; }
+  .nf__lines path { stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+  .nf__lines .pink { stroke: var(--ug-kosmos); filter: drop-shadow(0 0 8px var(--ug-kosmos)); }
+  .nf__lines .lime { stroke: var(--ug-garage); filter: drop-shadow(0 0 8px var(--ug-garage)); animation-delay: 0.4s; }
+  .nf__lines .draw { --len: 1; }
+  .nf__lines .gap { stroke: rgba(242, 244, 247, 0.25); stroke-width: 2; stroke-dasharray: 4 10; }
+  .dot-pink { fill: var(--ug-kosmos); }
+  .dot-lime { fill: var(--ug-garage); }
+  .nf__in { position: relative; z-index: 1; padding-top: 48px; padding-bottom: 64px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+  .nf__code { font-family: var(--ug-font-display); font-size: clamp(96px, calc(96px + 64 * (100vw - 390px) / 1050), 160px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
+  .nf__title { font-family: var(--ug-font-display); font-size: clamp(22px, calc(22px + 10 * (100vw - 390px) / 1050), 32px); font-weight: 700; line-height: 1.2; }
+  .nf__text { max-width: 520px; font-size: 16px; line-height: 1.55; color: var(--ug-text-2); }
+  .nf__btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 360px; margin-top: 12px; }
+  @media (min-width: 768px) { .nf__btns { flex-direction: row; justify-content: center; max-width: none; width: auto; } .nf__text { font-size: 17px; } }
+  @media (min-width: 1280px) { .nf__btns { margin-top: 100px; } }
+</style>

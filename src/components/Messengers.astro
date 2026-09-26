@@ -1,0 +1,11 @@
+---
+import { tgHandle, telegram, whatsappHref } from '../lib/data';
+
+interface Props { class?: string; small?: boolean }
+const { class: cls, small } = Astro.props;
+---
+<div class:list={['msg-grid', cls]} style={small ? '--msg-h: 48px' : undefined}>
+  <a class="msg-btn msg-btn--kosmos dir-kosmos" href={telegram('kosmos')} target="_blank" rel="noopener"><span class="msg-btn__sq"></span>{tgHandle('kosmos')}</a>
+  <a class="msg-btn msg-btn--garage dir-garage" href={telegram('garage')} target="_blank" rel="noopener"><span class="msg-btn__sq"></span>{tgHandle('garage')}</a>
+  <a class="msg-btn" href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
+</div>

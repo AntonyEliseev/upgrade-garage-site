@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Плашка cookie</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7}
+</style>
+</helmet>
+<div data-name="CookieBanner" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #0A0B0D; color: #F2F4F7">
+
+<span style="position: absolute; left: 80px; top: 40px; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Десктоп — плавает в левом нижнем углу, не перекрывает контент по центру</span>
+<div style="position: absolute; left: 80px; top: 80px; width: 1000px; height: 520px; border-radius: 20px; overflow: hidden; background: repeating-linear-gradient(135deg, #14161A 0 16px, #16181C 16px 32px)">
+<div role="region" aria-label="Уведомление о cookie" data-name="CookieBanner/Desktop" style="position: absolute; left: 24px; bottom: 24px; width: 440px; box-sizing: border-box; padding: 20px; border-radius: 18px; background: #1E2126; border: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(0,0,0,0.5)">
+<span style="font-size: 15px; line-height: 1.5; color: #C9CED6">Используем cookie и Яндекс Метрику, чтобы сайт работал лучше. <a href="Policy.dc.html" style="color: #F2F4F7">Подробнее</a></span>
+<div style="display: flex; gap: 8px"><button style="height: 44px; padding: 0 20px; border: 0; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font: 700 14px Manrope, sans-serif">Понятно</button><button style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Только необходимые</button></div>
+</div>
+</div>
+
+<span style="position: absolute; left: 1160px; top: 40px; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Мобайл — над нижней панелью</span>
+<div style="position: absolute; left: 1160px; top: 80px; width: 200px; height: 0"></div>
+<div style="position: absolute; left: 1100px; top: 80px; width: 280px; height: 606px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: repeating-linear-gradient(135deg, #14161A 0 14px, #16181C 14px 28px)">
+<div role="region" aria-label="Уведомление о cookie" data-name="CookieBanner/Mobile" style="position: absolute; left: 8px; right: 8px; bottom: 68px; box-sizing: border-box; padding: 14px; border-radius: 16px; background: #1E2126; border: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; line-height: 1.45; color: #C9CED6">Используем cookie и Яндекс Метрику. <a href="Policy.dc.html" style="color: #F2F4F7">Подробнее</a></span>
+<button style="height: 44px; border: 0; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font: 700 14px Manrope, sans-serif">Понятно</button>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 56px; background: #0D0E10; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font-size: 10px; font-weight: 700; align-items: center; text-align: center; color: #C9CED6"><span>Расчёт</span><span>Telegram</span><span>WhatsApp</span><span>Позвонить</span></div>
+</div>
+
+<span style="position: absolute; left: 80px; top: 648px; max-width: 1000px; font-size: 14px; line-height: 1.6; color: #9BA3AE">Показывается один раз при первом визите. После «Понятно» больше не появляется. Текст и набор кнопок уточнить у юриста: для одной Метрики обычно достаточно уведомления, а если добавится реклама или ретаргетинг, понадобится выбор «Только необходимые».</span>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

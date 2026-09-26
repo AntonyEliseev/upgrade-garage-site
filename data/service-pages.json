@@ -1,0 +1,332 @@
+{
+ "_note": "Дополнения к шаблону «Услуга»: фото первого экрана, цифры, проблемы, пакеты, вкладка калькулятора, кейсы. Тексты страниц — docs/seo-texts.md, мета — data/services.json. Цены — ориентир рынка Москвы, сверить со студией. Фото для страниц без своих снимков подобраны из работ студии — заменить, когда будут.",
+ "antigraviynaya-plenka": {
+  "h1Mark": "плёнка",
+  "hero": { "img": "/img/bmw-g60-front.jpg", "alt": "BMW G60 под антигравийной плёнкой" },
+  "stats": [
+   { "v": "от 110 000 ₽", "l": "пакет «Фронт»" },
+   { "v": "1 день", "l": "«Фронт», полный кузов — 3–5 дней" },
+   { "v": "5 лет", "l": "гарантия Hexis" }
+  ],
+  "priceFrom": 110000,
+  "problems": [
+   { "t": "Сколы на капоте", "d": "Камни из-под колёс впереди идущих машин выбивают лак уже в первый сезон.", "s": "Решаем: «Фронт»" },
+   { "t": "Мутные фары", "d": "Песок и реагенты затирают пластик фар, свет становится тусклее.", "s": "Решаем: плёнка на фары" },
+   { "t": "Царапины под ручками", "d": "Ногти, кольца и ключи оставляют дуги на краске у ручек.", "s": "Решаем: «Фронт+»" },
+   { "t": "Потёртый бампер багажника", "d": "Сумки и коробки стирают лак на погрузочной зоне.", "s": "Решаем: «Фронт+»" }
+  ],
+  "included": {
+   "lead": "В каждом пакете — подготовка кузова, оклейка и контроль каждого края.",
+   "items": ["Мойка и осмотр кузова", "Обезжиривание и очистка от битума", "Hexis Bodyfence X, 185 мкм", "Выкройки под модель", "Заворот плёнки за кромки", "Контроль краёв и пузырей", "Приёмка при дневном свете"]
+  },
+  "packages": [
+   { "name": "Фронт", "sub": "Зоны, куда летят камни", "price": "от 110 000 ₽", "items": ["Капот, фары, крылья", "Бампер, полоса на крыше, стойки", "1 день"], "calc": "tab=film&pkg=front&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars" },
+   { "name": "Фронт+", "sub": "Плюс зоны ежедневных царапин", "price": "от 135 000 ₽", "items": ["Всё из «Фронта»", "Зеркала и зоны под ручками", "Погрузочная зона багажника", "1–2 дня"], "featured": true, "calc": "tab=film&pkg=plus&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars,f_mirrors,f_handles,f_load" },
+   { "name": "Полный кузов", "sub": "Весь кузов под плёнкой", "price": "от 180 000 ₽", "items": ["Всё из «Фронта+»", "Двери, крыша, задние крылья", "Пороги и задний бампер", "3–5 дней"], "calc": "tab=film&pkg=full&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars,f_mirrors,f_handles,f_load,f_sills,f_body" }
+  ],
+  "calc": { "tab": "film", "pkg": "plus" },
+  "cases": ["hyundai-santa-fe", "mercedes-e-class", "mercedes-maybach-gls"],
+  "worksTitle": "Плёнка у нас",
+  "faqTitle": "Вопросы про плёнку"
+ },
+ "antidozhd": {
+  "h1Mark": "Антидождь",
+  "hero": { "img": "/img/configurator-body.jpg", "alt": "Mercedes-Maybach GLS в боксе студии" },
+  "stats": [
+   { "v": "от 5 000 ₽", "l": "лобовое стекло" },
+   { "v": "от 8 000 ₽", "l": "все стёкла" },
+   { "v": "3–6 мес.", "l": "держится покрытие" }
+  ],
+  "priceFrom": 5000,
+  "calc": { "tab": "film" },
+  "cases": ["changan-uni-k", "mercedes-e-class"],
+  "worksTitle": "Антидождь у нас",
+  "faqTitle": "Вопросы про антидождь"
+ },
+ "plenka-na-ekran": {
+  "h1Mark": "Матовая",
+  "hero": { "img": "/img/bmw-g60-screen-matte.jpg", "alt": "Экран BMW G60 с матовой статикой" },
+  "stats": [
+   { "v": "от 3 000 ₽", "l": "за экран" },
+   { "v": "до 1 часа", "l": "работа" },
+   { "v": "без разборки", "l": "по готовым лекалам" }
+  ],
+  "priceFrom": 3000,
+  "calc": { "tab": "salon" },
+  "cases": ["bmw-g60", "vw-teramont-x", "lynk-co"],
+  "worksTitle": "Статика на экраны у нас",
+  "faqTitle": "Вопросы про статику"
+ },
+ "salon-po-lekalam": {
+  "h1Mark": "салона",
+  "hero": { "img": "/img/bmw-g60-console-ppf.jpg", "alt": "Консоль BMW G60 под полиуретаном" },
+  "stats": [
+   { "v": "от 15 000 ₽", "l": "консоль и монитор" },
+   { "v": "1 день", "l": "всё за один визит" },
+   { "v": "до 30 деталей", "l": "от 30 000 ₽" }
+  ],
+  "priceFrom": 15000,
+  "calc": { "tab": "salon" },
+  "cases": ["bmw-g60", "lynk-co", "vw-teramont-x"],
+  "worksTitle": "Салоны у нас",
+  "faqTitle": "Вопросы про салон"
+ },
+ "karbon": {
+  "h1Mark": "карбона",
+  "hero": { "img": "/img/bmw-g60-mirror-carbon.jpg", "alt": "Зеркало BMW G60 в карбоне" },
+  "stats": [
+   { "v": "от 9 000 ₽", "l": "корпуса зеркал" },
+   { "v": "1–2 дня", "l": "обвес и детали" },
+   { "v": "5–7 лет", "l": "служит плёнка" }
+  ],
+  "priceFrom": 9000,
+  "calc": { "tab": "salon" },
+  "cases": ["mercedes-e-class", "bmw-g60"],
+  "worksTitle": "Карбон у нас",
+  "faqTitle": "Вопросы про карбон"
+ },
+ "polirovka": {
+  "h1Mark": "Полировка",
+  "hero": { "img": "/img/santa-fe-polishing.jpg", "alt": "Полировка Hyundai Santa Fe" },
+  "stats": [
+   { "v": "от 25 000 ₽", "l": "восстановительная, седан" },
+   { "v": "1–2 дня", "l": "с защитным покрытием" },
+   { "v": "толщиномер", "l": "меряем лак до работы" }
+  ],
+  "priceFrom": 25000,
+  "calc": { "tab": "film" },
+  "cases": ["hyundai-santa-fe", "mercedes-e-class", "keramika-na-diski"],
+  "worksTitle": "Полировка у нас",
+  "faqTitle": "Вопросы про полировку"
+ },
+ "pdr": {
+  "h1Mark": "вмятин",
+  "hero": { "img": "/img/santa-fe-front.jpg", "alt": "Hyundai Santa Fe после работ" },
+  "stats": [
+   { "v": "от 2 000 ₽", "l": "небольшая вмятина" },
+   { "v": "1–3 часа", "l": "обычно занимает" },
+   { "v": "заводской лак", "l": "остаётся на месте" }
+  ],
+  "priceFrom": 2000,
+  "calc": { "tab": "film" },
+  "cases": ["hyundai-santa-fe"],
+  "worksTitle": "PDR у нас",
+  "faqTitle": "Вопросы про PDR"
+ },
+ "smena-cveta": {
+  "h1Mark": "цвета",
+  "hero": { "img": "/img/mercedes-e-class-green.jpg", "alt": "Mercedes E-class в цветном полиуретане" },
+  "stats": [
+   { "v": "от 150 000 ₽", "l": "кузов в винил" },
+   { "v": "2–7 дней", "l": "винил или полиуретан" },
+   { "v": "до 12 лет", "l": "служит Oracal 970" }
+  ],
+  "priceFrom": 150000,
+  "calc": { "tab": "film" },
+  "cases": ["mercedes-e-class", "mercedes-maybach-gls", "yamaha"],
+  "worksTitle": "Смена цвета у нас",
+  "faqTitle": "Вопросы про смену цвета"
+ },
+ "antihrom": {
+  "h1Mark": "Антихром",
+  "hero": { "img": "/img/mercedes-e-class-green.jpg", "alt": "Mercedes E-class: антихром и цветной полиуретан" },
+  "stats": [
+   { "v": "от 5 000 ₽", "l": "решётка радиатора" },
+   { "v": "около дня", "l": "работа" },
+   { "v": "3–5 лет", "l": "служит плёнка" }
+  ],
+  "priceFrom": 5000,
+  "calc": { "tab": "film" },
+  "cases": ["mercedes-e-class"],
+  "worksTitle": "Антихром у нас",
+  "faqTitle": "Вопросы про антихром"
+ },
+ "atermalnaya-plenka": {
+  "h1Mark": "Атермальная",
+  "hero": { "img": "/img/daihatsu-taft-roof.jpg", "alt": "Панорамная крыша Daihatsu Taft с атермальным полиуретаном" },
+  "stats": [
+   { "v": "от 15 000 ₽", "l": "панорамная крыша" },
+   { "v": "несколько часов", "l": "работа" },
+   { "v": "≈ 70%", "l": "пропускает света" }
+  ],
+  "priceFrom": 15000,
+  "calc": { "tab": "film" },
+  "cases": ["daihatsu-taft"],
+  "worksTitle": "Атермальная плёнка у нас",
+  "faqTitle": "Вопросы про атермальную плёнку"
+ },
+ "keramika-na-diski": {
+  "h1Mark": "Керамика",
+  "hero": { "img": "/img/wheels-ceramic.jpg", "alt": "Нанесение керамики на колёсный диск" },
+  "stats": [
+   { "v": "от 8 000 ₽", "l": "четыре диска" },
+   { "v": "1–2 дня", "l": "с выдержкой состава" },
+   { "v": "12–18 мес.", "l": "держится покрытие" }
+  ],
+  "priceFrom": 8000,
+  "calc": { "tab": "film" },
+  "cases": ["keramika-na-diski"],
+  "worksTitle": "Керамика у нас",
+  "faqTitle": "Вопросы про керамику"
+ },
+ "moto": {
+  "h1Mark": "мотоциклов",
+  "hero": { "img": "/img/yamaha-matte.jpg", "alt": "Мотоцикл Yamaha в матовом полиуретане" },
+  "stats": [
+   { "v": "от 5 000 ₽", "l": "бак" },
+   { "v": "около часа", "l": "бак, полная оклейка — 1–2 дня" },
+   { "v": "Vega", "l": "матовый полиуретан" }
+  ],
+  "priceFrom": 5000,
+  "calc": { "tab": "film" },
+  "cases": ["yamaha"],
+  "worksTitle": "Мотоциклы у нас",
+  "faqTitle": "Вопросы про мотоциклы"
+ },
+ "shumoizolyaciya": {
+  "h1Mark": "Шумоизоляция",
+  "hero": { "img": "/img/outlander-door-layers.jpg", "alt": "Дверь Mitsubishi Outlander со слоями шумоизоляции" },
+  "stats": [
+   { "v": "от 20 000 ₽", "l": "пакет «Практичный», седан", "lm": "седан" },
+   { "v": "1–2 дня", "l": "машина в сервисе", "lm": "в сервисе" },
+   { "v": "1 год", "l": "гарантия" }
+  ],
+  "priceFrom": 20000,
+  "problems": [
+   { "t": "Гул на трассе", "d": "После 100 км/ч приходится говорить громче и прибавлять музыку.", "s": "Решаем: пол + арки" },
+   { "t": "Шумные арки", "d": "Слышно каждый камешек и шорох шипов зимой.", "s": "Решаем: арки снаружи и изнутри" },
+   { "t": "Дребезг дверей", "d": "Двери звенят на басах и закрываются «жестяным» звуком.", "s": "Решаем: двери ×4" },
+   { "t": "Скрипы в салоне", "d": "Пластик торпедо и обшивок поскрипывает на неровностях.", "s": "Решаем: антискрип панелей" }
+  ],
+  "included": {
+   "lead": "В каждом пакете — полный цикл: разборка, обработка, сборка и проверка на ходу.",
+   "items": ["Разборка без поломки клипс", "Обезжиривание металла", "Виброизоляция Шумофф", "Шумопоглотитель Шумофф", "Антискрип на стыки пластика", "Новые клипсы вместо сломанных", "Фотоотчёт в Telegram", "Тест-драйв при приёмке"]
+  },
+  "packages": [
+   { "name": "Практичный", "sub": "Двери и багажник — убрать дребезг", "price": "от 20 000 ₽", "items": ["Двери ×4", "Крышка багажника", "1 день"], "calc": "tab=noise&np=prac&z=n_doors,n_trunk" },
+   { "name": "Отличный", "sub": "Заметно тише на трассе", "price": "от 48 000 ₽", "items": ["Двери ×4 и багажник", "Пол и арки", "Антискрип салона", "1–2 дня"], "featured": true, "calc": "tab=noise&np=opt&z=n_doors,n_trunk,n_floor,n_arches" },
+   { "name": "Максимальный", "sub": "Вся машина, включая моторный щит", "price": "от 70 000 ₽", "items": ["Всё из «Отличного»", "Крыша и капот", "Моторный щит", "2 дня"], "calc": "tab=noise&np=max&z=n_doors,n_trunk,n_floor,n_arches,n_roof,n_hood,n_wall" }
+  ],
+  "calc": { "tab": "noise" },
+  "cases": ["mitsubishi-outlander-ambient", "hyundai-accent", "geely-monjaro"],
+  "worksTitle": "Шумоизоляция у нас",
+  "faqTitle": "Вопросы про шумку"
+ },
+ "avtozvuk": {
+  "h1Mark": "Автозвук",
+  "hero": { "img": "/img/audio-helix-v18.jpg", "alt": "Процессорный усилитель Helix V Eighteen DSP в нише багажника" },
+  "stats": [
+   { "v": "от 20 000 ₽", "l": "пакет «Базовый»" },
+   { "v": "от полудня", "l": "Hi-Fi — до 7 дней" },
+   { "v": "DSP", "l": "настройка по замерам" }
+  ],
+  "priceFrom": 20000,
+  "packages": [
+   { "name": "Базовый", "sub": "Замена фронтальных динамиков", "price": "от 20 000 ₽", "items": ["Компонентная акустика во фронт", "Полдня"], "calc": "tab=equip&z=e_audio" },
+   { "name": "Оптимальный", "sub": "Звук плотнее и без дребезга", "price": "от 60 000 ₽", "items": ["Фронт и усилитель", "Сабвуфер", "Шумоизоляция дверей", "1 день"], "featured": true, "calc": "tab=equip&z=e_audio,n_doors" },
+   { "name": "Hi-Fi", "sub": "Сцена перед водителем", "price": "от 120 000 ₽", "items": ["Процессор DSP и многоканальный усилитель", "Подиумы или стелс-сабвуфер", "Настройка по замерам", "3–7 дней"], "calc": "tab=equip&z=e_audio,n_doors,n_floor" }
+  ],
+  "calc": { "tab": "equip" },
+  "cases": ["helix-v-eighteen-dsp", "helix-v-eight-eton", "provodka-shumoff"],
+  "worksTitle": "Автозвук у нас",
+  "faqTitle": "Вопросы про автозвук"
+ },
+ "dovodchiki-dverey": {
+  "h1Mark": "Доводчики",
+  "hero": { "img": "/img/bmw-g60-exterior.jpg", "alt": "BMW G60 в боксе студии" },
+  "stats": [
+   { "v": "от 70 000 ₽", "l": "четыре двери" },
+   { "v": "1 день", "l": "установка" },
+   { "v": "без сверления", "l": "на место штатного замка" }
+  ],
+  "priceFrom": 70000,
+  "calc": { "tab": "equip" },
+  "cases": [],
+  "worksTitle": "Доводчики у нас",
+  "faqTitle": "Вопросы про доводчики"
+ },
+ "elektroprivod-bagazhnika": {
+  "h1Mark": "багажника",
+  "hero": { "img": "/img/bmw-g60-rear.jpg", "alt": "BMW G60 сзади" },
+  "stats": [
+   { "v": "от 40 000 ₽", "l": "с установкой" },
+   { "v": "3–6 часов", "l": "забираете в тот же день" },
+   { "v": "с брелока", "l": "и кнопками в салоне" }
+  ],
+  "priceFrom": 40000,
+  "calc": { "tab": "equip" },
+  "cases": [],
+  "worksTitle": "Электропривод у нас",
+  "faqTitle": "Вопросы про электропривод"
+ },
+ "zamena-magnitoly": {
+  "h1Mark": "магнитолы",
+  "hero": { "img": "/img/outlander-rear-camera.jpg", "alt": "Камера заднего вида на новой магнитоле Mitsubishi Outlander" },
+  "stats": [
+   { "v": "от 5 000 ₽", "l": "установка" },
+   { "v": "2–4 часа", "l": "работа" },
+   { "v": "CarPlay", "l": "Wide Media, Teyes, FarCar" }
+  ],
+  "priceFrom": 5000,
+  "calc": { "tab": "equip" },
+  "cases": ["mitsubishi-outlander-wide-media"],
+  "worksTitle": "Магнитолы у нас",
+  "faqTitle": "Вопросы про магнитолы"
+ },
+ "rebild-far": {
+  "h1Mark": "фар",
+  "hero": { "img": "/img/mazda3-headlights.jpg", "alt": "Фары Mazda 3 BK до ребилда" },
+  "stats": [
+   { "v": "от 35 000 ₽", "l": "пара фар с линзами" },
+   { "v": "1 день", "l": "на пару фар" },
+   { "v": "bi-LED", "l": "Optima Phantom" }
+  ],
+  "priceFrom": 35000,
+  "calc": { "tab": "equip" },
+  "cases": ["mazda-3-bk"],
+  "worksTitle": "Фары у нас",
+  "faqTitle": "Вопросы про ребилд фар"
+ },
+ "podsvetka-ambient": {
+  "h1Mark": "подсветка",
+  "hero": { "img": "/img/ambient-night.jpg", "alt": "Контурная подсветка салона ночью" },
+  "stats": [
+   { "v": "от 35 000 ₽", "l": "18 точек" },
+   { "v": "1 день", "l": "установка" },
+   { "v": "со смартфона", "l": "цвет и режимы" }
+  ],
+  "priceFrom": 35000,
+  "calc": { "tab": "equip" },
+  "cases": ["ambient-18", "mitsubishi-outlander-ambient", "bmw-g60"],
+  "worksTitle": "Подсветка у нас",
+  "faqTitle": "Вопросы про подсветку"
+ },
+ "registratory-i-kamery": {
+  "h1Mark": "камеры",
+  "hero": { "img": "/img/audio-wiring-shumoff.jpg", "alt": "Проводка, уложенная под обшивку" },
+  "stats": [
+   { "v": "от 3 000 ₽", "l": "скрытая установка регистратора" },
+   { "v": "≈ 2 часа", "l": "регистратор, камера — около 4" },
+   { "v": "под обшивкой", "l": "проводов не видно" }
+  ],
+  "priceFrom": 3000,
+  "calc": { "tab": "equip" },
+  "cases": ["mitsubishi-outlander-wide-media"],
+  "worksTitle": "Камеры у нас",
+  "faqTitle": "Вопросы про регистраторы и камеры"
+ },
+ "omyvatel-kamer": {
+  "h1Mark": "Омыватель",
+  "hero": { "img": "/img/outlander-rear-camera.jpg", "alt": "Камера заднего вида Mitsubishi Outlander" },
+  "stats": [
+   { "v": "от 6 000 ₽", "l": "с установкой" },
+   { "v": "около 4 часов", "l": "работа" },
+   { "v": "штатный бачок", "l": "зимой не замерзает" }
+  ],
+  "priceFrom": 6000,
+  "calc": { "tab": "equip" },
+  "cases": ["changan-uni-k"],
+  "worksTitle": "Омыватели у нас",
+  "faqTitle": "Вопросы про омыватель"
+ }
+}

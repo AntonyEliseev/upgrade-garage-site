@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Портфолио — десктоп</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}
+</style>
+</helmet>
+<div data-name="Portfolio/Desktop" style="width: 1440px; height: 1960px; overflow: hidden; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column">
+
+<header data-name="Header" style="position: relative; flex-shrink: 0; height: 88px; box-sizing: border-box; padding: 0 80px; display: flex; align-items: center; justify-content: space-between; background: #0D0E10">
+<a href="Home.dc.html" data-name="Logo" aria-label="Космос Wrap и Апгрейд Garage" style="display: block; height: 56px"><img src="/logo/logo-dark-bg.svg" alt="Космос Wrap · Апгрейд Garage" style="display: block; height: 56px; width: auto"></a>
+<nav data-name="Nav" style="display: flex; gap: 36px; font-size: 15px; font-weight: 600"><a href="#">Услуги</a><a href="#">Калькулятор</a><a href="Portfolio.dc.html" style="box-shadow: inset 0 -2px 0 #F2F4F7; padding-bottom: 4px">Работы</a><a href="#">Контакты</a></nav>
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="#" style="font-size: 15px; font-weight: 700; margin-right: 8px">+7 985 543-34-21</a>
+<a href="#" style="height: 44px; padding: 0 20px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font-size: 15px; font-weight: 700; display: flex; align-items: center">Позвонить</a>
+</div>
+<span style="position: absolute; left: 0; bottom: 0; width: 1440px; height: 2px; display: flex"><span style="width: 720px; background: #E2609B; box-shadow: 0 0 12px 1px rgba(226,96,155,0.8)"></span><span style="width: 720px; background: #CDE23C; box-shadow: 0 0 12px 1px rgba(205,226,60,0.7)"></span></span>
+</header>
+
+<section style="flex-shrink: 0; box-sizing: border-box; padding: 72px 80px 32px; display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px"><h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 56px; font-weight: 700; line-height: 1.05; letter-spacing: -0.025em">Работы</h1><span style="font-size: 16px; color: #9BA3AE">Все фото — наши, из бокса на Алтуфьевском. Никакого стока.</span></div>
+<a href="#" style="height: 52px; padding: 0 22px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; font-weight: 700; display: flex; align-items: center">Ещё больше — в Telegram</a>
+</section>
+
+<section data-name="Filters" style="flex-shrink: 0; box-sizing: border-box; padding: 0 80px 32px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+<span style="width: 72px; font-size: 13px; font-weight: 700; color: #9BA3AE">Услуга</span>
+<sc-for list="{{services}}" as="f" hint-placeholder-count="10">
+<sc-if value="{{f.sep}}" hint-placeholder-val="{{ false }}"><span style="width: 1px; height: 32px; margin: 0 4px; background: rgba(255,255,255,0.14)"></span></sc-if>
+<button aria-pressed="{{f.on}}" onClick="{{f.pick}}" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid {{f.border}}; background: {{f.bg}}; color: {{f.fg}}; font: 700 14px Manrope, sans-serif; cursor: pointer">{{f.name}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+<span style="width: 72px; font-size: 13px; font-weight: 700; color: #9BA3AE">Марка</span>
+<sc-for list="{{brands}}" as="f" hint-placeholder-count="5">
+<button aria-pressed="{{f.on}}" onClick="{{f.pick}}" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid {{f.border}}; background: {{f.bg}}; color: {{f.fg}}; font: 700 14px Manrope, sans-serif; cursor: pointer">{{f.name}}</button>
+</sc-for>
+<span style="flex-grow: 1"></span>
+<span style="font-size: 14px; color: #9BA3AE">Найдено: {{count}}</span>
+</div>
+</section>
+
+<section data-name="CaseGrid" style="flex-shrink: 0; box-sizing: border-box; padding: 0 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px">
+<sc-for list="{{cases}}" as="c" hint-placeholder-count="9">
+<a href="Case.dc.html" data-name="CaseCard" style="display: flex; flex-direction: column; gap: 14px">
+<span style="position: relative; height: 280px; border-radius: 20px; background: {{c.photoBg}}; border: 1px solid rgba(255,255,255,0.06); overflow: hidden"><sc-if value="{{c.hasImg}}" hint-placeholder-val="{{ false }}"><img src="{{c.img}}" alt="{{c.name}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></sc-if><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: {{c.color}}"></span><sc-if value="{{c.noImg}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 20px; right: 20px; bottom: 18px; font-size: 13px; font-weight: 600; color: #C9CED6">{{c.photo}}</span></sc-if></span>
+<span style="font-size: 20px; font-weight: 700">{{c.name}}</span>
+<span style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{c.tags}}" as="t" hint-placeholder-count="2"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: {{c.soft}}; color: {{c.text}}; font-size: 13px; font-weight: 700; display: flex; align-items: center">{{t}}</span></sc-for></span>
+</a>
+</sc-for>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+<div style="grid-column: span 3; height: 280px; border-radius: 20px; border: 1px dashed rgba(255,255,255,0.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px"><span style="font-size: 18px; font-weight: 700">Таких работ пока нет на сайте</span><span style="font-size: 15px; color: #9BA3AE">Напишите нам — покажем похожие в Telegram</span><button onClick="{{resetAll}}" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 14px Manrope, sans-serif; cursor: pointer">Сбросить фильтры</button></div>
+</sc-if>
+</section>
+
+<section style="flex-shrink: 0; box-sizing: border-box; padding: 48px 80px 96px; display: flex; justify-content: center">
+<button style="height: 56px; padding: 0 32px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 16px Manrope, sans-serif">Показать ещё [N]</button>
+</section>
+
+<footer style="flex-shrink: 0; box-sizing: border-box; padding: 48px 80px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; font-size: 14px; color: #9BA3AE"><span>[ИП / ООО, ИНН, ОГРН]</span><a href="#" style="color: #C9CED6">Политика конфиденциальности</a><span>Алтуфьевское ш., 31с1</span></footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = { color: '#E2609B', soft: 'rgba(226,96,155,0.14)', text: '#EC86B4' };
+    const G = { color: '#CDE23C', soft: 'rgba(205,226,60,0.14)', text: '#CDE23C' };
+    const stripe = 'repeating-linear-gradient(135deg, #15171A 0 16px, #17191D 16px 32px)';
+    const all = [
+      { name: 'Mercedes E-class', brand: 'mercedes', d: K, s: ['film', 'color', 'glass'], tags: ['Цветной полиуретан IRISTEK', 'Антихром', 'Антидождь'], photo: 'Кузов в Satin Metallic Blackish Green', img: '/img/mercedes-e-class-green.jpg' },
+      { name: 'Автозвук: Helix V Eighteen DSP', brand: 'other', d: G, s: ['audio'], tags: ['Процессорный усилитель Helix', 'Силовая проводка в оплётке'], photo: 'Процессор в нише багажника', img: '/img/audio-helix-v18.jpg' },
+      { name: 'Hyundai Santa Fe', brand: 'hyundai', d: K, s: ['film', 'polish', 'pdr'], tags: ['Полировка', 'Плёнка на перед', 'PDR'], photo: 'Кузов после полировки и плёнки', img: '/img/santa-fe-after.jpg' },
+      { name: 'BMW G60 · 5 Series', brand: 'bmw', d: K, s: ['salon'], tags: ['Карбон', 'Статика на экран', 'Глянец по лекалам'], photo: 'Салон: экран и карбон', img: '/img/bmw-g60-exterior.jpg' },
+      { name: 'Mercedes-Maybach GLS', brand: 'mercedes', d: K, s: ['film', 'color'], tags: ['Двухцветная оклейка', 'Демонтаж плёнки'], photo: 'Кузов после оклейки', img: '/img/configurator-body.jpg' },
+      { name: 'Mitsubishi Outlander', brand: 'mitsubishi', d: G, s: ['noise', 'light'], tags: ['Шумоизоляция дверей', 'Подсветка салона'], photo: 'Подсветка салона ночью', img: '/img/outlander-ambient.jpg' },
+      { name: 'Mazda 3 BK', brand: 'other', d: G, s: ['light'], tags: ['Ребилд фар Optima Phantom', 'RGB-глазки'], photo: 'Фары до ребилда', img: '/img/mazda3-headlights.jpg' },
+      { name: 'Контурная подсветка салона', brand: 'other', d: G, s: ['light'], tags: ['Ambient · 18 точек'], photo: 'Салон ночью', img: '/img/ambient-night.jpg' },
+      { name: 'Daihatsu Taft', brand: 'other', d: K, s: ['film'], tags: ['Атермальный полиуретан', 'Панорамная крыша'], photo: 'Панорамная крыша', img: '/img/daihatsu-taft-roof.jpg' },
+      { name: 'Yamaha', brand: 'other', d: K, s: ['film', 'moto'], tags: ['Мото', 'Матовый полиуретан Vega', 'Hexis'], photo: 'Бак и пластик в матовом полиуретане', img: '/img/yamaha-matte.jpg' },
+      { name: 'Lynk & Co', brand: 'other', d: K, s: ['salon'], tags: ['Матовая плёнка на монитор'], photo: 'Монитор', img: '/img/lynk-co-screen.jpg' },
+      { name: 'Volkswagen Teramont X', brand: 'vw', d: K, s: ['salon'], tags: ['Статика на монитор'], photo: 'Монитор после статики', img: '/img/teramont-screen.jpg' },
+      { name: 'Mitsubishi Outlander', brand: 'mitsubishi', d: G, s: ['hu'], tags: ['Магнитола Wide Media', 'Камера заднего вида'], photo: 'Камера заднего вида на новой магнитоле', img: '/img/outlander-rear-camera.jpg' },
+      { name: 'Керамика на диски', brand: 'other', d: K, s: ['polish'], tags: ['Керамика', 'от 20 000 км'], photo: 'Нанесение на диск', img: '/img/wheels-ceramic.jpg' },
+      { name: 'Автозвук: Helix V Eight и Eton', brand: 'other', d: G, s: ['audio'], tags: ['Helix V Eight DSP MK2', 'Усилитель Eton'], photo: 'Процессор и усилитель', img: '/img/audio-helix-v8-eton.jpg' },
+      { name: 'Проводка под аудиосистему', brand: 'other', d: G, s: ['audio', 'noise'], tags: ['Шумофф на пол и арки', 'Разводка кабелей'], photo: 'Кабели по шумоизоляции', img: '/img/audio-wiring-shumoff.jpg' },
+      { name: 'Geely Monjaro', brand: 'other', d: G, s: ['noise'], tags: ['Шумоизоляция салона', 'Шумофф Premium'], photo: 'Салон без обшивок' },
+      { name: 'Changan Uni-K', brand: 'other', d: G, s: ['glass', 'film'], tags: ['Омыватель камер', 'Антидождь', 'Hexis Bodyfence X'], photo: 'Камера с омывателем' },
+      { name: 'Hyundai Accent', brand: 'hyundai', d: G, s: ['noise'], tags: ['Шумоизоляция дверей', 'Шумофф'], photo: 'Дверь без обшивки' }
+    ];
+    const svc = [
+      { id: 'all', name: 'Все' },
+      { id: 'film', name: 'Плёнка', d: K }, { id: 'salon', name: 'Салон', d: K }, { id: 'glass', name: 'Антидождь', d: K }, { id: 'polish', name: 'Полировка', d: K }, { id: 'pdr', name: 'PDR', d: K }, { id: 'color', name: 'Смена цвета', d: K }, { id: 'moto', name: 'Мото', d: K },
+      { id: 'noise', name: 'Шумоизоляция', d: G, sep: true }, { id: 'audio', name: 'Автозвук', d: G }, { id: 'closers', name: 'Доводчики и привод', d: G }, { id: 'light', name: 'Свет и Ambient', d: G }, { id: 'hu', name: 'ГУ', d: G }
+    ];
+    const br = [{ id: 'all', name: 'Все марки' }, { id: 'hyundai', name: 'Hyundai' }, { id: 'bmw', name: 'BMW' }, { id: 'mercedes', name: 'Mercedes' }, { id: 'mitsubishi', name: 'Mitsubishi' }, { id: 'vw', name: 'Volkswagen' }, { id: 'other', name: 'Другие' }];
+    const st = this.state || {};
+    const sv = st.svc || 'all', bd = st.brand || 'all';
+    const chip = (on, d) => ({ border: on ? (d ? d.color : '#F2F4F7') : (d === K ? 'rgba(226,96,155,0.5)' : (d === G ? 'rgba(205,226,60,0.5)' : 'rgba(255,255,255,0.16)')), bg: on ? (d ? d.color : '#F2F4F7') : 'transparent', fg: on ? (d === K ? '#1A0A12' : (d === G ? '#151A04' : '#0D0E10')) : '#F2F4F7' });
+    const services = svc.map((f) => Object.assign({ name: f.name, on: f.id === sv, sep: !!f.sep, pick: () => this.setState({ svc: f.id }) }, chip(f.id === sv, f.d)));
+    const brands = br.map((f) => Object.assign({ name: f.name, on: f.id === bd, pick: () => this.setState({ brand: f.id }) }, chip(f.id === bd, null)));
+    const found = all.filter((c) => (sv === 'all' || c.s.indexOf(sv) >= 0) && (bd === 'all' || c.brand === bd));
+    const cases = found.slice(0, 9).map((c) => ({ name: c.name, tags: c.tags, photo: 'Фото: ' + c.photo, img: c.img || '', hasImg: !!c.img, noImg: !c.img, color: c.d.color, soft: c.d.soft, text: c.d.text, photoBg: c.dark ? '#0B0C0E' : stripe }));
+    return { services: services, brands: brands, cases: cases, count: found.length, isEmpty: found.length === 0, resetAll: () => this.setState({ svc: 'all', brand: 'all' }) };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+---
+import { getImage } from 'astro:assets';
+import Configurator, { type Photo } from '../islands/Configurator';
+import { mustPhoto } from '../lib/images';
+import { contacts, phones } from '../lib/data';
+import type { TabId } from '../lib/calc';
+
+interface Props {
+  mode?: 'embed' | 'page';
+  initialTab?: TabId;
+  initialFilmPkg?: string;
+  /** h1 на странице калькулятора, h2 в остальных местах */
+  headingTag?: 'h1' | 'h2';
+  heading?: string;
+  class?: string;
+}
+const { mode = 'embed', initialTab, initialFilmPkg, headingTag = 'h2', heading = 'Соберите свою машину', class: cls } = Astro.props;
+const H = headingTag;
+
+async function srcset(path: string): Promise<Photo> {
+  const src = mustPhoto(path);
+  const widths = [480, 760, 1140, 1520].filter((w) => w <= src.width);
+  const imgs = await Promise.all(widths.map((w) => getImage({ src, width: w, format: 'webp' })));
+  return { src: imgs[1]?.src ?? imgs[0].src, srcset: imgs.map((im, i) => `${im.src} ${widths[i]}w`).join(', ') };
+}
+
+const photos = {
+  body: await srcset('/img/configurator-body.jpg'),
+  salon: await srcset('/img/configurator-salon.jpg'),
+};
+const islandProps = { photos, phones, hours: contacts.hours.split(',')[0], mode, initialTab, initialFilmPkg };
+---
+<section id="calc" class:list={['section cfg-section', cls]} data-name="Configurator">
+  <div class="container cfg-section__in">
+    <div class="cfg-section__head">
+      <div class="section-head">
+        <span class="label eyebrow cfg-section__eyebrow">Конфигуратор</span>
+        <H class="h2">{heading}</H>
+      </div>
+      <p class="cfg-section__note">Фото — пример модели. Цена считается по типу кузова, который вы выберете<span class="cfg-section__where"> справа</span>.</p>
+    </div>
+    {mode === 'page'
+      ? <Configurator client:load {...islandProps} />
+      : <Configurator client:visible={{ rootMargin: '400px' }} {...islandProps} />}
+  </div>
+</section>
+
+<style>
+  .cfg-section__in { display: flex; flex-direction: column; gap: 20px; }
+  .cfg-section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .cfg-section__head .section-head { gap: 14px; }
+  .cfg-section__note { max-width: 420px; font-size: 15px; line-height: 1.5; color: var(--ug-muted); }
+  .cfg-section__where { display: none; }
+  @media (min-width: 1280px) {
+    .cfg-section__in { gap: 28px; }
+    .cfg-section__where { display: inline; }
+  }
+  @media (max-width: 767.98px) {
+    .cfg-section__in { gap: 16px; }
+    .cfg-section__eyebrow, .cfg-section__note { display: none; }
+  }
+</style>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Главная — десктоп</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div data-name="Home/Desktop" style="width: 1440px; height: 6340px; overflow: hidden; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column">
+
+<!-- ========== Header ========== -->
+<header data-name="Header" style="position: relative; flex-shrink: 0; height: 88px; box-sizing: border-box; padding: 0 80px; display: flex; align-items: center; justify-content: space-between; background: #0D0E10">
+<a href="#" data-name="Logo" aria-label="Космос Wrap и Апгрейд Garage" style="display: block; height: 56px"><img src="/logo/logo-dark-bg.svg" alt="Космос Wrap · Апгрейд Garage" style="display: block; height: 56px; width: auto"></a>
+<nav data-name="Nav" style="display: flex; gap: 36px; font-size: 15px; font-weight: 600">
+<a href="#">Услуги</a><a href="#calc">Калькулятор</a><a href="#works">Работы</a><a href="#contacts">Контакты</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="#" style="font-size: 15px; font-weight: 700; margin-right: 8px">+7 985 543-34-21</a>
+<a href="#" aria-label="Telegram" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"></path><path d="m9 13 8-6"></path></svg></a>
+<a href="#" aria-label="WhatsApp" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"></path><path d="M9 9.5c.5 2.5 2.5 4.5 5 5l1.2-1.3-2-1-1 1a4 4 0 0 1-2-2l1-1-1-2z"></path></svg></a>
+<a href="#" data-name="Button/Primary" style="height: 44px; padding: 0 20px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font-size: 15px; font-weight: 700; display: flex; align-items: center">Позвонить</a>
+</div>
+<div data-name="LightStrip/Split" style="position: absolute; left: 0; bottom: 0; width: 1440px; height: 2px; display: flex">
+<span style="width: 720px; height: 2px; background: #E2609B; box-shadow: 0 0 12px 1px rgba(226,96,155,0.8)"></span>
+<span style="width: 720px; height: 2px; background: #CDE23C; box-shadow: 0 0 12px 1px rgba(205,226,60,0.7)"></span>
+</div>
+</header>
+
+<!-- ========== Hero ========== -->
+<section data-name="Hero" style="position: relative; flex-shrink: 0; height: 812px; overflow: hidden; background: #0D0E10">
+<div data-name="HeroPhoto" style="position: absolute; left: 560px; top: 0; width: 880px; height: 560px; background: #0D0E10; overflow: hidden"><img src="/img/maybach-gls-hero.jpg" alt="Mercedes-Maybach GLS в боксе студии" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.72) saturate(0.9);">
+<div style="position: absolute; inset: 0; background: linear-gradient(90deg, #0D0E10 0%, rgba(13,14,16,0.35) 30%, rgba(13,14,16,0) 60%), linear-gradient(0deg, #0D0E10 0%, rgba(13,14,16,0) 35%)"></div>
+<div style="position: absolute; right: 80px; top: 40px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; text-align: right"><span style="font-size: 14px; font-weight: 600; max-width: 340px">Santa Fe в боксе вечером: снаружи блики на плёнке, в салоне горит Ambient</span></div>
+</div>
+<svg data-name="AmbientLine" width="1440" height="560" viewBox="0 0 1440 560" style="position: absolute; left: 0; top: 0; pointer-events: none">
+<path d="M600 470 C 760 470, 820 330, 1000 330" fill="none" stroke="#E2609B" stroke-width="2" style="filter: drop-shadow(0 0 6px #E2609B)"></path>
+<path d="M1000 330 C 1160 330, 1220 250, 1440 250" fill="none" stroke="#CDE23C" stroke-width="2" style="filter: drop-shadow(0 0 6px #CDE23C)"></path>
+<path d="M880 300 L950 230 L1030 230" fill="none" stroke="#E2609B" stroke-width="1"></path>
+<path d="M1150 420 L1220 350 L1290 350" fill="none" stroke="#CDE23C" stroke-width="1"></path>
+</svg>
+<div data-name="HotspotDot/kosmos" style="position: absolute; left: 870px; top: 290px; width: 20px; height: 20px; border-radius: 50%; background: #E2609B; box-shadow: 0 0 0 7px rgba(226,96,155,0.22), 0 0 24px rgba(226,96,155,0.65)"></div>
+<div data-name="HotspotLabel" style="position: absolute; left: 1038px; top: 200px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 700">Фары и капот</span><span style="font-size: 13px; color: #C9CED6">оклейка · Космос Wrap</span></div>
+<div data-name="HotspotDot/garage" style="position: absolute; left: 1140px; top: 410px; width: 20px; height: 20px; border-radius: 50%; background: #CDE23C; box-shadow: 0 0 0 7px rgba(205,226,60,0.2), 0 0 24px rgba(205,226,60,0.5)"></div>
+<div data-name="HotspotLabel" style="position: absolute; left: 1298px; top: 320px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 700">Двери</span><span style="font-size: 13px; color: #C9CED6">шумка · Апгрейд</span></div>
+
+<div data-name="HeroContent" style="position: absolute; left: 80px; top: 88px; width: 700px; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 66px; font-weight: 700; line-height: 1.08; letter-spacing: -0.025em"><span style="background: linear-gradient(transparent 74%, #E2609B 74%, #E2609B 96%, transparent 96%)">Защита</span>, тишина и&#160;<span style="background: linear-gradient(transparent 74%, #CDE23C 74%, #CDE23C 96%, transparent 96%)">комфорт</span> для вашего автомобиля</h1>
+<p style="margin: 0; max-width: 560px; font-size: 18px; line-height: 1.55; color: #C9CED6">Две команды в одном боксе на Алтуфьевском. Машину оклеят и сделают тише за один визит — и посчитают всё одним расчётом.</p>
+<div style="display: flex; gap: 12px">
+<a href="#calc" data-name="Button/Primary" style="height: 56px; padding: 0 28px; border-radius: 16px; background: #F2F4F7; color: #0D0E10; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px">Рассчитать стоимость<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="#" data-name="Button/Secondary" style="height: 56px; padding: 0 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"></path></svg>Написать в Telegram</a>
+</div>
+</div>
+
+<div data-name="DirectionSplit" style="position: absolute; left: 80px; top: 580px; width: 1280px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<a href="#" data-name="DirectionCard/Kosmos" style="position: relative; height: 176px; box-sizing: border-box; padding: 28px 32px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden">
+<span style="position: absolute; left: 32px; right: 32px; top: 0; height: 2px; background: #E2609B; box-shadow: 0 0 14px 1px rgba(226,96,155,0.8)"></span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px"><span style="font-family: Unbounded, sans-serif; font-size: 26px; font-weight: 700">КОСМОС <span style="padding: 0 6px; background: #E2609B; color: #1A0A12; font-family: Manrope, sans-serif; font-size: 14px; font-weight: 800; vertical-align: middle">WRAP</span></span><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #EC86B4">Оклейка и защита</span></div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px"><span style="font-size: 16px; line-height: 1.5; color: #C9CED6">Антигравийная плёнка, антидождь на стёкла, матовая статика на экраны, салон по лекалам, карбон, полировка, PDR</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E2609B" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+</a>
+<a href="#" data-name="DirectionCard/Garage" style="position: relative; height: 176px; box-sizing: border-box; padding: 28px 32px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden">
+<span style="position: absolute; left: 32px; right: 32px; top: 0; height: 2px; background: #CDE23C; box-shadow: 0 0 14px 1px rgba(205,226,60,0.7)"></span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px"><span style="font-family: Unbounded, sans-serif; font-size: 26px; font-weight: 700">АПГРЕЙД <span style="padding: 0 6px; background: #CDE23C; color: #151A04; font-family: Manrope, sans-serif; font-size: 14px; font-weight: 800; vertical-align: middle">GARAGE</span></span><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #CDE23C">Шумоизоляция, автозвук и дооснащение</span></div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px"><span style="font-size: 16px; line-height: 1.5; color: #C9CED6">Шумоизоляция, автозвук, доводчики дверей, электропривод багажника, магнитолы, автосвет, контурная подсветка Ambient</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CDE23C" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+</a>
+</div>
+</section>
+
+<!-- ========== TrustStrip ========== -->
+<section data-name="TrustStrip" style="flex-shrink: 0; height: 128px; box-sizing: border-box; padding: 0 80px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: center; background: #0D0E10; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06)">
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: Unbounded, sans-serif; font-size: 28px; font-weight: 700">с 2019</span><span style="font-size: 14px; color: #9BA3AE">года работаем</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: Unbounded, sans-serif; font-size: 28px; font-weight: 700">300+</span><span style="font-size: 14px; color: #9BA3AE">автомобилей</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: Unbounded, sans-serif; font-size: 28px; font-weight: 700">Hexis</span><span style="font-size: 14px; color: #9BA3AE">защитная плёнка</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: Unbounded, sans-serif; font-size: 28px; font-weight: 700">4.6 ★</span><span style="font-size: 14px; color: #9BA3AE">Яндекс Карты · 11 отзывов</span></div>
+</section>
+
+<!-- ========== Configurator (preview state) ========== -->
+<section id="calc" data-name="Configurator" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px; background: #0D0E10; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span style="display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE"><span style="width: 28px; height: 2px; background: #F2F4F7; box-shadow: 0 0 8px rgba(242,244,247,0.8)"></span>Конфигуратор</span>
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Соберите свою машину</h2>
+</div>
+<div style="display: grid; grid-template-columns: 3fr 2fr; gap: 24px">
+<div data-name="ConfiguratorVisual" style="position: relative; height: 640px; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); overflow: hidden">
+<div role="tablist" data-name="Tabs/Direction" style="position: absolute; left: 24px; top: 24px; display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: #0D0E10">
+<button role="tab" aria-selected="true" style="height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: #CDE23C; color: #151A04; font: 700 14px Manrope, sans-serif">Шумоизоляция</button>
+<button role="tab" style="height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Защитная плёнка</button>
+<button role="tab" style="height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Салон</button>
+<button role="tab" style="height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Оснащение</button>
+</div>
+<svg data-name="CarSchematic" width="768" height="420" viewBox="0 0 768 420" style="position: absolute; left: 0; top: 120px">
+<rect x="70" y="80" width="630" height="260" rx="110" fill="#1C1F24" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"></rect>
+<rect x="286" y="84" width="232" height="252" fill="rgba(205,226,60,0.12)"></rect>
+<rect x="290" y="118" width="230" height="184" rx="28" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"></rect>
+<path d="M256 108 Q214 210 256 312" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"></path>
+<path d="M548 112 Q582 210 548 308" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"></path>
+<line x1="404" y1="82" x2="404" y2="338" stroke="rgba(255,255,255,0.18)"></line>
+<rect x="150" y="64" width="90" height="18" rx="6" fill="rgba(205,226,60,0.5)"></rect><rect x="530" y="64" width="90" height="18" rx="6" fill="rgba(205,226,60,0.5)"></rect>
+<rect x="150" y="338" width="90" height="18" rx="6" fill="rgba(205,226,60,0.5)"></rect><rect x="530" y="338" width="90" height="18" rx="6" fill="rgba(205,226,60,0.5)"></rect>
+<path d="M404 96 L470 40 L560 40" fill="none" stroke="#CDE23C" stroke-width="1"></path>
+</svg>
+<button data-name="HotspotDot/active" aria-label="Двери — выбрано" style="position: absolute; left: 390px; top: 202px; width: 28px; height: 28px; border: 0; padding: 0; border-radius: 50%; background: #CDE23C; box-shadow: 0 0 0 7px rgba(205,226,60,0.2), 0 0 22px rgba(205,226,60,0.6)"></button>
+<button data-name="HotspotDot/active" aria-label="Пол — выбрано" style="position: absolute; left: 390px; top: 316px; width: 28px; height: 28px; border: 0; padding: 0; border-radius: 50%; background: #CDE23C; box-shadow: 0 0 0 7px rgba(205,226,60,0.2)"></button>
+<button data-name="HotspotDot/active" aria-label="Арки — выбрано" style="position: absolute; left: 181px; top: 170px; width: 28px; height: 28px; border: 0; padding: 0; border-radius: 50%; background: #CDE23C; box-shadow: 0 0 0 7px rgba(205,226,60,0.2)"></button>
+<button data-name="HotspotDot/idle" aria-label="Капот" style="position: absolute; left: 110px; top: 316px; width: 28px; height: 28px; box-sizing: border-box; padding: 0; border-radius: 50%; border: 2px solid #F2F4F7; background: rgba(13,14,16,0.6)"></button>
+<button data-name="HotspotDot/idle" aria-label="Крыша" style="position: absolute; left: 470px; top: 316px; width: 28px; height: 28px; box-sizing: border-box; padding: 0; border-radius: 50%; border: 2px solid #F2F4F7; background: rgba(13,14,16,0.6)"></button>
+<button data-name="HotspotDot/idle" aria-label="Багажник" style="position: absolute; left: 640px; top: 316px; width: 28px; height: 28px; box-sizing: border-box; padding: 0; border-radius: 50%; border: 2px solid #F2F4F7; background: rgba(13,14,16,0.6)"></button>
+<div data-name="HotspotCard" style="position: absolute; left: 568px; top: 128px; width: 200px; padding: 16px; border-radius: 16px; background: #1E2126; border: 1px solid rgba(205,226,60,0.4); display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 15px; font-weight: 700">Двери ×4</span><span style="font-size: 13px; line-height: 1.45; color: #C9CED6">Вибро + шумопоглотитель, меньше гула и дребезга</span><span style="font-size: 12px; color: #9BA3AE">Шумофф</span><span style="font-size: 15px; font-weight: 700; color: #CDE23C">от 23 000 ₽</span>
+</div>
+<div role="tablist" data-name="Tabs/Package" style="position: absolute; left: 24px; bottom: 24px; display: flex; gap: 8px">
+<button role="tab" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Практичный</button>
+<button role="tab" aria-selected="true" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid #CDE23C; background: rgba(205,226,60,0.12); color: #F2F4F7; font: 700 14px Manrope, sans-serif">Отличный</button>
+<button role="tab" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Максимальный</button>
+</div>
+<span style="position: absolute; right: 24px; bottom: 36px; font-size: 13px; color: #9BA3AE">Схема авто — заглушка под 3D/иллюстрацию</span>
+</div>
+
+<div data-name="ConfiguratorPanel" style="height: 640px; box-sizing: border-box; padding: 28px; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE">1 · Кузов</span>
+<div data-name="BodyTypePicker" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<button style="height: 64px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #C9CED6; font: 600 13px Manrope, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px"><svg width="36" height="14" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11h32M4 11V8l6-1 5-4h9l5 4 5 1v3"></path></svg>Седан</button>
+<button style="height: 64px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #C9CED6; font: 600 13px Manrope, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px"><svg width="36" height="14" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11h32M4 11V7l7-1 5-4h10l4 4 3 1v4"></path></svg>Лифтбек</button>
+<button aria-pressed="true" style="position: relative; height: 64px; border-radius: 12px; border: 1px solid #F2F4F7; background: rgba(242,244,247,0.06); color: #F2F4F7; font: 700 13px Manrope, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px"><span style="position: absolute; right: 8px; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: #F2F4F7"></span><svg width="36" height="14" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11h32M3 11V6l6-1 4-3h14l4 3 2 1v5"></path></svg>Кроссовер</button>
+<button style="height: 64px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #C9CED6; font: 600 13px Manrope, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px"><svg width="36" height="14" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11h32M3 11V3h26l3 3 1 1v4"></path></svg>Ещё 4</button>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE; margin-bottom: 8px">Выбрано · 3</span>
+<div data-name="SummaryRow" style="height: 52px; display: grid; grid-template-columns: 8px 1fr auto 32px; gap: 12px; align-items: center; border-top: 1px solid rgba(255,255,255,0.08)"><span style="width: 8px; height: 8px; background: #CDE23C"></span><span style="font-size: 15px; font-weight: 600">Двери ×4 · Отличный</span><span style="font-size: 15px; font-weight: 700">от 23 000 ₽</span><button aria-label="Убрать" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #9BA3AE; font-size: 18px">×</button></div>
+<div data-name="SummaryRow" style="height: 52px; display: grid; grid-template-columns: 8px 1fr auto 32px; gap: 12px; align-items: center; border-top: 1px solid rgba(255,255,255,0.08)"><span style="width: 8px; height: 8px; background: #CDE23C"></span><span style="font-size: 15px; font-weight: 600">Пол · Отличный</span><span style="font-size: 15px; font-weight: 700">от 28 500 ₽</span><button aria-label="Убрать" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #9BA3AE; font-size: 18px">×</button></div>
+<div data-name="SummaryRow" style="height: 52px; display: grid; grid-template-columns: 8px 1fr auto 32px; gap: 12px; align-items: center; border-top: 1px solid rgba(255,255,255,0.08)"><span style="width: 8px; height: 8px; background: #CDE23C"></span><span style="font-size: 15px; font-weight: 600">Арки · Отличный</span><span style="font-size: 15px; font-weight: 700">от 20 500 ₽</span><button aria-label="Убрать" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #9BA3AE; font-size: 18px">×</button></div>
+<div data-name="SummaryRow/add" style="height: 52px; display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; align-items: center; border-top: 1px dashed rgba(255,255,255,0.14)"><span style="width: 8px; height: 8px; border: 1px solid #E2609B; box-sizing: border-box"></span><span style="font-size: 15px; color: #C9CED6">Добавить плёнку на ударную часть?</span><span style="font-size: 14px; font-weight: 700; color: #EC86B4">+ Космос Wrap</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12)">
+<div style="display: flex; align-items: baseline; justify-content: space-between"><span style="font-family: Unbounded, sans-serif; font-size: 34px; font-weight: 700">от 72 000 ₽</span><span style="font-size: 15px; color: #C9CED6">≈ 2 дня</span></div>
+<span style="font-size: 13px; color: #9BA3AE">Ориентировочно. Точная цена — после осмотра.</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button style="height: 52px; border: 0; border-radius: 14px; background: #F2F4F7; color: #0D0E10; font: 700 15px Manrope, sans-serif">Позвонить мастеру</button>
+<button style="height: 52px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 600 15px Manrope, sans-serif">Скопировать ссылку</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ========== Works ========== -->
+<section id="works" data-name="Works" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px; background: #0A0B0D; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span style="display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE"><span style="width: 28px; height: 2px; background: #F2F4F7; box-shadow: 0 0 8px rgba(242,244,247,0.8)"></span>Работы</span>
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Машины, которые уже у нас были</h2>
+</div>
+<span style="font-size: 14px; color: #9BA3AE">Все фото — наши работы, без стока</span>
+</div>
+<div data-name="FilterChips" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button aria-pressed="true" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #F2F4F7; background: #F2F4F7; color: #0D0E10; font: 700 14px Manrope, sans-serif">Все</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(226,96,155,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Плёнка</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(226,96,155,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Салон</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(226,96,155,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">PDR</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(226,96,155,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Антидождь</button>
+<span style="width: 1px; height: 40px; background: rgba(255,255,255,0.12); margin: 0 4px"></span>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Шумоизоляция</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Доводчики</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Свет и Ambient</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">ГУ</button>
+</div>
+<div data-name="CaseGrid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+
+<a href="#" data-name="CaseCard/BeforeAfter" style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; height: 380px; border-radius: 20px; overflow: hidden; display: flex">
+<div style="width: 55%; height: 380px; background: #0D0E10; position: relative; overflow: hidden"><img src="/img/santa-fe-polishing.jpg" alt="Полировка Hyundai Santa Fe" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; left: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">ПРОЦЕСС</span><span style="position: absolute; left: 20px; bottom: 20px; font-size: 14px; font-weight: 600; color: #C9CED6">Полировка кузова</span></div>
+<div style="width: 45%; height: 380px; background: #0D0E10; position: relative; overflow: hidden"><img src="/img/santa-fe-front.jpg" alt="Hyundai Santa Fe после работ" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; right: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">РЕЗУЛЬТАТ</span><span style="position: absolute; right: 20px; bottom: 20px; font-size: 14px; font-weight: 600; color: #C9CED6; text-align: right">После полировки и плёнки</span></div>
+<span data-name="BeforeAfterHandle" style="position: absolute; left: 55%; top: 0; width: 2px; height: 380px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242,244,247,0.7)"></span>
+<span style="position: absolute; left: calc(55% - 22px); top: 168px; width: 44px; height: 44px; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"></path></svg></span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px"><span style="font-size: 20px; font-weight: 700">Hyundai Santa Fe</span><span style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Полировка</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Плёнка на перед</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">PDR</span></span></div>
+</a>
+
+<a href="#" data-name="CaseCard/Ambient" style="display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; height: 380px; border-radius: 20px; overflow: hidden; background: #0B0C0E; border: 1px solid rgba(255,255,255,0.06)"><img src="/img/ambient-salon.jpg" alt="Контурная подсветка Ambient в салоне" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+<span style="position: absolute; left: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">18 световых точек</span>
+
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 20px; font-weight: 700">Контурная подсветка салона</span><span style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(205,226,60,0.14); color: #CDE23C; font-size: 13px; font-weight: 700; display: flex; align-items: center">Ambient</span></span></div>
+</a>
+
+<a href="#" data-name="CaseCard" style="display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; height: 260px; border-radius: 20px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.06); overflow: hidden"><img src="/img/bmw-g60-salon.jpg" alt="Салон BMW G60 после оклейки" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; left: 20px; bottom: 20px; right: 20px; font-size: 14px; font-weight: 600; color: #C9CED6">BMW G60, салон: экран и карбон под плёнкой</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 20px; font-weight: 700">BMW G60 · 5 Series</span><span style="display: flex; gap: 6px; flex-wrap: wrap"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Карбон</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Статика на экран</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Глянец по лекалам</span></span></div>
+</a>
+<a href="#" data-name="CaseCard" style="display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; height: 260px; border-radius: 20px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.06); overflow: hidden"><img src="/img/outlander-doors-shumoff.jpg" alt="Шумоизоляция дверей Mitsubishi Outlander" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; left: 20px; bottom: 20px; right: 20px; font-size: 14px; font-weight: 600; color: #C9CED6">Двери без обшивок, слои Шумофф</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 20px; font-weight: 700">Mitsubishi Outlander</span><span style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(205,226,60,0.14); color: #CDE23C; font-size: 13px; font-weight: 700; display: flex; align-items: center">Шумоизоляция дверей</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(205,226,60,0.14); color: #CDE23C; font-size: 13px; font-weight: 700; display: flex; align-items: center">Подсветка в подарок</span></span></div>
+</a>
+<a href="#" data-name="CaseCard" style="display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; height: 260px; border-radius: 20px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.06); overflow: hidden"><img src="/img/teramont-screen.jpg" alt="Монитор Volkswagen Teramont X с матовой статикой" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; left: 20px; bottom: 20px; right: 20px; font-size: 14px; font-weight: 600; color: #C9CED6">VW Teramont X, монитор после матовой статики</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 20px; font-weight: 700">Volkswagen Teramont X</span><span style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Статика на монитор</span></span></div>
+</a>
+</div>
+<a href="#" data-name="Button/Secondary" style="align-self: center; height: 56px; padding: 0 28px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"></path></svg>Все работы в Telegram</a>
+</section>
+
+<!-- ========== Why + Process ========== -->
+<section data-name="WhyUs" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px 56px; background: #0D0E10; display: flex; flex-direction: column; gap: 40px">
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Почему к нам</h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.14)"><span style="font-size: 18px; font-weight: 700">Hexis, Шумофф, Optima</span><span style="font-size: 15px; line-height: 1.5; color: #9BA3AE">Французский полиуретан Hexis, шумоизоляция Шумофф, линзы Optima Phantom.</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.14)"><span style="font-size: 18px; font-weight: 700">Лекала под модель</span><span style="font-size: 15px; line-height: 1.5; color: #9BA3AE">Режем плёнку по лекалам вашей машины, а не ножом по кузову.</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.14)"><span style="font-size: 18px; font-weight: 700">Разбираем аккуратно</span><span style="font-size: 15px; line-height: 1.5; color: #9BA3AE">Снимаем только то, что нужно для работы. Клипсы и крепёж — новые.</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.14)"><span style="font-size: 15px; line-height: 1.5; color: #9BA3AE">Присылаем в Telegram фото и видео каждого этапа.</span></div>
+</div>
+</section>
+<section data-name="Process" style="flex-shrink: 0; box-sizing: border-box; padding: 56px 80px 104px; background: #0D0E10; display: flex; flex-direction: column; gap: 40px">
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Как проходит работа</h2>
+<div style="position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px">
+<span data-name="LightStrip/Split" style="position: absolute; left: 0; right: 0; top: 13px; height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B; box-shadow: 0 0 10px rgba(226,96,155,0.8)"></span><span style="flex-grow: 1; background: #CDE23C; box-shadow: 0 0 10px rgba(205,226,60,0.7)"></span></span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 14px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #0D0E10; border: 2px solid #F2F4F7; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span><span style="font-size: 17px; font-weight: 700">Звонок и расчёт</span><span style="font-size: 14px; line-height: 1.5; color: #9BA3AE">Конфигуратор, звонок или фото в Telegram</span></div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 14px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #0D0E10; border: 2px solid #F2F4F7; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span><span style="font-size: 17px; font-weight: 700">Осмотр и смета</span><span style="font-size: 14px; line-height: 1.5; color: #9BA3AE">Точная цена до начала работ</span></div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 14px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #0D0E10; border: 2px solid #F2F4F7; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span><span style="font-size: 17px; font-weight: 700">Работа</span></div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 14px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #0D0E10; border: 2px solid #F2F4F7; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">4</span><span style="font-size: 17px; font-weight: 700">Приёмка</span><span style="font-size: 14px; line-height: 1.5; color: #9BA3AE">Показываем результат при вас</span></div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 14px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #0D0E10; border: 2px solid #F2F4F7; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">5</span><span style="font-size: 17px; font-weight: 700">Гарантия</span><span style="font-size: 14px; line-height: 1.5; color: #9BA3AE">5 лет на плёнку Hexis, 1 год на работы</span></div>
+</div>
+</section>
+
+<!-- ========== Reviews ========== -->
+<section data-name="Reviews" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px; background: #0A0B0D; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between"><h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Отзывы</h2><a href="#" style="font-size: 15px; font-weight: 700">Все отзывы на Яндекс Картах →</a></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div data-name="ReviewCard" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px"><div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 16px; letter-spacing: 2px">★★★★★</span><span style="height: 26px; padding: 0 10px; border-radius: 6px; background: #1E2126; font-size: 12px; font-weight: 700; display: flex; align-items: center">Яндекс Карты</span></div><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #C9CED6">«Хочу поблагодарить за комплексную работу по моему авто. Делали оклейку в новый дизайн и дооснащение (магнитола, регистратор, микрофон громкой связи, колонки, камера)»</p><div style="display: flex; flex-direction: column; gap: 2px; margin-top: auto"><span style="font-size: 15px; font-weight: 700">Сергей Ш.</span><span style="font-size: 14px; color: #EC86B4">Оклейка в дизайн + магнитола, камера, регистратор</span></div></div>
+<div data-name="ReviewCard" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px"><div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 16px; letter-spacing: 2px">★★★★★</span><span style="height: 26px; padding: 0 10px; border-radius: 6px; background: #1E2126; font-size: 12px; font-weight: 700; display: flex; align-items: center">Яндекс Карты</span></div><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #C9CED6">«Нанесли гидрофобное покрытие на стёкла — результат просто отличный: капли теперь скатываются, видимость стала намного лучше»</p><div style="display: flex; flex-direction: column; gap: 2px; margin-top: auto"><span style="font-size: 15px; font-weight: 700">Оля</span><span style="font-size: 14px; color: #EC86B4">Антидождь на стёкла</span></div></div>
+<div data-name="ReviewCard" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px"><div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 16px; letter-spacing: 2px">★★★★★</span><span style="height: 26px; padding: 0 10px; border-radius: 6px; background: #1E2126; font-size: 12px; font-weight: 700; display: flex; align-items: center">Яндекс Карты</span></div><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #C9CED6">«Закатали новые фары в полик и установили на тачку… все провода замотал в защиту»</p><div style="display: flex; flex-direction: column; gap: 2px; margin-top: auto"><span style="font-size: 15px; font-weight: 700">Елизавета В.</span><span style="font-size: 14px; color: #EC86B4">Плёнка на фары и установка</span></div></div>
+</div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section data-name="FAQ" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px; background: #0D0E10; display: grid; grid-template-columns: 1fr 2fr; gap: 48px">
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Частые вопросы</h2>
+<div data-name="Accordion" style="display: flex; flex-direction: column">
+<div data-name="AccordionItem/open" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 14px"><button aria-expanded="true" style="padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Сколько машина простоит в сервисе?<span style="font-size: 24px; font-weight: 400">−</span></button><p style="margin: 0; max-width: 680px; font-size: 16px; line-height: 1.55; color: #C9CED6">[Сроки по услугам: плёнка на ударную часть — N дня, шумоизоляция — N дня, доводчики — N часов. Если делаем и то и другое — параллельно.]</p></div>
+<div data-name="AccordionItem" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Можно ли потом снять плёнку?<span style="font-size: 24px; font-weight: 400">+</span></button></div>
+<div data-name="AccordionItem" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Сколько держится шумоизоляция?<span style="font-size: 24px; font-weight: 400">+</span></button></div>
+<div data-name="AccordionItem" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Сохранится ли гарантия дилера?<span style="font-size: 24px; font-weight: 400">+</span></button></div>
+<div data-name="AccordionItem" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Как ухаживать за плёнкой?<span style="font-size: 24px; font-weight: 400">+</span></button></div>
+<div data-name="AccordionItem" style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 19px Manrope, sans-serif; display: flex; justify-content: space-between; align-items: center; text-align: left">Можно ли сделать оклейку и шумку за один визит?<span style="font-size: 24px; font-weight: 400">+</span></button></div>
+</div>
+</section>
+
+<!-- ========== Contacts ========== -->
+<section id="contacts" data-name="Contacts" style="flex-shrink: 0; box-sizing: border-box; padding: 104px 80px; background: #0A0B0D; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div data-name="Map" style="position: relative; height: 340px; border-radius: 20px; background: repeating-linear-gradient(0deg, #15171A 0 39px, #1A1C20 39px 40px), #15171A; border: 1px solid rgba(255,255,255,0.08); overflow: hidden"><span style="position: absolute; left: 50%; top: 45%; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: #F2F4F7; box-shadow: 0 0 0 8px rgba(242,244,247,0.18)"></span><span style="position: absolute; left: 20px; bottom: 16px; font-size: 13px; color: #9BA3AE">Яндекс Карта — встраиваемый виджет</span></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px"><span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE">Адрес</span><span style="font-size: 18px; font-weight: 700">Москва, Алтуфьевское ш., 31с1, бокс 5, 3 этаж</span><span style="font-size: 15px; color: #C9CED6">Вт–Сб 11:00–20:00, пн и вс — выходной</span></span><a href="#" style="height: 48px; padding: 0 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; font-weight: 700; display: flex; align-items: center">Маршрут в Яндекс Картах</a></div>
+</div>
+<div data-name="CallCard" style="position: relative; padding: 40px; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px; overflow: hidden">
+<span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B; box-shadow: 0 0 12px rgba(226,96,155,0.8)"></span><span style="flex-grow: 1; background: #CDE23C; box-shadow: 0 0 12px rgba(205,226,60,0.7)"></span></span>
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 32px; font-weight: 700; line-height: 1.15">Позвоните — ответим и посчитаем</h2>
+<p style="margin: 0 0 8px; font-size: 16px; line-height: 1.55; color: #C9CED6">Звоните напрямую мастерам. Удобнее написать — Telegram или WhatsApp, можно сразу с фото машины.</p>
+<a href="tel:+79855433421" data-name="CallButton" style="height: 80px; padding: 0 22px; border-radius: 18px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #0D0E10; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 543-34-21</span><span style="font-size: 14px; color: #3D4148">Айк</span></span></a>
+<a href="tel:+79858276510" data-name="CallButton" style="height: 80px; padding: 0 22px; box-sizing: border-box; border-radius: 18px; border: 1px solid rgba(255,255,255,0.22); color: #F2F4F7; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 827-65-10</span><span style="font-size: 14px; color: #C9CED6">Ксения</span></span></a>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px"><a href="https://t.me/KosmosWrap" style="height: 52px; border-radius: 14px; border: 1px solid rgba(226,96,155,0.6); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 700; color: #F2F4F7; text-decoration: none"><span style="width: 7px; height: 7px; background: #E2609B"></span>@KosmosWrap</a><a href="https://t.me/UpgradeGarage" style="height: 52px; border-radius: 14px; border: 1px solid rgba(205,226,60,0.6); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 700; color: #F2F4F7; text-decoration: none"><span style="width: 7px; height: 7px; background: #CDE23C"></span>@UpgradeGarage</a><a href="#" style="height: 52px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #F2F4F7; text-decoration: none">WhatsApp</a></div>
+<span style="font-size: 13px; color: #9BA3AE">Вт–Сб 11:00–20:00 — в это время отвечаем сразу</span>
+</div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer data-name="Footer" style="position: relative; flex-shrink: 0; box-sizing: border-box; padding: 48px 80px; background: #0A0B0D; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #9BA3AE">
+<span>[ИП / ООО, ИНН, ОГРН]</span>
+<a href="#" style="color: #C9CED6">Политика конфиденциальности</a>
+<span>© 2019–2026 Космос Wrap × Апгрейд Garage</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6340}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

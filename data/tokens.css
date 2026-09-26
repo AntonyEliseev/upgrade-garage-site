@@ -1,0 +1,48 @@
+:root{
+  color-scheme: dark;
+  --ug-bg: #0D0E10; /* Фон страницы */
+  --ug-bg-deep: #0A0B0D; /* Чередование секций, футер */
+  --ug-surface: #15171A; /* Карточки, панели */
+  --ug-surface-2: #1E2126; /* Модалки, всплывающие карточки */
+  --ug-border: rgba(255,255,255,0.08); /* Рамки карточек, разделители */
+  --ug-border-strong: rgba(255,255,255,0.20); /* Вторичные кнопки, поля */
+  --ug-text: #F2F4F7; /* Основной текст */
+  --ug-text-2: #C9CED6; /* Подзаголовки, описания */
+  --ug-muted: #9BA3AE; /* Подписи, лейблы */
+  --ug-cta-bg: #F2F4F7; /* Главные кнопки: Позвонить, Рассчитать */
+  --ug-cta-fg: #0D0E10; /* Текст на главной кнопке */
+  --ug-kosmos: #E2609B; /* Космос Wrap: плашки, точки, линии */
+  --ug-kosmos-text: #EC86B4; /* Розовый текст и стрелки */
+  --ug-on-kosmos: #1A0A12; /* Текст на розовой заливке */
+  --ug-garage: #CDE23C; /* Апгрейд Garage: плашки, точки */
+  --ug-garage-line: #CDE23C; /* Лаймовые линии и рамки */
+  --ug-garage-text: #CDE23C; /* Лаймовый текст */
+  --ug-on-garage: #151A04; /* Текст на лаймовой заливке */
+  --ug-disabled-bg: #2A2D33; /* Неактивные кнопки */
+  --ug-disabled-fg: #8A919B; /* Текст неактивных кнопок */
+  --ug-font-display: 'Unbounded', system-ui, sans-serif;
+  --ug-font-body: 'Manrope', system-ui, sans-serif;
+}
+[data-theme="light"]{
+  color-scheme: light;
+  --ug-bg: #F5F4F0;
+  --ug-bg-deep: #EDECE7;
+  --ug-surface: #FFFFFF;
+  --ug-surface-2: #ECEBE6;
+  --ug-border: rgba(17,18,20,0.08);
+  --ug-border-strong: rgba(17,18,20,0.20);
+  --ug-text: #141518;
+  --ug-text-2: #3D4148;
+  --ug-muted: #5E646D;
+  --ug-cta-bg: #141518;
+  --ug-cta-fg: #FFFFFF;
+  --ug-kosmos: #E2609B;
+  --ug-kosmos-text: #B3336D;
+  --ug-on-kosmos: #1A0A12;
+  --ug-garage: #CDE23C;
+  --ug-garage-line: #B5CA24;
+  --ug-garage-text: #5B6800;
+  --ug-on-garage: #151A04;
+  --ug-disabled-bg: #E2E1DC;
+  --ug-disabled-fg: #8A8F96;
+}

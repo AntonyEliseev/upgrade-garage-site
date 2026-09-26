@@ -1,0 +1,12 @@
+---
+interface Props { items: { name: string; href?: string }[]; class?: string }
+const { items, class: cls } = Astro.props;
+---
+<nav aria-label="Хлебные крошки" class:list={['crumbs', cls]}>
+  {items.map((it, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true">/</span>}
+      {it.href ? <a href={it.href}>{it.name}</a> : <span aria-current={i === items.length - 1 ? 'page' : undefined}>{it.name}</span>}
+    </>
+  ))}
+</nav>

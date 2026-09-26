@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.astro';
+import { url } from '../lib/url';
+import LightStrip from './LightStrip.astro';
+import ServicesMenu from '../islands/ServicesMenu';
+import MobileMenu from '../islands/MobileMenu';
+import { contacts, phones, primaryPhone, servicesByDir, shortAddress, telegram, telHref, whatsappHref, type Dir } from '../lib/data';
+
+interface Props {
+  /** Активный пункт меню */
+  current?: 'services' | 'calculator' | 'works' | 'contacts';
+  /** Telegram по направлению страницы */
+  dir?: Dir;
+}
+const { current, dir = 'garage' } = Astro.props;
+const menuItems = (d: Dir) => servicesByDir(d).map((s) => ({ name: s.name, url: url(s.url) }));
+const tg = telegram(dir);
+---
+<div class="header-slot" aria-hidden="true"></div>
+<header class="header" data-name="Header" data-header>
+  <div class="container header__in">
+    <a href={url('/')} class="header__logo" aria-label="Космос Wrap и Апгрейд Garage — на главную" data-name="Logo">
+      <img class="logo-dark" src={url('/logo/logo-dark-bg.svg')} alt="Космос Wrap · Апгрейд Garage" width="200" height="56" />
+      <img class="logo-light" src={url('/logo/logo-light-bg.svg')} alt="" width="200" height="56" />
+    </a>
+
+    <nav class="nav" aria-label="Основное меню" data-name="Nav">
+      <ServicesMenu
+        client:media="(min-width: 1280px)"
+        kosmos={menuItems('kosmos')}
+        garage={menuItems('garage')}
+        phone={{ display: primaryPhone.display, tel: primaryPhone.tel }}
+        active={current === 'services'}
+      />
+      <a href={url('/calculator')} class:list={['nav__link', current === 'calculator' && 'is-active']} aria-current={current === 'calculator' ? 'page' : undefined}>Калькулятор</a>
+      <a href={url('/works')} class:list={['nav__link', current === 'works' && 'is-active']} aria-current={current === 'works' ? 'page' : undefined}>Работы</a>
+      <a href={url('/#contacts')} class:list={['nav__link', current === 'contacts' && 'is-active']}>Контакты</a>
+    </nav>
+
+    <div class="header__actions">
+      <a href={telHref(primaryPhone.tel)} class="header__phone">{primaryPhone.display}</a>
+      <a href={telHref(primaryPhone.tel)} class="btn btn--icon header__call-icon" aria-label={`Позвонить: ${primaryPhone.display}`}><Icon name="phone" /></a>
+      <a href={tg} class="btn btn--icon header__tg" aria-label="Telegram" target="_blank" rel="noopener"><Icon name="tg" /></a>
+      <a href={whatsappHref} class="btn btn--icon header__wa" aria-label="WhatsApp" target="_blank" rel="noopener"><Icon name="wa" /></a>
+      <a href={telHref(primaryPhone.tel)} class="btn btn--primary btn--s header__call">
+        <Icon name="phone" size={16} stroke={2} class="header__call-ico" />
+        <span class="header__call-label">Позвонить</span>
+        <span class="header__call-num">{primaryPhone.display}</span>
+      </a>
+      <div class="header__burger">
+        <MobileMenu
+          client:media="(max-width: 1279.98px)"
+          kosmos={menuItems('kosmos')}
+          garage={menuItems('garage')}
+          phones={phones}
+          telegram={contacts.telegram}
+          whatsapp={whatsappHref}
+          footnote={`${shortAddress.replace('Москва, ', '')} · ${contacts.hours.split(',')[0]}`}
+          logo={url('/logo/logo-dark-bg.svg')}
+        />
+      </div>
+    </div>
+  </div>
+  <LightStrip class="header__strip" />
+</header>
+
+<script>
+  // Шапка: 88px → 64px и полупрозрачный фон после прокрутки на 120px.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    let compact = false;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const next = window.scrollY > 120;
+      if (next !== compact) {
+        compact = next;
+        header.classList.toggle('is-compact', compact);
+      }
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  }
+</script>

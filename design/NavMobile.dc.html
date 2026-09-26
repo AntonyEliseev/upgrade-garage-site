@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Меню — мобайл</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0D0E10;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}
+</style>
+</helmet>
+<div data-name="Menu/Mobile" role="dialog" aria-label="Меню" style="position: relative; width: 390px; height: 1220px; overflow: hidden; background: #0D0E10; color: #F2F4F7; display: flex; flex-direction: column">
+
+<div style="flex-shrink: 0; height: 64px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08)">
+<a href="Home.dc.html" aria-label="На главную" style="display: block; height: 44px"><img src="/logo/logo-dark-bg.svg" alt="Космос Wrap · Апгрейд Garage" style="display: block; height: 44px; width: auto"></a>
+<button aria-label="Закрыть меню" onClick="{{close}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<div style="flex-shrink: 0; padding: 8px 16px 0; display: flex; flex-direction: column">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+<div style="border-bottom: 1px solid rgba(255,255,255,0.1)">
+<button aria-expanded="{{g.open}}" onClick="{{g.toggle}}" style="width: 100%; height: 64px; padding: 0; border: 0; background: transparent; color: #F2F4F7; display: flex; align-items: center; justify-content: space-between; text-align: left">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: Unbounded, sans-serif; font-size: 17px; font-weight: 700">{{g.name}} <span style="padding: 0 4px; background: {{g.color}}; color: {{g.ink}}; font-family: Manrope, sans-serif; font-size: 11px; font-weight: 800; vertical-align: middle">{{g.tag}}</span></span><span style="font-size: 12px; font-weight: 700; color: {{g.text}}">{{g.sub}}</span></span>
+<span style="font-size: 22px; color: {{g.text}}">{{g.sign}}</span>
+</button>
+<sc-if value="{{g.open}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; padding: 0 0 12px">
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="6">
+<a href="Service.dc.html" style="height: 44px; padding-left: 14px; display: flex; align-items: center; font-size: 16px; font-weight: 600; box-shadow: inset 2px 0 0 {{g.color}}">{{it}}</a>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<a href="ConfigMobile.dc.html" style="height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 18px; font-weight: 700">Калькулятор<span style="color: #9BA3AE">→</span></a>
+<a href="PortfolioMobile.dc.html" style="height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 18px; font-weight: 700">Работы<span style="color: #9BA3AE">→</span></a>
+<a href="#" style="height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 18px; font-weight: 700">Контакты<span style="color: #9BA3AE">→</span></a>
+</div>
+
+<div style="flex-shrink: 0; margin-top: 24px; padding: 0 16px 24px; display: flex; flex-direction: column; gap: 10px">
+<a href="tel:+79855433421" data-name="CallButton" style="height: 64px; padding: 0 18px; border-radius: 16px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 14px"><span style="width: 40px; height: 40px; border-radius: 50%; background: #0D0E10; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 17px; font-weight: 800">+7 985 543-34-21</span><span style="font-size: 13px; color: #3D4148">Айк</span></span></a>
+<a href="tel:+79858276510" data-name="CallButton" style="height: 64px; padding: 0 18px; box-sizing: border-box; border-radius: 16px; border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; gap: 14px"><span style="width: 40px; height: 40px; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 17px; font-weight: 800">+7 985 827-65-10</span><span style="font-size: 13px; color: #C9CED6">Ксения</span></span></a>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<a href="https://t.me/KosmosWrap" style="height: 48px; border-radius: 14px; border: 1px solid rgba(226,96,155,0.6); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">@KosmosWrap</a>
+<a href="https://t.me/UpgradeGarage" style="height: 48px; border-radius: 14px; border: 1px solid rgba(205,226,60,0.6); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">@UpgradeGarage</a>
+<a href="#" style="height: 48px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">WhatsApp</a>
+</div>
+<span style="font-size: 13px; color: #9BA3AE">Алтуфьевское ш., 31с1 · Вт–Сб 11:00–20:00</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1220}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const open = st.open === undefined ? 'k' : st.open;
+    const G = [
+      { id: 'k', name: 'КОСМОС', tag: 'WRAP', sub: 'Оклейка и защита', color: '#E2609B', ink: '#1A0A12', text: '#EC86B4', items: ['Антигравийная плёнка', 'Антидождь на стёкла', 'Матовая статика на экраны', 'Салон по лекалам', 'Оклейка карбона', 'Полировка кузова и плёнки', 'Вмятины без покраски (PDR)', 'Смена цвета и оклейка в дизайн', 'Антихром', 'Атермальная плёнка на стёкла и крышу', 'Керамика на диски', 'Оклейка мотоциклов'] },
+      { id: 'g', name: 'АПГРЕЙД', tag: 'GARAGE', sub: 'Шумоизоляция, автозвук и дооснащение', color: '#CDE23C', ink: '#151A04', text: '#CDE23C', items: ['Шумоизоляция', 'Автозвук', 'Доводчики дверей', 'Электропривод багажника', 'Замена магнитолы (ГУ)', 'Ребилд фар: линзы и LED', 'Контурная подсветка Ambient', 'Регистраторы и камеры', 'Омыватель камер'] }
+    ];
+    const groups = G.map((g) => Object.assign({}, g, { open: open === g.id, sign: open === g.id ? '−' : '+', toggle: () => this.setState({ open: open === g.id ? null : g.id }) }));
+    return { groups: groups, close: () => {} };
+  }
+}
+</script>
+</body>
+</html>

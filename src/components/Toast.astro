@@ -1,0 +1,23 @@
+---
+// Общий тост. Показать: document.dispatchEvent(new CustomEvent('ug:toast', { detail: { title, sub } })).
+---
+<div class="toast-host" aria-live="polite">
+  <div class="toast" role="status" data-toast data-name="Toast">
+    <span class="light-strip" aria-hidden="true"><span></span><span></span></span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+    <span class="stack"><span class="toast__title" data-toast-title></span><span class="toast__sub" data-toast-sub></span></span>
+  </div>
+</div>
+<script>
+  const el = document.querySelector<HTMLElement>('[data-toast]');
+  let t: number | undefined;
+  document.addEventListener('ug:toast', (e) => {
+    if (!el) return;
+    const { title, sub } = (e as CustomEvent<{ title: string; sub?: string }>).detail;
+    el.querySelector('[data-toast-title]')!.textContent = title;
+    el.querySelector('[data-toast-sub]')!.textContent = sub ?? '';
+    el.classList.add('is-on');
+    window.clearTimeout(t);
+    t = window.setTimeout(() => el.classList.remove('is-on'), 3200);
+  });
+</script>

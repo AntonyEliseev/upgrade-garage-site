@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Портфолио — мобайл</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}
+</style>
+</helmet>
+<div data-name="Portfolio/Mobile" style="position: relative; width: 390px; height: 2400px; overflow: hidden; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column">
+
+<header style="position: relative; flex-shrink: 0; height: 64px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; background: #0D0E10">
+<a href="#" aria-label="Космос Wrap и Апгрейд Garage" style="display: block; height: 44px"><img src="/logo/logo-dark-bg.svg" alt="Космос Wrap · Апгрейд Garage" style="display: block; height: 44px; width: auto"></a>
+<button aria-label="Меню" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<span style="position: absolute; left: 0; bottom: 0; width: 390px; height: 2px; display: flex"><span style="width: 195px; background: #E2609B"></span><span style="width: 195px; background: #CDE23C"></span></span>
+</header>
+
+<section style="flex-shrink: 0; padding: 32px 16px 20px; display: flex; flex-direction: column; gap: 8px">
+<h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 34px; font-weight: 700">Работы</h1>
+<span style="font-size: 14px; color: #9BA3AE">Все фото — наши, без стока</span>
+</section>
+
+<section data-name="Filters" style="flex-shrink: 0; padding: 0 0 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="box-sizing: border-box; padding: 0 16px; display: flex; gap: 6px; overflow-x: auto">
+<sc-for list="{{services}}" as="f" hint-placeholder-count="6">
+<button aria-pressed="{{f.on}}" onClick="{{f.pick}}" style="flex-shrink: 0; height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{f.border}}; background: {{f.bg}}; color: {{f.fg}}; font: 700 13px Manrope, sans-serif">{{f.name}}</button>
+</sc-for>
+</div>
+<div style="padding: 0 16px; display: flex; justify-content: space-between; align-items: center">
+<button onClick="{{cycleBrand}}" style="height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.16); background: #15171A; color: #F2F4F7; font: 600 14px Manrope, sans-serif; display: flex; align-items: center; gap: 8px">Марка: {{brandName}}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+<span style="font-size: 13px; color: #9BA3AE">Найдено: {{count}}</span>
+</div>
+</section>
+
+<section data-name="CaseList" style="flex-shrink: 0; padding: 0 16px; display: flex; flex-direction: column; gap: 24px">
+<sc-for list="{{cases}}" as="c" hint-placeholder-count="6">
+<a href="CaseMobile.dc.html" style="display: flex; flex-direction: column; gap: 10px">
+<span style="position: relative; height: 200px; border-radius: 18px; background: {{c.photoBg}}; overflow: hidden"><sc-if value="{{c.hasImg}}" hint-placeholder-val="{{ false }}"><img src="{{c.img}}" alt="{{c.name}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></sc-if><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: {{c.color}}"></span><sc-if value="{{c.noImg}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 14px; right: 14px; bottom: 12px; font-size: 12px; font-weight: 600; color: #C9CED6">{{c.photo}}</span></sc-if></span>
+<span style="font-size: 17px; font-weight: 700">{{c.name}}</span>
+<span style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{c.tags}}" as="t" hint-placeholder-count="2"><span style="height: 26px; padding: 0 8px; border-radius: 6px; background: {{c.soft}}; color: {{c.text}}; font-size: 12px; font-weight: 700; display: flex; align-items: center">{{t}}</span></sc-for></span>
+</a>
+</sc-for>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}"><div style="height: 180px; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px"><span style="font-size: 16px; font-weight: 700">Пока нет таких работ</span><button onClick="{{resetAll}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 14px Manrope, sans-serif">Сбросить фильтры</button></div></sc-if>
+<button style="height: 52px; margin-top: 8px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 15px Manrope, sans-serif">Показать ещё [N]</button>
+</section>
+
+<footer style="flex-shrink: 0; margin-top: 40px; padding: 32px 16px 120px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #9BA3AE"><span>[ИП / ООО, ИНН, ОГРН]</span><a href="#" style="color: #C9CED6">Политика конфиденциальности</a></footer>
+
+<nav data-name="MobileActionBar" aria-label="Быстрые действия" style="position: absolute; left: 0; bottom: 0; width: 390px; height: 76px; box-sizing: border-box; padding: 8px 8px 12px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: #0D0E10; border-top: 1px solid rgba(255,255,255,0.1)">
+<a href="ConfigMobile.dc.html" style="border-radius: 12px; background: #F2F4F7; color: #0D0E10; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">Расчёт</a>
+<a href="#" style="font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">Telegram</a>
+<a href="#" style="font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">WhatsApp</a>
+<a href="#" style="font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">Позвонить</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = { color: '#E2609B', soft: 'rgba(226,96,155,0.14)', text: '#EC86B4' };
+    const G = { color: '#CDE23C', soft: 'rgba(205,226,60,0.14)', text: '#CDE23C' };
+    const stripe = 'repeating-linear-gradient(135deg, #15171A 0 14px, #17191D 14px 28px)';
+    const all = [
+      { name: 'Mercedes E-class', brand: 'mercedes', d: K, s: ['film', 'color', 'glass'], tags: ['Цветной полиуретан IRISTEK', 'Антихром', 'Антидождь'], photo: 'Кузов в Satin Metallic Blackish Green', img: '/img/mercedes-e-class-green.jpg' },
+      { name: 'Автозвук: Helix V Eighteen DSP', brand: 'other', d: G, s: ['audio'], tags: ['Процессорный усилитель Helix', 'Силовая проводка в оплётке'], photo: 'Процессор в нише багажника', img: '/img/audio-helix-v18.jpg' },
+      { name: 'Hyundai Santa Fe', brand: 'hyundai', d: K, s: ['film', 'polish', 'pdr'], tags: ['Полировка', 'Плёнка на перед', 'PDR'], photo: 'Кузов после полировки и плёнки', img: '/img/santa-fe-after.jpg' },
+      { name: 'BMW G60 · 5 Series', brand: 'bmw', d: K, s: ['salon'], tags: ['Карбон', 'Статика на экран', 'Глянец по лекалам'], photo: 'Салон: экран и карбон', img: '/img/bmw-g60-exterior.jpg' },
+      { name: 'Mercedes-Maybach GLS', brand: 'mercedes', d: K, s: ['film', 'color'], tags: ['Двухцветная оклейка', 'Демонтаж плёнки'], photo: 'Кузов после оклейки', img: '/img/configurator-body.jpg' },
+      { name: 'Mitsubishi Outlander', brand: 'mitsubishi', d: G, s: ['noise', 'light'], tags: ['Шумоизоляция дверей', 'Подсветка салона'], photo: 'Подсветка салона ночью', img: '/img/outlander-ambient.jpg' },
+      { name: 'Mazda 3 BK', brand: 'other', d: G, s: ['light'], tags: ['Ребилд фар Optima Phantom', 'RGB-глазки'], photo: 'Фары до ребилда', img: '/img/mazda3-headlights.jpg' },
+      { name: 'Контурная подсветка салона', brand: 'other', d: G, s: ['light'], tags: ['Ambient · 18 точек'], photo: 'Салон ночью', img: '/img/ambient-night.jpg' },
+      { name: 'Daihatsu Taft', brand: 'other', d: K, s: ['film'], tags: ['Атермальный полиуретан', 'Панорамная крыша'], photo: 'Панорамная крыша', img: '/img/daihatsu-taft-roof.jpg' },
+      { name: 'Yamaha', brand: 'other', d: K, s: ['film', 'moto'], tags: ['Мото', 'Матовый полиуретан Vega', 'Hexis'], photo: 'Бак и пластик в матовом полиуретане', img: '/img/yamaha-matte.jpg' },
+      { name: 'Lynk & Co', brand: 'other', d: K, s: ['salon'], tags: ['Матовая плёнка на монитор'], photo: 'Монитор', img: '/img/lynk-co-screen.jpg' },
+      { name: 'Volkswagen Teramont X', brand: 'vw', d: K, s: ['salon'], tags: ['Статика на монитор'], photo: 'Монитор после статики', img: '/img/teramont-screen.jpg' },
+      { name: 'Mitsubishi Outlander', brand: 'mitsubishi', d: G, s: ['hu'], tags: ['Магнитола Wide Media', 'Камера заднего вида'], photo: 'Камера заднего вида на новой магнитоле', img: '/img/outlander-rear-camera.jpg' },
+      { name: 'Керамика на диски', brand: 'other', d: K, s: ['polish'], tags: ['Керамика', 'от 20 000 км'], photo: 'Нанесение на диск', img: '/img/wheels-ceramic.jpg' },
+      { name: 'Автозвук: Helix V Eight и Eton', brand: 'other', d: G, s: ['audio'], tags: ['Helix V Eight DSP MK2', 'Усилитель Eton'], photo: 'Процессор и усилитель', img: '/img/audio-helix-v8-eton.jpg' },
+      { name: 'Проводка под аудиосистему', brand: 'other', d: G, s: ['audio', 'noise'], tags: ['Шумофф на пол и арки', 'Разводка кабелей'], photo: 'Кабели по шумоизоляции', img: '/img/audio-wiring-shumoff.jpg' },
+      { name: 'Geely Monjaro', brand: 'other', d: G, s: ['noise'], tags: ['Шумоизоляция салона', 'Шумофф Premium'], photo: 'Салон без обшивок' },
+      { name: 'Changan Uni-K', brand: 'other', d: G, s: ['glass', 'film'], tags: ['Омыватель камер', 'Антидождь', 'Hexis Bodyfence X'], photo: 'Камера с омывателем' },
+      { name: 'Hyundai Accent', brand: 'hyundai', d: G, s: ['noise'], tags: ['Шумоизоляция дверей', 'Шумофф'], photo: 'Дверь без обшивки' }
+    ];
+    const svc = [{ id: 'all', name: 'Все' }, { id: 'film', name: 'Плёнка', d: K }, { id: 'salon', name: 'Салон', d: K }, { id: 'glass', name: 'Антидождь', d: K }, { id: 'color', name: 'Смена цвета', d: K }, { id: 'moto', name: 'Мото', d: K }, { id: 'noise', name: 'Шумоизоляция', d: G }, { id: 'audio', name: 'Автозвук', d: G }, { id: 'closers', name: 'Доводчики', d: G }, { id: 'light', name: 'Свет и Ambient', d: G }, { id: 'hu', name: 'ГУ', d: G }];
+    const br = [{ id: 'all', name: 'все' }, { id: 'hyundai', name: 'Hyundai' }, { id: 'bmw', name: 'BMW' }, { id: 'mercedes', name: 'Mercedes' }, { id: 'mitsubishi', name: 'Mitsubishi' }, { id: 'vw', name: 'Volkswagen' }, { id: 'other', name: 'другие' }];
+    const st = this.state || {};
+    const sv = st.svc || 'all', bi = st.bi || 0, bd = br[bi].id;
+    const services = svc.map((f) => {
+      const on = f.id === sv, d = f.d;
+      return { name: f.name, on: on, pick: () => this.setState({ svc: f.id }), border: on ? (d ? d.color : '#F2F4F7') : (d === K ? 'rgba(226,96,155,0.5)' : (d === G ? 'rgba(205,226,60,0.5)' : 'rgba(255,255,255,0.16)')), bg: on ? (d ? d.color : '#F2F4F7') : 'transparent', fg: on ? (d === K ? '#1A0A12' : (d === G ? '#151A04' : '#0D0E10')) : '#F2F4F7' };
+    });
+    const found = all.filter((c) => (sv === 'all' || c.s.indexOf(sv) >= 0) && (bd === 'all' || c.brand === bd));
+    const cases = found.slice(0, 6).map((c) => ({ name: c.name, tags: c.tags, photo: 'Фото: ' + c.photo, img: c.img || '', hasImg: !!c.img, noImg: !c.img, color: c.d.color, soft: c.d.soft, text: c.d.text, photoBg: c.dark ? '#0B0C0E' : stripe }));
+    return { services: services, cases: cases, count: found.length, isEmpty: found.length === 0, brandName: br[bi].name, cycleBrand: () => this.setState({ bi: (bi + 1) % br.length }), resetAll: () => this.setState({ svc: 'all', bi: 0 }) };
+  }
+}
+</script>
+</body>
+</html>

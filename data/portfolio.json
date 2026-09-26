@@ -1,0 +1,364 @@
+{
+ "cases": [
+  {
+   "slug": "mercedes-e-class",
+   "name": "Mercedes E-class",
+   "brand": "mercedes",
+   "d": "kosmos",
+   "s": [
+    "film",
+    "color",
+    "glass"
+   ],
+   "tags": [
+    "Цветной полиуретан IRISTEK",
+    "Антихром",
+    "Антидождь"
+   ],
+   "photo": "Кузов в Satin Metallic Blackish Green",
+   "img": "/img/mercedes-e-class-green.jpg"
+  },
+  {
+   "slug": "helix-v-eighteen-dsp",
+   "name": "Автозвук: Helix V Eighteen DSP",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "audio"
+   ],
+   "tags": [
+    "Процессорный усилитель Helix",
+    "Силовая проводка в оплётке"
+   ],
+   "photo": "Процессор в нише багажника",
+   "img": "/img/audio-helix-v18.jpg"
+  },
+  {
+   "slug": "hyundai-santa-fe",
+   "name": "Hyundai Santa Fe",
+   "brand": "hyundai",
+   "d": "kosmos",
+   "s": [
+    "film",
+    "polish",
+    "pdr"
+   ],
+   "tags": [
+    "Полировка",
+    "Плёнка на перед",
+    "PDR"
+   ],
+   "photo": "Кузов после полировки и плёнки",
+   "img": "/img/santa-fe-after.jpg"
+  },
+  {
+   "slug": "bmw-g60",
+   "name": "BMW G60 · 5 Series",
+   "brand": "bmw",
+   "d": "kosmos",
+   "s": [
+    "salon"
+   ],
+   "tags": [
+    "Карбон",
+    "Статика на экран",
+    "Глянец по лекалам"
+   ],
+   "photo": "Салон: экран и карбон",
+   "img": "/img/bmw-g60-exterior.jpg"
+  },
+  {
+   "slug": "mercedes-maybach-gls",
+   "name": "Mercedes-Maybach GLS",
+   "brand": "mercedes",
+   "d": "kosmos",
+   "s": [
+    "film",
+    "color"
+   ],
+   "tags": [
+    "Двухцветная оклейка",
+    "Демонтаж плёнки"
+   ],
+   "photo": "Кузов после оклейки",
+   "img": "/img/configurator-body.jpg"
+  },
+  {
+   "slug": "mitsubishi-outlander-ambient",
+   "name": "Mitsubishi Outlander",
+   "brand": "mitsubishi",
+   "d": "garage",
+   "s": [
+    "noise",
+    "light"
+   ],
+   "tags": [
+    "Шумоизоляция дверей",
+    "Подсветка салона"
+   ],
+   "photo": "Подсветка салона ночью",
+   "img": "/img/outlander-ambient.jpg"
+  },
+  {
+   "slug": "mazda-3-bk",
+   "name": "Mazda 3 BK",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "light"
+   ],
+   "tags": [
+    "Ребилд фар Optima Phantom",
+    "RGB-глазки"
+   ],
+   "photo": "Фары до ребилда",
+   "img": "/img/mazda3-headlights.jpg"
+  },
+  {
+   "slug": "ambient-18",
+   "name": "Контурная подсветка салона",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "light"
+   ],
+   "tags": [
+    "Ambient · 18 точек"
+   ],
+   "photo": "Салон ночью",
+   "img": "/img/ambient-night.jpg"
+  },
+  {
+   "slug": "daihatsu-taft",
+   "name": "Daihatsu Taft",
+   "brand": "other",
+   "d": "kosmos",
+   "s": [
+    "film"
+   ],
+   "tags": [
+    "Атермальный полиуретан",
+    "Панорамная крыша"
+   ],
+   "photo": "Панорамная крыша",
+   "img": "/img/daihatsu-taft-roof.jpg"
+  },
+  {
+   "slug": "yamaha",
+   "name": "Yamaha",
+   "brand": "other",
+   "d": "kosmos",
+   "s": [
+    "film",
+    "moto"
+   ],
+   "tags": [
+    "Мото",
+    "Матовый полиуретан Vega",
+    "Hexis"
+   ],
+   "photo": "Бак и пластик в матовом полиуретане",
+   "img": "/img/yamaha-matte.jpg"
+  },
+  {
+   "slug": "lynk-co",
+   "name": "Lynk & Co",
+   "brand": "other",
+   "d": "kosmos",
+   "s": [
+    "salon"
+   ],
+   "tags": [
+    "Матовая плёнка на монитор"
+   ],
+   "photo": "Монитор",
+   "img": "/img/lynk-co-screen.jpg"
+  },
+  {
+   "slug": "vw-teramont-x",
+   "name": "Volkswagen Teramont X",
+   "brand": "vw",
+   "d": "kosmos",
+   "s": [
+    "salon"
+   ],
+   "tags": [
+    "Статика на монитор"
+   ],
+   "photo": "Монитор после статики",
+   "img": "/img/teramont-screen.jpg"
+  },
+  {
+   "slug": "mitsubishi-outlander-wide-media",
+   "name": "Mitsubishi Outlander",
+   "brand": "mitsubishi",
+   "d": "garage",
+   "s": [
+    "hu"
+   ],
+   "tags": [
+    "Магнитола Wide Media",
+    "Камера заднего вида"
+   ],
+   "photo": "Камера заднего вида на новой магнитоле",
+   "img": "/img/outlander-rear-camera.jpg"
+  },
+  {
+   "slug": "keramika-na-diski",
+   "name": "Керамика на диски",
+   "brand": "other",
+   "d": "kosmos",
+   "s": [
+    "polish"
+   ],
+   "tags": [
+    "Керамика",
+    "от 20 000 км"
+   ],
+   "photo": "Нанесение на диск",
+   "img": "/img/wheels-ceramic.jpg"
+  },
+  {
+   "slug": "helix-v-eight-eton",
+   "name": "Автозвук: Helix V Eight и Eton",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "audio"
+   ],
+   "tags": [
+    "Helix V Eight DSP MK2",
+    "Усилитель Eton"
+   ],
+   "photo": "Процессор и усилитель",
+   "img": "/img/audio-helix-v8-eton.jpg"
+  },
+  {
+   "slug": "provodka-shumoff",
+   "name": "Проводка под аудиосистему",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "audio",
+    "noise"
+   ],
+   "tags": [
+    "Шумофф на пол и арки",
+    "Разводка кабелей"
+   ],
+   "photo": "Кабели по шумоизоляции",
+   "img": "/img/audio-wiring-shumoff.jpg"
+  },
+  {
+   "slug": "geely-monjaro",
+   "name": "Geely Monjaro",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "noise"
+   ],
+   "tags": [
+    "Шумоизоляция салона",
+    "Шумофф Premium"
+   ],
+   "photo": "Салон без обшивок"
+  },
+  {
+   "slug": "changan-uni-k",
+   "name": "Changan Uni-K",
+   "brand": "other",
+   "d": "garage",
+   "s": [
+    "glass",
+    "film"
+   ],
+   "tags": [
+    "Омыватель камер",
+    "Антидождь",
+    "Hexis Bodyfence X"
+   ],
+   "photo": "Камера с омывателем"
+  },
+  {
+   "slug": "hyundai-accent",
+   "name": "Hyundai Accent",
+   "brand": "hyundai",
+   "d": "garage",
+   "s": [
+    "noise"
+   ],
+   "tags": [
+    "Шумоизоляция дверей",
+    "Шумофф"
+   ],
+   "photo": "Дверь без обшивки"
+  }
+ ],
+ "filters": [
+  {
+   "id": "all",
+   "name": "Все"
+  },
+  {
+   "id": "film",
+   "name": "Плёнка",
+   "d": "kosmos"
+  },
+  {
+   "id": "salon",
+   "name": "Салон",
+   "d": "kosmos"
+  },
+  {
+   "id": "glass",
+   "name": "Антидождь",
+   "d": "kosmos"
+  },
+  {
+   "id": "polish",
+   "name": "Полировка",
+   "d": "kosmos"
+  },
+  {
+   "id": "pdr",
+   "name": "PDR",
+   "d": "kosmos"
+  },
+  {
+   "id": "color",
+   "name": "Смена цвета",
+   "d": "kosmos"
+  },
+  {
+   "id": "moto",
+   "name": "Мото",
+   "d": "kosmos"
+  },
+  {
+   "id": "noise",
+   "name": "Шумоизоляция",
+   "d": "garage",
+   "sep": true
+  },
+  {
+   "id": "audio",
+   "name": "Автозвук",
+   "d": "garage"
+  },
+  {
+   "id": "closers",
+   "name": "Доводчики и привод",
+   "d": "garage"
+  },
+  {
+   "id": "light",
+   "name": "Свет и Ambient",
+   "d": "garage"
+  },
+  {
+   "id": "hu",
+   "name": "ГУ",
+   "d": "garage"
+  }
+ ]
+}

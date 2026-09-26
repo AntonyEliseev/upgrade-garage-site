@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Чек-лист итогового макета</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0D0E10;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+</style>
+</helmet>
+<div data-name="Checklist" style="width: 1440px; height: 1480px; box-sizing: border-box; padding: 72px 80px; background: #0D0E10; color: #F2F4F7; display: flex; flex-direction: column; gap: 36px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">Итоговый макет · идём по списку</span>
+<h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 48px; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em">Чек-лист</h1>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; width: 420px">
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="font-weight: 700">Готово {{done}} из {{total}}</span><span style="color: #9BA3AE">{{pct}}%</span></div>
+<div style="height: 6px; border-radius: 3px; background: #1E2126; overflow: hidden; display: flex"><span style="width: {{pct}}%; height: 6px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242,244,247,0.6)"></span></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="7">
+<div data-name="ChecklistGroup" style="position: relative; padding: 24px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; overflow: hidden">
+<span style="position: absolute; left: 24px; right: 24px; top: 0; height: 2px; background: {{g.color}}"></span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px"><span style="font-size: 18px; font-weight: 800">{{g.name}}</span><span style="font-size: 13px; color: #9BA3AE">{{g.done}} / {{g.n}}</span></div>
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="4">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.07)">
+<sc-if value="{{it.ok}}" hint-placeholder-val="{{ false }}"><span style="flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; border-radius: 6px; background: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></sc-if>
+<sc-if value="{{it.todo}}" hint-placeholder-val="{{ true }}"><span style="flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; box-sizing: border-box; border-radius: 6px; border: 2px solid {{it.boxColor}}"></span></sc-if>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; line-height: 1.4; font-weight: 600; color: {{it.color}}">{{it.t}}</span><sc-if value="{{it.hasNote}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #9BA3AE">{{it.note}}</span></sc-if></span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; gap: 24px; font-size: 13px; color: #9BA3AE">
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 4px; background: #F2F4F7"></span>готово</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; box-sizing: border-box; border-radius: 4px; border: 2px solid #9BA3AE"></span>в работе у дизайна</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; box-sizing: border-box; border-radius: 4px; border: 2px solid #E2609B"></span>ждём от студии</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1480}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const G = [
+      { name: 'Основа', color: '#F2F4F7', items: [
+        ['ok', 'Мудборд и выбор направления'],
+        ['ok', 'Бренд: розовый + лайм, Unbounded + Manrope'],
+        ['ok', 'Мотив Ambient — светящиеся линии'],
+        ['ok', 'UI-кит, тёмная тема'],
+        ['ok', 'Светлая тема — проверка токенов'],
+        ['ok', 'UI-кит: светлые токены и единый список токенов', 'для передачи разработчику']
+      ] },
+      { name: 'Главная', color: '#F2F4F7', items: [
+        ['ok', 'Десктоп 1440, планшет 768, мобайл 390'],
+        ['ok', 'Без форм: звонок и мессенджеры'],
+        ['ok', 'Шапка при прокрутке — компактная sticky'],
+        ['ok', 'Меню «Услуги»: выпадающее на десктопе', 'два столбца по направлениям'],
+        ['ok', 'Бургер-меню на мобайле и планшете']
+      ] },
+      { name: 'Конфигуратор', color: '#CDE23C', items: [
+        ['ok', 'Все состояния: десктоп и мобайл'],
+        ['ok', '«Связаться с мастером» вместо заявки'],
+        ['ok', 'Отдельная страница калькулятора', '/calculator, расчёт открывается по ссылке'],
+        ['ok', 'Цены и сроки в калькуляторе', 'считаются по зонам и кузову'],
+        ['ok', 'Фото модели и координаты точек', 'Maybach GLS из работ студии, салон — BMW G60'],
+        ['ok', 'Пакеты плёнки «Фронт» и «Фронт+»', 'реальные цены из канала: от 110 и 135 тыс. ₽']
+      ] },
+      { name: 'Страницы', color: '#E2609B', items: [
+        ['ok', 'Услуга — шаблон в двух цветах', 'шумоизоляция (лайм) и плёнка (розовый), десктоп и мобайл'],
+        ['ok', 'FAQ — раскрывающиеся вопросы', 'на всех страницах услуг'],
+        ['ok', 'Карта: 21 страница услуг из одного шаблона'],
+        ['ok', 'Кейс — BMW G60', 'галерея из 12 реальных фото'],
+        ['ok', 'Портфолио с фильтрами'],
+        ['ok', 'Политика конфиденциальности', 'черновик под 152-ФЗ готов'],
+        ['ok', 'Плашка cookie'],
+        ['ok', 'Страница 404']
+      ] },
+      { name: 'Состояния и детали', color: '#F2F4F7', items: [
+        ['ok', 'Hover карточек, кнопок и ссылок'],
+        ['ok', '«Показать ещё» — загрузка'],
+        ['ok', 'Карта не загрузилась — запасной вид'],
+        ['ok', 'Проверка контраста и тап-зон на всех экранах', 'финальный проход: все пары текста ≥ 4.5:1']
+      ] },
+      { name: 'Передача в вёрстку', color: '#F2F4F7', items: [
+        ['ok', 'Спецификация: брейкпоинты, сетка, отступы'],
+        ['ok', 'Поведение: нижняя панель, tel-ссылки, анимации'],
+        ['ok', 'Архив черновых вариантов на отдельной странице']
+      ] },
+      { name: 'Контент от студии', color: '#E2609B', items: [
+        ['ok', 'Логотип в векторе', 'SVG: тёмный, светлый, одноцветные, фавикон'],
+        ['ok', 'Фото работ из Telegram', 'все посты обоих каналов просмотрены, 101 фото загружено'],
+        ['wait', 'Цены «кузов × зона × пакет», сроки, гарантии', 'в макете и текстах — ориентир рынка, сверить со студией'],
+        ['ok', 'Автозвук — 21-я услуга', 'меню, главная, калькулятор, SEO-текст, 3 кейса в портфолио'],
+        ['ok', 'Часы, материалы, рейтинг, адрес', 'из Telegram и Яндекс Карт'],
+        ['ok', 'Число машин и срок гарантии', '300+; гарантия на работы 1 год — сверить'],
+        ['ok', 'Телефоны Айка и Ксении', 'без подписей, только имена'],
+        ['ok', 'Отзывы — 3 реальных с Яндекс Карт'],
+        ['wait', 'Ответы FAQ, реквизиты'],
+        ['wait', 'Фото для 21 страницы услуг'],
+        ['wait', 'Проверка политики юристом и реквизиты оператора']
+      ] }
+    ];
+    let done = 0, total = 0;
+    const groups = G.map((g) => {
+      const items = g.items.map((a) => {
+        total++; if (a[0] === 'ok') done++;
+        return { t: a[1], note: a[2] || '', hasNote: !!a[2], ok: a[0] === 'ok', todo: a[0] !== 'ok', boxColor: a[0] === 'wait' ? '#E2609B' : '#9BA3AE', color: a[0] === 'ok' ? '#9BA3AE' : '#F2F4F7' };
+      });
+      return { name: g.name, color: g.color, items: items, n: items.length, done: items.filter((i) => i.ok).length };
+    });
+    return { groups: groups, done: done, total: total, pct: Math.round(done / total * 100) };
+  }
+}
+</script>
+</body>
+</html>

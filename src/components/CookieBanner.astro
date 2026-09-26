@@ -1,0 +1,29 @@
+---
+import { url } from '../lib/url';
+// Показывается один раз. «Только необходимые» — Метрика больше не загружается.
+---
+<div class="cookie" role="region" aria-label="Уведомление о cookie" data-cookie hidden data-name="CookieBanner">
+  <p class="cookie__text">
+    <span class="cookie__long">Используем cookie и Яндекс Метрику, чтобы сайт работал лучше.</span>
+    <span class="cookie__short">Используем cookie и Яндекс Метрику.</span>
+    <a href={url('/privacy')}>Подробнее</a>
+  </p>
+  <div class="cookie__actions">
+    <button type="button" class="btn btn--primary btn--s" data-cookie-accept>Понятно</button>
+    <button type="button" class="btn btn--secondary btn--s cookie__necessary" data-cookie-necessary>Только необходимые</button>
+  </div>
+</div>
+<script>
+  import { getConsent, setConsent } from '../lib/consent';
+  const box = document.querySelector<HTMLElement>('[data-cookie]');
+  if (box && !getConsent()) {
+    box.hidden = false;
+    const done = (value: 'all' | 'necessary') => {
+      setConsent(value);
+      box.hidden = true;
+      document.dispatchEvent(new CustomEvent('ug:consent', { detail: value }));
+    };
+    box.querySelector('[data-cookie-accept]')?.addEventListener('click', () => done('all'));
+    box.querySelector('[data-cookie-necessary]')?.addEventListener('click', () => done('necessary'));
+  }
+</script>

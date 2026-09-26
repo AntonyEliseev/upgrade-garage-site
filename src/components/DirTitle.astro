@@ -1,0 +1,7 @@
+---
+// «КОСМОС [WRAP]» / «АПГРЕЙД [GARAGE]» — словесная часть логотипа направления.
+import type { Dir } from '../lib/data';
+interface Props { dir: Dir; class?: string }
+const { dir, class: cls } = Astro.props;
+---
+<span class:list={['dir-card__title', cls]}>{dir === 'kosmos' ? 'КОСМОС' : 'АПГРЕЙД'} <span class="dir-card__badge">{dir === 'kosmos' ? 'WRAP' : 'GARAGE'}</span></span>

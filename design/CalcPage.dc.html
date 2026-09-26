@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Страница калькулятора — десктоп</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}
+</style>
+</helmet>
+<div data-name="CalcPage/Desktop" style="width: 1440px; height: 1740px; overflow: hidden; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column">
+
+<header data-name="Header" style="position: relative; flex-shrink: 0; height: 88px; box-sizing: border-box; padding: 0 80px; display: flex; align-items: center; justify-content: space-between; background: #0D0E10">
+<a href="Home.dc.html" aria-label="Космос Wrap и Апгрейд Garage" style="display: block; height: 56px"><img src="/logo/logo-dark-bg.svg" alt="Космос Wrap · Апгрейд Garage" style="display: block; height: 56px; width: auto"></a>
+<nav style="display: flex; gap: 36px; font-size: 15px; font-weight: 600"><a href="#">Услуги</a><a href="CalcPage.dc.html" style="box-shadow: inset 0 -2px 0 #F2F4F7; padding-bottom: 4px">Калькулятор</a><a href="Portfolio.dc.html">Работы</a><a href="#">Контакты</a></nav>
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="tel:+79855433421" style="font-size: 15px; font-weight: 700; margin-right: 8px">+7 985 543-34-21</a>
+<a href="https://t.me/UpgradeGarage" aria-label="Telegram" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"></path><path d="m9 13 8-6"></path></svg></a>
+<a href="tel:+79855433421" style="height: 44px; padding: 0 20px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font-size: 15px; font-weight: 700; display: flex; align-items: center">Позвонить</a>
+</div>
+<span style="position: absolute; left: 0; bottom: 0; width: 1440px; height: 2px; display: flex"><span style="width: 720px; background: #E2609B; box-shadow: 0 0 12px 1px rgba(226,96,155,0.8)"></span><span style="width: 720px; background: #CDE23C; box-shadow: 0 0 12px 1px rgba(205,226,60,0.7)"></span></span>
+</header>
+
+<nav aria-label="Хлебные крошки" style="flex-shrink: 0; height: 56px; box-sizing: border-box; padding: 0 80px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #9BA3AE; background: #0D0E10"><a href="Home.dc.html" style="color: #9BA3AE">Главная</a><span>/</span><span style="color: #F2F4F7">Калькулятор стоимости</span><span style="flex-grow: 1"></span><span>Адрес страницы: /calculator?body=…&amp;z=… — расчёт открывается по ссылке</span></nav>
+
+<section data-name="ConfiguratorEmbed" style="flex-shrink: 0; height: 920px"><dc-import name="ConfigDesktop" preset="one" hint-size="1440px,920px"></dc-import></section>
+
+<section data-name="HowPriceWorks" style="flex-shrink: 0; box-sizing: border-box; padding: 72px 80px; background: #0A0B0D; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div style="padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 800; color: #9BA3AE">01</span><span style="font-size: 18px; font-weight: 700">Цена «от» по кузову</span><span style="font-size: 15px; line-height: 1.55; color: #9BA3AE">Считаем по типу кузова и выбранным зонам. Для крупных машин цена выше — это уже учтено.</span></div>
+<div style="padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 800; color: #9BA3AE">02</span><span style="font-size: 18px; font-weight: 700">Точная — после осмотра</span><span style="font-size: 15px; line-height: 1.55; color: #9BA3AE">Мастер посмотрит машину и назовёт итог до начала работ. Без сюрпризов в конце.</span></div>
+<div style="padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 800; color: #9BA3AE">03</span><span style="font-size: 18px; font-weight: 700">Расчёт по ссылке</span><span style="font-size: 15px; line-height: 1.55; color: #9BA3AE">Скопируйте ссылку — по ней откроется тот же набор зон. Удобно показать мастеру или сохранить.</span></div>
+</section>
+
+<section data-name="CallStrip" style="flex-shrink: 0; box-sizing: border-box; padding: 0 80px 80px; background: #0A0B0D">
+<div style="position: relative; padding: 40px; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; align-items: center; overflow: hidden">
+<span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B; box-shadow: 0 0 12px rgba(226,96,155,0.8)"></span><span style="flex-grow: 1; background: #CDE23C; box-shadow: 0 0 12px rgba(205,226,60,0.7)"></span></span>
+<span style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: Unbounded, sans-serif; font-size: 26px; font-weight: 700; line-height: 1.15">Не нашли нужное в списке?</span><span style="font-size: 15px; color: #9BA3AE">Позвоните — посчитаем то, чего нет в калькуляторе</span></span>
+<a href="tel:+79855433421" data-name="CallButton" style="height: 80px; padding: 0 22px; border-radius: 18px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 16px"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #0D0E10; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 543-34-21</span><span style="font-size: 14px; color: #3D4148">Айк</span></span></a>
+<a href="tel:+79858276510" data-name="CallButton" style="height: 80px; padding: 0 22px; box-sizing: border-box; border-radius: 18px; border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; gap: 16px"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 827-65-10</span><span style="font-size: 14px; color: #C9CED6">Ксения</span></span></a>
+</div>
+</section>
+
+<footer style="flex-shrink: 0; box-sizing: border-box; padding: 48px 80px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; font-size: 14px; color: #9BA3AE"><span>[ИП / ООО, ИНН, ОГРН]</span><a href="Policy.dc.html" style="color: #C9CED6">Политика конфиденциальности</a><span>Алтуфьевское ш., 31с1</span></footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1740}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

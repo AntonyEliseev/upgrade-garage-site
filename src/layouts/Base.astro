@@ -1,0 +1,91 @@
+---
+import '../styles/fonts.css';
+import { stripBase, url } from '../lib/url';
+import unboundedCyr from '../../node_modules/@fontsource-variable/unbounded/files/unbounded-cyrillic-wght-normal.woff2?url';
+import manropeCyr from '../../node_modules/@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url';
+import '../styles/global.css';
+import '../styles/layout.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileActionBar from '../components/MobileActionBar.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Toast from '../components/Toast.astro';
+import Metrika from '../components/Metrika.astro';
+import { SITE_NAME } from '../config';
+import { localBusiness } from '../lib/schema';
+import { photoUrl } from '../lib/images';
+import type { Dir } from '../lib/data';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Фото для Open Graph, путь как в данных: /img/… */
+  ogImage?: string;
+  current?: 'services' | 'calculator' | 'works' | 'contacts';
+  dir?: Dir;
+  /** slug услуги — уходит в параметры целей Метрики */
+  service?: string;
+  jsonLd?: object[];
+  noindex?: boolean;
+  footerCopyright?: boolean;
+  policyCurrent?: boolean;
+  /** На /calculator мобильную панель заменяет итог калькулятора */
+  hideActionBar?: boolean;
+  bodyClass?: string;
+}
+
+const {
+  title, description, ogImage = '/img/maybach-gls-hero.jpg', current, dir, service,
+  jsonLd = [], noindex, footerCopyright, policyCurrent, hideActionBar, bodyClass,
+} = Astro.props;
+
+const cleanPath = Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/(.)\/$/, '$1') || '/';
+// Главная — со слешем на конце: https://site/ или https://user.github.io/repo/
+const canonical = new URL(stripBase(cleanPath) === '/' ? url('/') : cleanPath, Astro.site);
+const og = new URL(await photoUrl(ogImage, 1200, 'jpg', 630), Astro.site);
+const ld = [localBusiness(Astro.site!), ...jsonLd];
+// Временный адрес на GitHub Pages не индексируем, чтобы потом не было дублей с боевым доменом
+const staging = Astro.site!.hostname.endsWith('github.io');
+---
+<!doctype html>
+<html lang="ru" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex || staging ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#0D0E10" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preload" href={unboundedCyr} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={manropeCyr} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    <slot name="head" />
+    <Metrika />
+  </head>
+  <body class:list={[hideActionBar && 'no-action-bar', bodyClass]} data-service={service}>
+    <a href="#main" class="skip-link">К содержимому</a>
+    <Header current={current} dir={dir} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer copyright={footerCopyright} policyCurrent={policyCurrent} />
+    {!hideActionBar && <MobileActionBar dir={dir} />}
+    <CookieBanner />
+    <Toast />
+  </body>
+</html>

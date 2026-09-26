@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Конфигуратор — десктоп</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div data-name="Configurator" style="position: relative; width: 1440px; height: 920px; box-sizing: border-box; padding: 64px 80px; background: #0D0E10; color: #F2F4F7; font-family: Manrope, system-ui, sans-serif; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE"><span style="width: 28px; height: 2px; background: #F2F4F7; box-shadow: 0 0 8px rgba(242,244,247,0.8)"></span>Конфигуратор</span>
+<h2 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em">Соберите свою машину</h2>
+</div>
+<p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.5; color: #9BA3AE">Фото — пример модели. Цена считается по типу кузова, который вы выберете справа.</p>
+</div>
+
+<div style="display: flex; gap: 24px; height: 680px">
+
+<div data-name="ConfiguratorVisual" style="position: relative; width: 760px; height: 680px; flex-shrink: 0; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); overflow: hidden">
+<div data-name="ModelPhoto" style="position: absolute; left: 0; top: 88px; width: 760px; height: 500px; opacity: {{photoOpacity}}; overflow: hidden"><img src="{{photoSrc}}" alt="{{photoAlt}}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.78)"></div>
+<span style="position: absolute; left: 24px; top: 560px; font-size: 12px; font-weight: 600; color: #9BA3AE">{{photoCaption}}</span>
+
+<sc-if value="{{ambientOn}}" hint-placeholder-val="{{ false }}">
+<svg width="760" height="680" viewBox="0 0 760 680" style="position: absolute; inset: 0; pointer-events: none"><path d="M300 250 C 380 225, 470 225, 560 250" fill="none" stroke="#CDE23C" stroke-width="3" style="filter: drop-shadow(0 0 8px #CDE23C)"></path><path d="M330 330 L 430 322" fill="none" stroke="#CDE23C" stroke-width="2.5" style="filter: drop-shadow(0 0 6px #CDE23C)"></path><path d="M470 322 L 570 330" fill="none" stroke="#CDE23C" stroke-width="2.5" style="filter: drop-shadow(0 0 6px #CDE23C)"></path></svg>
+</sc-if>
+
+<sc-if value="{{lead.show}}" hint-placeholder-val="{{ false }}">
+<svg width="760" height="680" viewBox="0 0 760 680" style="position: absolute; inset: 0; pointer-events: none"><path d="{{lead.d}}" fill="none" stroke="{{lead.color}}" stroke-width="1.2"></path></svg>
+</sc-if>
+
+<sc-for list="{{zones}}" as="z" hint-placeholder-count="6">
+<sc-if value="{{z.fill}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: {{z.fl}}px; top: {{z.ft}}px; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle, {{z.soft}} 0%, rgba(0,0,0,0) 70%); pointer-events: none"></span></sc-if>
+<button data-name="HotspotDot" aria-label="{{z.aria}}" aria-pressed="{{z.on}}" onClick="{{z.toggle}}" style="position: absolute; left: {{z.l}}px; top: {{z.t}}px; width: 28px; height: 28px; box-sizing: border-box; padding: 0; border-radius: 50%; cursor: pointer; background: {{z.bg}}; border: {{z.border}}; box-shadow: {{z.shadow}}"></button>
+<sc-if value="{{z.showLabel}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: {{z.labL}}px; top: {{z.labT}}px; padding: 3px 8px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 13px; font-weight: 700; color: {{z.labColor}}; white-space: nowrap; pointer-events: none">{{z.name}}</span></sc-if>
+</sc-for>
+
+<sc-if value="{{card.show}}" hint-placeholder-val="{{ false }}">
+<div data-name="HotspotCard" style="position: absolute; left: {{card.x}}px; top: {{card.y}}px; width: 240px; box-sizing: border-box; padding: 16px; border-radius: 16px; background: #1E2126; border: 1px solid {{card.border}}; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 16px 40px rgba(0,0,0,0.4)">
+<span style="font-size: 16px; font-weight: 700">{{card.name}}</span>
+<span style="font-size: 13px; line-height: 1.45; color: #C9CED6">{{card.desc}}</span>
+<span style="font-size: 12px; color: #9BA3AE">Материал: {{card.mat}}</span>
+<sc-if value="{{card.isClosers}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 6px; margin-top: 4px">
+<button onClick="{{closers2}}" style="flex-grow: 1; height: 36px; border-radius: 10px; border: 1px solid {{c2Border}}; background: {{c2Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">2 двери</button>
+<button onClick="{{closers4}}" style="flex-grow: 1; height: 36px; border-radius: 10px; border: 1px solid {{c4Border}}; background: {{c4Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">4 двери</button>
+</div>
+</sc-if>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px">
+<span style="font-size: 15px; font-weight: 700; color: {{card.priceColor}}">{{card.price}}</span>
+<button onClick="{{card.toggle}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid {{card.btnBorder}}; background: {{card.btnBg}}; color: {{card.btnFg}}; font: 700 13px Manrope, sans-serif; cursor: pointer">{{card.btn}}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+<div data-name="EmptyHint" style="position: absolute; left: 180px; top: 300px; width: 400px; box-sizing: border-box; padding: 20px 24px; border-radius: 18px; background: rgba(13,14,16,0.88); border: 1px dashed rgba(255,255,255,0.24); display: flex; gap: 14px; align-items: center; pointer-events: none">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F4F7" stroke-width="1.6" stroke-linecap="round" style="flex-shrink: 0"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle></svg>
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 16px; font-weight: 700">{{hintTitle}}</span><span style="font-size: 14px; color: #C9CED6">Нажмите на точку — зона попадёт в расчёт</span></span>
+</div>
+</sc-if>
+
+<div role="tablist" data-name="Tabs/Direction" style="position: absolute; left: 24px; top: 24px; display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: #0D0E10">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button role="tab" aria-selected="{{t.active}}" onClick="{{t.pick}}" style="height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: {{t.bg}}; color: {{t.fg}}; font: 700 14px Manrope, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px">{{t.name}}<sc-if value="{{t.hasCount}}" hint-placeholder-val="{{ false }}"><span style="min-width: 20px; height: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 10px; background: {{t.countBg}}; color: {{t.countFg}}; font-size: 12px; display: flex; align-items: center; justify-content: center">{{t.count}}</span></sc-if></button>
+</sc-for>
+</div>
+
+<div style="position: absolute; left: 24px; right: 24px; bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
+<div role="tablist" data-name="Tabs/Package" style="display: flex; gap: 8px">
+<sc-for list="{{pkgs}}" as="p" hint-placeholder-count="3">
+<button role="tab" aria-selected="{{p.active}}" onClick="{{p.pick}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{p.border}}; background: {{p.bg}}; color: #F2F4F7; font: 700 14px Manrope, sans-serif; cursor: pointer">{{p.name}}</button>
+</sc-for>
+<sc-if value="{{noPkgs}}" hint-placeholder-val="{{ false }}"><span style="height: 44px; display: flex; align-items: center; font-size: 14px; color: #9BA3AE">{{noPkgText}}</span></sc-if>
+</div>
+<sc-if value="{{showFinish}}" hint-placeholder-val="{{ false }}">
+<div data-name="FinishToggle" style="display: flex; padding: 4px; border-radius: 12px; background: #0D0E10">
+<button onClick="{{setGloss}}" aria-pressed="{{isGloss}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: {{glossBg}}; color: {{glossFg}}; font: 700 13px Manrope, sans-serif; cursor: pointer">Глянец</button>
+<button onClick="{{setMatte}}" aria-pressed="{{isMatte}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: {{matteBg}}; color: {{matteFg}}; font: 700 13px Manrope, sans-serif; cursor: pointer">Мат</button>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div data-name="ConfiguratorPanel" style="width: 496px; height: 680px; box-sizing: border-box; padding: 24px; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: {{bodyLabelColor}}">1 · Тип кузова</span>
+<div data-name="BodyTypePicker" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{bodies}}" as="b" hint-placeholder-count="8">
+<button aria-pressed="{{b.on}}" onClick="{{b.pick}}" style="position: relative; height: 60px; border-radius: 12px; border: 1px solid {{b.border}}; background: {{b.bg}}; color: {{b.fg}}; font: 700 12px Manrope, sans-serif; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px"><sc-if value="{{b.on}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; right: 8px; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: #F2F4F7"></span></sc-if><svg width="38" height="20" viewBox="0 0 38 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="{{b.d}}"></path><circle cx="10" cy="15" r="2.5"></circle><circle cx="28" cy="15" r="2.5"></circle></svg>{{b.name}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; flex-grow: 1; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE">2 · Выбрано · {{count}}</span><sc-if value="{{hasItems}}" hint-placeholder-val="{{ false }}"><button onClick="{{reset}}" style="height: 32px; padding: 0 8px; border: 0; background: transparent; color: #9BA3AE; font: 600 13px Manrope, sans-serif; cursor: pointer">Сбросить</button></sc-if></div>
+<div data-name="SummaryList" style="flex-grow: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column">
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+<div style="flex-grow: 1; min-height: 120px; border-radius: 14px; border: 1px dashed rgba(255,255,255,0.16); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 16px"><span style="font-size: 15px; font-weight: 700">Пока пусто</span><span style="font-size: 14px; color: #9BA3AE">Выберите кузов и отметьте зоны</span></div>
+</sc-if>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="1">
+<div style="display: flex; align-items: center; gap: 8px; padding: 10px 0 4px; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: {{g.text}}"><span style="width: 8px; height: 8px; background: {{g.color}}"></span>{{g.name}} · {{g.n}}</div>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="2">
+<div data-name="SummaryRow" style="min-height: 48px; display: grid; grid-template-columns: 1fr auto 32px; gap: 12px; align-items: center; border-top: 1px solid rgba(255,255,255,0.08)"><span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">{{r.name}}</span><span style="font-size: 12px; color: #9BA3AE">{{r.sub}}</span></span><span style="font-size: 14px; font-weight: 700; white-space: nowrap">{{r.price}}</span><button aria-label="Убрать {{r.name}}" onClick="{{r.remove}}" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #9BA3AE; font-size: 18px; cursor: pointer">×</button></div>
+</sc-for>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.12)">
+<div style="display: flex; align-items: baseline; justify-content: space-between"><span style="font-family: Unbounded, sans-serif; font-size: 32px; font-weight: 700; color: {{totalColor}}">{{total}}</span><span style="font-size: 15px; color: #C9CED6">{{days}}</span></div>
+<span style="font-size: 13px; color: #9BA3AE">{{carLine}} · ориентировочно, точная цена — после осмотра</span>
+</div>
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px">
+<button disabled="{{isEmpty}}" onClick="{{openForm}}" style="height: 52px; border: 0; border-radius: 14px; background: {{ctaBg}}; color: {{ctaFg}}; font: 700 15px Manrope, sans-serif; cursor: pointer">Связаться с мастером</button>
+<button disabled="{{isEmpty}}" onClick="{{copy}}" style="height: 52px; border-radius: 14px; border: 1px solid {{tgBorder}}; background: transparent; color: {{tgFg}}; font: 600 15px Manrope, sans-serif; cursor: pointer">{{copyLabel}}</button>
+</div>
+</div>
+</div>
+
+<sc-if value="{{showForm}}" hint-placeholder-val="{{ false }}">
+<div data-name="Modal/Overlay" style="position: absolute; inset: 0; background: rgba(5,6,8,0.72); display: flex; align-items: center; justify-content: center">
+<div role="dialog" aria-label="Связаться с мастером" data-name="Modal/Contact" style="position: relative; width: 520px; box-sizing: border-box; padding: 32px; border-radius: 24px; background: #1E2126; border: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 14px; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.55)">
+<span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B; box-shadow: 0 0 12px rgba(226,96,155,0.8)"></span><span style="flex-grow: 1; background: #CDE23C; box-shadow: 0 0 12px rgba(205,226,60,0.7)"></span></span>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px"><span style="display: flex; flex-direction: column; gap: 6px"><span style="font-family: Unbounded, sans-serif; font-size: 24px; font-weight: 700">Связаться с мастером</span><span style="font-size: 14px; color: #C9CED6">Мастер уточнит цену и срок после осмотра</span></span><button type="button" aria-label="Закрыть" onClick="{{closeModal}}" style="width: 44px; height: 44px; flex-shrink: 0; border: 0; border-radius: 12px; background: rgba(255,255,255,0.06); color: #F2F4F7; font-size: 20px; cursor: pointer">×</button></div>
+<div data-name="CalcSummary" style="padding: 16px; border-radius: 14px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; font-weight: 700; color: #9BA3AE">Ваш расчёт · {{carLine}} · {{count}} поз. · {{total}}</span><span style="font-size: 14px; line-height: 1.5">{{itemsText}}</span></div>
+<a href="tel:+79855433421" data-name="CallButton" style="height: 80px; padding: 0 22px; border-radius: 18px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #0D0E10; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 543-34-21</span><span style="font-size: 14px; color: #3D4148">Айк</span></span></a>
+<a href="tel:+79858276510" data-name="CallButton" style="height: 80px; padding: 0 22px; box-sizing: border-box; border-radius: 18px; border: 1px solid rgba(255,255,255,0.22); color: #F2F4F7; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 20px; font-weight: 800">+7 985 827-65-10</span><span style="font-size: 14px; color: #C9CED6">Ксения</span></span></a>
+<button type="button" onClick="{{copy}}" style="height: 52px; border-radius: 14px; border: 1px solid {{copyBorder}}; background: transparent; color: #F2F4F7; font: 700 15px Manrope, sans-serif; cursor: pointer">{{copyLabel}}</button>
+<span style="font-size: 12px; color: #9BA3AE">Вт–Сб 11:00–20:00 — в это время отвечаем сразу</span>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"preset":{"editor":"enum","options":["empty","one","many","equip","salon","form"],"default":"empty"},"$preview":{"width":1440,"height":920}}'>
+class Component extends DCLogic {
+  cfg() {
+    return {
+      dirs: {
+        kosmos: { c: '#E2609B', ink: '#1A0A12', text: '#EC86B4', soft: 'rgba(226,96,155,0.35)', ring: 'rgba(226,96,155,0.22)', line: 'rgba(226,96,155,0.55)', name: 'Космос Wrap' },
+        garage: { c: '#CDE23C', ink: '#151A04', text: '#CDE23C', soft: 'rgba(205,226,60,0.3)', ring: 'rgba(205,226,60,0.2)', line: 'rgba(205,226,60,0.5)', name: 'Апгрейд Garage' }
+      },
+      tabs: [
+        { id: 'noise', name: 'Шумоизоляция', dir: 'garage' },
+        { id: 'film', name: 'Защитная плёнка', dir: 'kosmos' },
+        { id: 'salon', name: 'Салон', dir: 'kosmos' },
+        { id: 'equip', name: 'Оснащение', dir: 'garage' }
+      ],
+      bodies: [
+        { id: 'sedan', name: 'Седан', d: 'M2 15h34M4 15v-3l6-1 5-5h9l5 5 5 1v3' },
+        { id: 'hatch', name: 'Хэтчбек', d: 'M2 15h34M4 15v-3l6-1 5-5h11l4 5v4' },
+        { id: 'wagon', name: 'Универсал', d: 'M2 15h34M4 15v-3l6-1 5-5h16l2 6v3' },
+        { id: 'lift', name: 'Лифтбек', d: 'M2 15h34M4 15v-3l6-1 5-5h9l8 5 3 1v3' },
+        { id: 'crossover', name: 'Кроссовер', d: 'M2 15h34M3 15V9l6-1 4-4h14l4 4 3 1v6' },
+        { id: 'suv', name: 'Внедорожник', d: 'M2 15h34M3 15V5h25l4 4 3 1v5' },
+        { id: 'minivan', name: 'Минивэн', d: 'M2 15h34M3 15V9l5-5h24l3 5v6' },
+        { id: 'pickup', name: 'Пикап', d: 'M2 15h34M3 15V9l5-1 3-4h9v5h15v6' }
+      ],
+      zones: [
+        { id: 'n_hood', tab: 'noise', name: 'Капот', desc: 'Меньше шума мотора в салоне', x: 0.54, y: 0.24 },
+        { id: 'n_wall', tab: 'noise', name: 'Моторный щит', desc: 'Главный барьер для гула двигателя', x: 0.44, y: 0.24 },
+        { id: 'n_doors', tab: 'noise', name: 'Двери ×4', desc: 'Вибро + шумопоглотитель, меньше гула и дребезга', x: 0.15, y: 0.31 },
+        { id: 'n_floor', tab: 'noise', name: 'Пол', desc: 'Гул шин и дороги на трассе', x: 0.22, y: 0.52 },
+        { id: 'n_roof', tab: 'noise', name: 'Крыша', desc: 'Шум дождя и вибрация крыши', x: 0.32, y: 0.06 },
+        { id: 'n_arches', tab: 'noise', name: 'Арки', desc: 'Камни и шорох шин', x: 0.36, y: 0.47 },
+        { id: 'n_trunk', tab: 'noise', name: 'Багажник', desc: 'Гул из задней части на скорости', x: 0.11, y: 0.20 },
+        { id: 'f_head', tab: 'film', name: 'Фары', desc: 'Защита от сколов и помутнения', x: 0.62, y: 0.43 },
+        { id: 'f_hood', tab: 'film', name: 'Капот', desc: 'Главная зона сколов', x: 0.58, y: 0.27 },
+        { id: 'f_bumper', tab: 'film', name: 'Передний бампер', desc: 'Камни и мелкие касания на парковке', x: 0.72, y: 0.68 },
+        { id: 'f_fenders', tab: 'film', name: 'Передние крылья', desc: 'Сколы от колёс', x: 0.38, y: 0.41 },
+        { id: 'f_mirrors', tab: 'film', name: 'Зеркала', desc: 'Царапины в узких местах', x: 0.22, y: 0.18 },
+        { id: 'f_glass', tab: 'film', name: 'Антидождь на стёкла', desc: 'Капли скатываются сами, в дождь лучше видно', x: 0.40, y: 0.09 },
+        { id: 'f_pillars', tab: 'film', name: 'Стойки лобового', desc: 'Сколы и пескоструй по краю стекла', x: 0.28, y: 0.07 },
+        { id: 'f_roof', tab: 'film', name: 'Полоса на крыше', desc: 'Передний край крыши над лобовым', x: 0.45, y: 0.06 },
+        { id: 'f_handles', tab: 'film', name: 'Зоны под ручками', desc: 'Царапины от ногтей и ключей', x: 0.17, y: 0.26 },
+        { id: 'f_load', tab: 'film', name: 'Погрузочная зона багажника', desc: 'Бампер под крышкой багажника', x: 0.11, y: 0.41 },
+        { id: 'f_sills', tab: 'film', name: 'Пороги', desc: 'Потёртости от обуви и грязь', x: 0.19, y: 0.59 },
+        { id: 'f_body', tab: 'film', name: 'Остальной кузов', desc: 'Двери, крыша, задние крылья', x: 0.20, y: 0.41 },
+        { id: 's_screen', tab: 'salon', name: 'Главный экран', desc: 'Матовая статика — без бликов и отпечатков', x: 0.33, y: 0.14 },
+        { id: 's_dash', tab: 'salon', name: 'Приборная панель', desc: 'Статика на экран приборов', x: 0.13, y: 0.18 },
+        { id: 's_gloss', tab: 'salon', name: 'Глянцевые вставки', desc: 'Полиуретан по лекалам', x: 0.68, y: 0.16 },
+        { id: 's_console', tab: 'salon', name: 'Центральная консоль', desc: 'Самая царапаемая зона салона', x: 0.65, y: 0.84 },
+        { id: 's_carbon', tab: 'salon', name: 'Карбон', desc: 'Полиуретан на карбоновые элементы', x: 0.80, y: 0.41 },
+        { id: 'e_closers', tab: 'equip', name: 'Доводчики дверей', desc: 'Дверь закрывается сама, без хлопка', x: 0.18, y: 0.36 },
+        { id: 'e_tail', tab: 'equip', name: 'Привод багажника', desc: 'Открывается кнопкой или с брелока', x: 0.11, y: 0.27 },
+        { id: 'e_hu', tab: 'equip', name: 'Магнитола (ГУ)', desc: 'Замена головного устройства', x: 0.33, y: 0.18 },
+        { id: 'e_lights', tab: 'equip', name: 'Автосвет', desc: 'Линзы, LED', x: 0.60, y: 0.47 },
+        { id: 'e_ambient', tab: 'equip', name: 'Ambient-подсветка', desc: 'Контурные линии по салону, 18+ точек', x: 0.30, y: 0.12 },
+        { id: 'e_audio', tab: 'equip', name: 'Автозвук', desc: 'Акустика, усилитель, сабвуфер, настройка DSP', x: 0.25, y: 0.44 }
+      ],
+      noisePkgs: [{ id: 'prac', name: 'Практичный' }, { id: 'opt', name: 'Отличный' }, { id: 'max', name: 'Максимальный' }],
+      filmPkgs: [
+        { id: 'front', name: 'Фронт · от 110 000 ₽', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars'] },
+        { id: 'plus', name: 'Фронт+ · от 135 000 ₽', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load'] },
+        { id: 'full', name: 'Полный кузов', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load', 'f_sills', 'f_body'] }
+      ]
+    };
+  }
+
+  preset() {
+    const ext = { f_head: true, f_hood: true, f_bumper: true, f_fenders: true, f_roof: true, f_pillars: true, f_mirrors: true, f_handles: true, f_load: true, f_glass: true, n_doors: true, n_floor: true };
+    const many = { body: 'crossover', tab: 'film', filmPkg: 'plus', sel: ext, active: 'f_glass' };
+    const P = {
+      empty: {},
+      one: { body: 'crossover', sel: { n_doors: true }, active: 'n_doors' },
+      many: many,
+      equip: { body: 'suv', tab: 'equip', sel: { e_closers: true, e_tail: true, e_ambient: true }, active: 'e_ambient' },
+      salon: { body: 'sedan', tab: 'salon', sel: { s_screen: true, s_gloss: true, s_carbon: true }, active: 's_screen' },
+      form: Object.assign({}, many, { modal: 'form' })
+    };
+    const base = { body: null, tab: 'noise', sel: {}, active: null, noisePkg: 'opt', filmPkg: null, finish: 'gloss', closers: 4, modal: 'none', copied: false };
+    return Object.assign(base, P[this.props.preset || 'empty'] || {});
+  }
+
+  renderVals() {
+    const C = this.cfg();
+    const s = Object.assign(this.preset(), this.state || {});
+    const set = (p) => this.setState(p);
+    const tabById = {};
+    C.tabs.forEach((t) => { tabById[t.id] = t; });
+    const dirOf = (tabId) => C.dirs[tabById[tabId].dir];
+    const cur = dirOf(s.tab);
+    const W = 760, TOP = 88, H = 500;
+
+    const toggle = (id) => {
+      const sel = Object.assign({}, s.sel);
+      if (sel[id]) delete sel[id]; else sel[id] = true;
+      const patch = { sel: sel, active: id };
+      if (id.indexOf('f_') === 0) patch.filmPkg = null;
+      set(patch);
+    };
+
+    const selected = C.zones.filter((z) => s.sel[z.id]);
+    const count = selected.length;
+    const isEmpty = count === 0;
+
+    const PR = { n_hood: 6000, n_wall: 12000, n_doors: 20000, n_floor: 25000, n_roof: 12000, n_arches: 18000, n_trunk: 10000,
+      f_head: 8000, f_hood: 35000, f_bumper: 30000, f_fenders: 18000, f_mirrors: 5000, f_glass: 8000, f_pillars: 8000, f_roof: 6000, f_handles: 4000, f_load: 5000, f_sills: 8000, f_body: 80000,
+      s_screen: 3000, s_dash: 3000, s_gloss: 6000, s_console: 6000, s_carbon: 8000,
+      e_closers: 70000, e_tail: 40000, e_hu: 30000, e_lights: 35000, e_ambient: 35000, e_audio: 20000 };
+    const DY = { n_floor: 2, n_roof: 2, f_body: 4, f_hood: 1, e_audio: 1 };
+    const KB = { sedan: 1, hatch: 0.95, wagon: 1.05, lift: 1, crossover: 1.15, suv: 1.3, minivan: 1.35, pickup: 1.25 };
+    const PK = { front: { p: 110000, z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars'] }, plus: { p: 135000, z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load'] } };
+    const fmt = (n) => 'от ' + String(Math.round(n / 500) * 500).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+    const zPrice = (id) => {
+      let p = PR[id] || 0;
+      if (id === 'e_closers' && s.closers === 2) p = 38000;
+      if (id.indexOf('n_') === 0 || id.indexOf('f_') === 0) p = p * (KB[s.body] || 1);
+      return p;
+    };
+    const pk = PK[s.filmPkg] && PK[s.filmPkg].z.every((k) => s.sel[k]) ? PK[s.filmPkg] : null;
+    let sum = 0, maxD = 0;
+    selected.forEach((z) => { if (!(pk && pk.z.indexOf(z.id) >= 0)) sum += zPrice(z.id); maxD = Math.max(maxD, DY[z.id] || 1); });
+    if (pk) sum += pk.p;
+    const dWord = maxD === 1 ? 'день' : (maxD < 5 ? 'дня' : 'дней');
+
+    const tabs = C.tabs.map((t) => {
+      const d = C.dirs[t.dir];
+      const active = t.id === s.tab;
+      const n = selected.filter((z) => z.tab === t.id).length;
+      return {
+        name: t.name, active: active, count: n, hasCount: n > 0,
+        bg: active ? d.c : 'transparent', fg: active ? d.ink : '#C9CED6',
+        countBg: active ? d.ink : d.c, countFg: active ? d.c : d.ink,
+        pick: () => set({ tab: t.id, active: null })
+      };
+    });
+
+    const zones = C.zones.filter((z) => z.tab === s.tab).map((z) => {
+      const on = !!s.sel[z.id];
+      const isActive = z.id === s.active;
+      const cx = Math.round(z.x * W), cy = Math.round(TOP + z.y * H);
+      return {
+        name: z.name, on: on, aria: z.name + (on ? ' — выбрано' : ''),
+        l: cx - 14, t: cy - 14, fl: cx - 48, ft: cy - 48,
+        fill: on && (s.tab === 'film' || s.tab === 'salon'), soft: cur.soft,
+        bg: on ? cur.c : 'rgba(13,14,16,0.65)',
+        border: on ? '0' : '2px solid #F2F4F7',
+        shadow: on ? ('0 0 0 7px ' + cur.ring + ', 0 0 22px ' + cur.ring) : (isActive ? '0 0 0 6px rgba(242,244,247,0.18)' : 'none'),
+        showLabel: s.tab === 'equip', labL: cx + 20, labT: cy - 12, labColor: on ? cur.c : '#F2F4F7',
+        toggle: () => toggle(z.id)
+      };
+    });
+
+    const az = C.zones.find((z) => z.id === s.active && z.tab === s.tab);
+    let card = { show: false }, lead = { show: false };
+    if (az) {
+      const on = !!s.sel[az.id];
+      const cx = Math.round(az.x * W), cy = Math.round(TOP + az.y * H);
+      const right = cx < 470;
+      const x = right ? cx + 70 : cx - 70 - 240;
+      const y = Math.max(84, Math.min(cy - 90, 400));
+      const ex = right ? x : x + 240, ey = y + 26;
+      const mx = right ? cx + 34 : cx - 34;
+      card = {
+        mat: ({ noise: 'Шумофф', film: az.id === 'f_glass' ? 'гидрофобный состав' : 'Hexis Bodyfence X', salon: (az.id === 's_screen' || az.id === 's_dash') ? 'матовая статика' : 'полиуретан по лекалам', equip: 'комплект под модель' })[az.tab],
+        show: true, x: x, y: y, name: az.name, desc: az.desc, isClosers: az.id === 'e_closers',
+        border: on ? cur.line : 'rgba(255,255,255,0.14)', priceColor: on ? cur.text : '#F2F4F7', price: fmt(zPrice(az.id)),
+        btn: on ? 'Убрать' : 'Добавить', btnBorder: on ? 'rgba(255,255,255,0.2)' : cur.c,
+        btnBg: on ? 'transparent' : cur.c, btnFg: on ? '#F2F4F7' : cur.ink,
+        toggle: () => toggle(az.id)
+      };
+      lead = { show: true, color: on ? cur.c : 'rgba(242,244,247,0.5)', d: 'M' + cx + ' ' + cy + ' L' + mx + ' ' + ey + ' L' + ex + ' ' + ey };
+    }
+
+    let pkgs = [], noPkgText = '';
+    if (s.tab === 'noise') {
+      pkgs = C.noisePkgs.map((p) => ({ name: p.name, active: p.id === s.noisePkg, pick: () => set({ noisePkg: p.id }) }));
+    } else if (s.tab === 'film') {
+      pkgs = C.filmPkgs.map((p) => ({
+        name: p.name, active: p.id === s.filmPkg,
+        pick: () => {
+          const sel = {};
+          Object.keys(s.sel).forEach((k) => { if (k.indexOf('f_') !== 0) sel[k] = true; });
+          p.z.forEach((k) => { sel[k] = true; });
+          set({ sel: sel, filmPkg: p.id, active: null });
+        }
+      }));
+    } else if (s.tab === 'salon') {
+      noPkgText = 'Отметьте элементы салона на фото';
+    } else {
+      noPkgText = 'Режим «рентген»: узлы оснащения подписаны';
+    }
+    pkgs = pkgs.map((p) => Object.assign(p, { border: p.active ? cur.c : 'rgba(255,255,255,0.14)', bg: p.active ? (s.tab === 'film' ? 'rgba(226,96,155,0.16)' : 'rgba(205,226,60,0.12)') : 'transparent' }));
+
+    const noiseName = (C.noisePkgs.find((p) => p.id === s.noisePkg) || {}).name || '';
+    const subOf = (z) => {
+      if (z.tab === 'noise') return noiseName;
+      if (z.tab === 'film') return z.id === 'f_glass' ? 'Стёкла' : (s.finish === 'matte' ? 'Матовая плёнка' : 'Глянцевая плёнка');
+      if (z.id === 'e_closers') return s.closers + ' двери';
+      if (z.tab === 'salon') return 'По лекалам';
+      return 'Установка';
+    };
+    const groups = ['kosmos', 'garage'].map((dk) => {
+      const d = C.dirs[dk];
+      const rows = selected.filter((z) => tabById[z.tab].dir === dk).map((z) => ({ name: z.name, sub: subOf(z), price: pk && pk.z.indexOf(z.id) >= 0 ? 'в пакете' : fmt(zPrice(z.id)), remove: () => toggle(z.id) }));
+      return { name: d.name, color: d.c, text: d.text, n: rows.length, rows: rows };
+    }).filter((g) => g.rows.length > 0);
+
+    const bodyObj = C.bodies.find((b) => b.id === s.body);
+    const bodies = C.bodies.map((b) => {
+      const on = b.id === s.body;
+      return { name: b.name, d: b.d, on: on, border: on ? '#F2F4F7' : 'rgba(255,255,255,0.12)', bg: on ? 'rgba(242,244,247,0.07)' : 'transparent', fg: on ? '#F2F4F7' : '#C9CED6', pick: () => set({ body: b.id }) };
+    });
+
+    const photoCaption = s.tab === 'equip' ? 'Режим «рентген»: узлы оснащения на полупрозрачном кузове' : '';
+
+    return {
+      tabs: tabs, zones: zones, card: card, lead: lead, pkgs: pkgs, groups: groups, bodies: bodies,
+      noPkgs: pkgs.length === 0, noPkgText: noPkgText,
+      photoOpacity: s.tab === 'equip' ? 0.4 : 1, photoSrc: s.tab === 'salon' ? '/img/configurator-salon.jpg' : '/img/configurator-body.jpg', photoAlt: s.tab === 'salon' ? 'Салон: экран, консоль и глянцевые вставки' : 'Кроссовер в три четверти спереди', photoCaption: photoCaption,
+      ambientOn: s.tab === 'equip' && !!s.sel.e_ambient,
+      isEmpty: isEmpty, hasItems: !isEmpty, count: count,
+      hintTitle: s.body ? 'Отметьте зоны на машине' : 'Выберите кузов справа и отметьте зоны',
+      bodyLabelColor: s.body ? '#9BA3AE' : '#F2F4F7',
+      showFinish: s.tab === 'film', isGloss: s.finish === 'gloss', isMatte: s.finish === 'matte',
+      glossBg: s.finish === 'gloss' ? '#F2F4F7' : 'transparent', glossFg: s.finish === 'gloss' ? '#0D0E10' : '#C9CED6',
+      matteBg: s.finish === 'matte' ? '#F2F4F7' : 'transparent', matteFg: s.finish === 'matte' ? '#0D0E10' : '#C9CED6',
+      setGloss: () => set({ finish: 'gloss' }), setMatte: () => set({ finish: 'matte' }),
+      c2Bg: s.closers === 2 ? 'rgba(205,226,60,0.14)' : 'transparent', c2Border: s.closers === 2 ? '#CDE23C' : 'rgba(255,255,255,0.16)',
+      c4Bg: s.closers === 4 ? 'rgba(205,226,60,0.14)' : 'transparent', c4Border: s.closers === 4 ? '#CDE23C' : 'rgba(255,255,255,0.16)',
+      closers2: () => set({ closers: 2 }), closers4: () => set({ closers: 4 }),
+      total: isEmpty ? '—' : fmt(sum), totalColor: isEmpty ? '#80878F' : '#F2F4F7',
+      days: isEmpty ? '' : '≈ ' + maxD + ' ' + dWord,
+      carLine: bodyObj ? bodyObj.name : 'Кузов не выбран',
+      ctaBg: isEmpty ? '#2A2D33' : '#F2F4F7', ctaFg: isEmpty ? '#8A919B' : '#0D0E10',
+      tgBorder: isEmpty ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.2)', tgFg: isEmpty ? '#80878F' : '#F2F4F7',
+      itemsText: selected.map((z) => z.name).join(', '),
+      reset: () => set({ sel: {}, active: null, filmPkg: null }),
+      openForm: () => set({ modal: 'form', copied: false }), closeModal: () => set({ modal: 'none' }),
+      copy: () => set({ copied: true }), copyLabel: s.copied ? 'Ссылка скопирована ✓' : 'Скопировать ссылку на расчёт', copyBorder: s.copied ? '#CDE23C' : 'rgba(255,255,255,0.2)',
+      showForm: s.modal === 'form'
+    };
+  }
+}
+</script>
+</body>
+</html>

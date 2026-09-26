@@ -1,0 +1,548 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import CaseCard from '../components/CaseCard.astro';
+import CallButton from '../components/CallButton.astro';
+import Faq from '../components/Faq.astro';
+import LightStrip from '../components/LightStrip.astro';
+import DirTitle from '../components/DirTitle.astro';
+import MapBlock from '../components/MapBlock.astro';
+import ConfiguratorSection from '../components/ConfiguratorSection.astro';
+import home from '@data/home.json';
+import { DIR_SUB, contacts, portfolioFilters, telegram, tgHandle, whatsappHref, caseBySlug, type Dir } from '../lib/data';
+import { faqPage } from '../lib/schema';
+
+const f = home.works.featured;
+const chips = home.works.chips.map((id) => portfolioFilters.find((x) => x.id === id)!).filter(Boolean);
+const dirs: Dir[] = ['kosmos', 'garage'];
+const caseHref = (slug: string) => (caseBySlug(slug) ? url(`/works/${slug}`) : undefined);
+const hours = contacts.hours;
+---
+<Base
+  title={home.meta.title}
+  description={home.meta.description}
+  ogImage={home.hero.img}
+  footerCopyright
+  jsonLd={[faqPage(home.faq)]}
+>
+  <!-- ========== Hero ========== -->
+  <section class="hero" data-name="Hero">
+    <div class="hero__stage">
+      <div class="hero__photo" data-name="HeroPhoto">
+        <Photo src={home.hero.img} alt={home.hero.alt} sizes="(min-width: 1280px) 62vw, 100vw" widths={[480, 780, 1100, 1560]} eager class="hero__img" />
+        <span class="hero__shade" aria-hidden="true"></span>
+      </div>
+      <svg class="hero__ambient hero__ambient--d" viewBox="0 0 1440 560" aria-hidden="true" data-name="AmbientLine">
+        <path class="draw pink" pathLength="1" d="M600 470 C 760 470, 820 330, 1000 330" />
+        <path class="draw lime" pathLength="1" d="M1000 330 C 1160 330, 1220 250, 1440 250" />
+        <path class="thin pink" d="M880 300 L950 230 L1030 230" />
+        <path class="thin lime" d="M1150 420 L1220 350 L1290 350" />
+      </svg>
+      <svg class="hero__ambient hero__ambient--m" viewBox="0 0 390 260" preserveAspectRatio="none" aria-hidden="true">
+        <path class="draw pink" pathLength="1" d="M0 200 C 90 200, 130 140, 200 140" />
+        <path class="draw lime" pathLength="1" d="M200 140 C 270 140, 310 110, 390 110" />
+      </svg>
+      {home.hero.hotspots.map((h, i) => (
+        <>
+          <span class:list={['hero__dot', `dir-${h.dir}`, `hero__dot--${i}`]} aria-hidden="true" data-name={`HotspotDot/${h.dir}`}></span>
+          <span class:list={['hero__label', `hero__label--${i}`]} aria-hidden="true" data-name="HotspotLabel"><strong>{h.title}</strong><span>{h.sub}</span></span>
+        </>
+      ))}
+    </div>
+
+    <div class="container hero__in">
+      <div class="hero__content" data-name="HeroContent">
+        <h1 class="display hero__title">
+          <span class="mark mark--kosmos">Защита</span>, тишина и&nbsp;<span class="mark mark--garage">комфорт</span> для вашего автомобиля
+        </h1>
+        <p class="lead hero__lead">
+          <span class="hide-m">{home.hero.lead}</span><span class="show-m">{home.hero.leadShort}</span>
+        </p>
+        <div class="hero__btns">
+          <a href="#calc" class="btn btn--primary btn--l" data-name="Button/Primary">Рассчитать стоимость<Icon name="arrow" size={18} stroke={2} class="hide-m" /></a>
+          <a href={telegram('garage')} class="btn btn--secondary btn--l" target="_blank" rel="noopener" data-name="Button/Secondary"><Icon name="tgSimple" size={18} class="hide-m" />Написать в Telegram</a>
+        </div>
+      </div>
+
+      <div class="hero__split" data-name="DirectionSplit">
+        {dirs.map((d) => (
+          <a href={url(home.directions[d].href)} class:list={['dir-card', `dir-${d}`]} data-name={`DirectionCard/${d === 'kosmos' ? 'Kosmos' : 'Garage'}`}>
+            <span class="acc-line" aria-hidden="true"></span>
+            <span class="dir-card__top">
+              <DirTitle dir={d} />
+              <span class="dir-card__sub hide-d-inline">{DIR_SUB[d]}</span>
+              <span class="dir-card__arrow show-m" aria-hidden="true">→</span>
+            </span>
+            <span class="dir-card__sub hide-m-d">{DIR_SUB[d]}</span>
+            <span class="dir-card__bottom">
+              <span class="dir-card__text"><span class="show-d">{home.directions[d].text}</span><span class="hide-d">{home.directions[d].textShort}</span></span>
+              <Icon name="arrow" size={28} stroke={2} class="dir-card__arrow show-d" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TrustStrip ========== -->
+  <section class="trust" aria-label="Коротко о студии" data-name="TrustStrip">
+    <div class="container trust__in">
+      {home.trust.map((t) => (
+        <div class="trust__item">
+          <span class="trust__value">{t.value}</span>
+          <span class="trust__label">{t.labelShort ? <><span class="show-d">{t.label}</span><span class="hide-d">{t.labelShort}</span></> : t.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ========== Configurator ========== -->
+  <ConfiguratorSection />
+
+  <!-- ========== Works ========== -->
+  <section id="works" class="section section--deep works" data-name="Works">
+    <div class="container stack works__in">
+      <div class="section-head section-head--row">
+        <div class="section-head">
+          <span class="label eyebrow hide-m">Работы</span>
+          <h2 class="h2"><span class="show-d">Машины, которые уже у нас были</span><span class="hide-d">Наши работы</span></h2>
+        </div>
+        <span class="small muted hide-m">Все фото — наши работы, без стока</span>
+      </div>
+      <nav class="works__chips" aria-label="Работы по услугам" data-name="FilterChips">
+        <a href={url('/works')} class="chip" aria-current="true">Все</a>
+        {chips.map((c) => (
+          <>
+            {c.sep && <span class="chip-sep hide-m" aria-hidden="true"></span>}
+            <a href={url(`/works?s=${c.id}`)} class:list={['chip', c.d && `dir-${c.d}`]}>{c.name}</a>
+          </>
+        ))}
+      </nav>
+      <div class="works__grid" data-name="CaseGrid">
+        <a href={caseHref(f.slug)} class="case-card dir-kosmos works__featured" data-name="CaseCard/BeforeAfter">
+          <span class="case-card__media ba">
+            <span class="ba__half ba__half--l">
+              <Photo src={f.before.img} alt={f.before.alt} sizes="(min-width: 1280px) 470px, (min-width: 768px) 30vw, 165px" widths={[320, 480, 720, 960]} />
+              <span class="tag tag--photo ba__tag">{f.before.tag}</span>
+              <span class="ba__cap">{f.before.caption}</span>
+            </span>
+            <span class="ba__half ba__half--r">
+              <Photo src={f.after.img} alt={f.after.alt} sizes="(min-width: 1280px) 390px, (min-width: 768px) 25vw, 135px" widths={[320, 480, 720, 960]} />
+              <span class="tag tag--photo ba__tag ba__tag--r">{f.after.tag}</span>
+              <span class="ba__cap ba__cap--r">{f.after.caption}</span>
+            </span>
+            <span class="ba__line" aria-hidden="true" data-name="BeforeAfterHandle"></span>
+            <span class="ba__knob" aria-hidden="true"><Icon name="swap" size={20} stroke={2} /></span>
+            <span class="case-card__caption show-m">Процесс и результат</span>
+          </span>
+          <span class="works__featured-foot">
+            <h3 class="case-card__title">{caseBySlug(f.slug)?.name}</h3>
+            <span class="tags">{f.tags.map((t) => <span class="tag">{t}</span>)}</span>
+          </span>
+        </a>
+        {home.works.cards.map((c) => {
+          const cs = caseBySlug(c.slug)!;
+          return (
+            <CaseCard
+              href={caseHref(c.slug)}
+              img={c.img}
+              alt={c.alt}
+              caption={c.badge ? undefined : c.caption}
+              badge={c.badge}
+              title={c.title}
+              tags={c.tags}
+              dir={cs.d}
+              class:list={['works__card', c.tall && 'works__card--tall']}
+              sizes="(min-width: 1280px) 410px, (min-width: 768px) 50vw, 300px"
+            />
+          );
+        })}
+      </div>
+      <a href={telegram('garage')} class="btn btn--secondary btn--l works__more" target="_blank" rel="noopener"><Icon name="tgSimple" size={18} class="hide-m" />Все работы в Telegram</a>
+    </div>
+  </section>
+
+  <!-- ========== Why + Process ========== -->
+  <section class="section why" data-name="WhyUs">
+    <div class="container stack gap-40">
+      <h2 class="h2">Почему к нам</h2>
+      <ul role="list" class="why__grid">
+        {home.why.map((w) => (
+          <li class="why__item">
+            <span class="why__title">{w.titleShort ? <><span class="hide-m">{w.title}</span><span class="show-m">{w.titleShort}</span></> : w.title}</span>
+            <span class="why__text"><span class="hide-m">{w.text}</span><span class="show-m">{w.textShort}</span></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="section process" data-name="Process">
+    <div class="container stack gap-40">
+      <h2 class="h2">Как проходит работа</h2>
+      <ol role="list" class="process__list">
+        <LightStrip class="process__strip" />
+        {home.process.map((p, i) => (
+          <li class="process__step">
+            <span class="process__num">{i + 1}</span>
+            <span class="process__title">{p.title}</span>
+            <span class="process__text">{p.text}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== Reviews ========== -->
+  <section class="section section--deep reviews" data-name="Reviews">
+    <div class="container stack gap-40">
+      <div class="section-head section-head--row">
+        <h2 class="h2">Отзывы</h2>
+        <a href={contacts.yandexMaps} class="link-arrow hide-m" target="_blank" rel="noopener">Все отзывы на Яндекс Картах →</a>
+      </div>
+      <ul role="list" class="reviews__list" data-reviews>
+        {home.reviews.map((r) => (
+          <li class="review" data-name="ReviewCard">
+            <div class="review__top"><span class="review__stars" aria-label="5 из 5">★★★★★</span><span class="review__src">{contacts.rating.source}</span></div>
+            <p class="review__text">«{r.text}»</p>
+            <div class="review__who"><strong>{r.author}</strong><span>{r.what}</span></div>
+          </li>
+        ))}
+      </ul>
+      <div class="dots show-m" aria-hidden="true" data-reviews-dots>{home.reviews.map((_, i) => <span class:list={[i === 0 && 'is-on']}></span>)}</div>
+      <a href={contacts.yandexMaps} class="link-arrow show-m" target="_blank" rel="noopener">Все отзывы на Яндекс Картах →</a>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="section faq-sec" data-name="FAQ">
+    <div class="container faq-sec__in">
+      <h2 class="h2"><span class="hide-m">Частые вопросы</span><span class="show-m">Вопросы</span></h2>
+      <Faq items={home.faq} />
+    </div>
+  </section>
+
+  <!-- ========== Contacts ========== -->
+  <section id="contacts" class="section section--deep contacts" data-name="Contacts">
+    <div class="container contacts__in">
+      <div class="call-card" data-name="CallCard">
+        <LightStrip class="call-card__strip" />
+        <h2 class="call-card__title">Позвоните — ответим и посчитаем</h2>
+        <p class="call-card__text">
+          <span class="hide-m">Звоните напрямую мастерам. Удобнее написать — Telegram или WhatsApp, можно сразу с фото машины.</span>
+          <span class="show-m">Или напишите в мессенджер, можно сразу с фото машины.</span>
+        </p>
+        <div class="call-card__phones">
+          <CallButton index={0} size="l" />
+          <CallButton index={1} size="l" />
+        </div>
+        <div class="msg-grid call-card__msgs">
+          {dirs.map((d) => (
+            <a class:list={['msg-btn', `msg-btn--${d}`, `dir-${d}`]} href={telegram(d)} target="_blank" rel="noopener"><span class="msg-btn__sq"></span>{tgHandle(d)}</a>
+          ))}
+          <a class="msg-btn call-card__wa" href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <span class="call-card__hours hide-m">{hours.split(',')[0]} — в это время отвечаем сразу</span>
+      </div>
+      <div class="contacts__map">
+        <MapBlock />
+        <div class="contacts__addr">
+          <span class="stack gap-6">
+            <span class="label hide-m">Адрес</span>
+            <span class="contacts__street">{contacts.address}</span>
+            <span class="contacts__hours">{hours}</span>
+          </span>
+          <a href={contacts.yandexMaps} class="btn btn--secondary contacts__route" target="_blank" rel="noopener">Маршрут в Яндекс Картах</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Точки под отзывами на мобайле
+  const list = document.querySelector<HTMLElement>('[data-reviews]');
+  const dots = document.querySelectorAll<HTMLElement>('[data-reviews-dots] > span');
+  if (list && dots.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const i = [...list.children].indexOf(e.target);
+          dots.forEach((d, j) => d.classList.toggle('is-on', i === j));
+        }
+      });
+    }, { root: list, threshold: 0.6 });
+    [...list.children].forEach((c) => io.observe(c));
+  }
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; background: var(--ug-bg); display: flex; flex-direction: column; }
+  .hero__stage { position: relative; height: 260px; }
+  .hero__photo { position: absolute; inset: 0; overflow: hidden; background: var(--ug-bg); }
+  .hero__photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.72) saturate(0.9); }
+  .hero__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(var(--ug-scrim)) 0%, rgba(var(--ug-scrim), 0) 50%); }
+  .hero__ambient { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; fill: none; overflow: visible; }
+  .hero__ambient path { vector-effect: non-scaling-stroke; stroke-width: 2; }
+  .hero__ambient .pink { stroke: var(--ug-kosmos); }
+  .hero__ambient .lime { stroke: var(--ug-garage); }
+  .hero__ambient .draw.pink { filter: drop-shadow(0 0 5px var(--ug-kosmos)); }
+  .hero__ambient .draw.lime { filter: drop-shadow(0 0 5px var(--ug-garage)); animation-delay: 0.5s; }
+  .hero__ambient .thin { stroke-width: 1; }
+  .hero__ambient .draw { --len: 1; }
+  .hero__ambient--d { display: none; }
+  .hero__dot {
+    position: absolute; width: 32px; height: 32px; border-radius: 50%; transform: translate(-50%, -50%);
+    background: var(--acc); box-shadow: 0 0 0 6px var(--acc-ring), 0 0 24px var(--acc-ring);
+  }
+  .hero__dot--0 { left: 32.3%; top: 33%; }
+  .hero__dot--1 { left: 70.8%; top: 63.8%; }
+  .hero__label { display: none; }
+
+  .hero__in { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 20px; padding-top: 8px; padding-bottom: 32px; }
+  .hero__content { display: flex; flex-direction: column; gap: 20px; }
+  .hero__title { font-size: var(--fs-display); line-height: 1.12; letter-spacing: -0.02em; }
+  .hero__lead { font-size: 16px; line-height: 1.5; }
+  .hero__btns { display: flex; flex-direction: column; gap: 10px; }
+  .hero__split { display: flex; flex-direction: column; gap: 10px; }
+  .dir-card__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .dir-card__bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+
+  @media (min-width: 768px) {
+    .hero__stage { height: 340px; }
+    .hero__dot { width: 24px; height: 24px; box-shadow: 0 0 0 7px var(--acc-ring); }
+    .hero__in { gap: 24px; padding-bottom: 48px; }
+    .hero__content { gap: 24px; }
+    .hero__title { line-height: 1.1; letter-spacing: -0.025em; }
+    .hero__lead { font-size: 18px; line-height: 1.55; max-width: 560px; }
+    .hero__btns { flex-direction: row; gap: 12px; }
+    .hero__split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
+  }
+
+  @media (min-width: 1280px) {
+    .hero { min-height: 812px; }
+    .hero__stage { position: absolute; inset: 0 0 auto auto; width: 100%; max-width: 1600px; height: auto; aspect-ratio: 1440 / 560; }
+    .hero__photo { left: 38.9%; }
+    .hero__shade { background: linear-gradient(90deg, rgb(var(--ug-scrim)) 0%, rgba(var(--ug-scrim), 0.35) 30%, rgba(var(--ug-scrim), 0) 60%), linear-gradient(0deg, rgb(var(--ug-scrim)) 0%, rgba(var(--ug-scrim), 0) 35%); }
+    .hero__ambient--m { display: none; }
+    .hero__ambient--d { display: block; }
+    .hero__ambient path { stroke-width: 2; }
+    .hero__ambient .thin { stroke-width: 1; }
+    .hero__ambient .draw.pink { filter: drop-shadow(0 0 6px var(--ug-kosmos)); }
+    .hero__ambient .draw.lime { filter: drop-shadow(0 0 6px var(--ug-garage)); }
+    .hero__dot { width: 20px; height: 20px; transform: none; box-shadow: 0 0 0 7px var(--acc-ring), 0 0 24px var(--acc-glow); }
+    .hero__dot--0 { left: 60.42%; top: 51.8%; }
+    .hero__dot--1 { left: 79.17%; top: 73.2%; }
+    .hero__label { display: flex; flex-direction: column; gap: 2px; position: absolute; font-size: 13px; color: #C9CED6; }
+    .hero__label strong { font-size: 14px; color: #F2F4F7; }
+    .hero__label--0 { left: 72.08%; top: 35.7%; }
+    .hero__label--1 { left: 90.14%; top: 57.1%; }
+    .hero__in { padding-top: 88px; padding-bottom: 56px; gap: 24px; }
+    .hero__content { width: 700px; gap: 28px; }
+    .hero__title { line-height: 1.08; }
+    .hero__split { gap: 24px; margin-top: 0; }
+  }
+  @media (min-width: 1280px) and (max-height: 700px) { .hero { min-height: 0; } }
+
+  /* ---------- TrustStrip ---------- */
+  .trust { background: var(--ug-bg); border-top: 1px solid var(--ug-line-soft); border-bottom: 1px solid var(--ug-line-soft); }
+  .trust__in { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-top: 20px; padding-bottom: 20px; }
+  .trust__item { display: flex; flex-direction: column; gap: 2px; }
+  .trust__value { font-family: var(--ug-font-display); font-size: 20px; font-weight: 700; }
+  .trust__label { font-size: 13px; color: var(--ug-muted); }
+  @media (min-width: 768px) {
+    .trust__in { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; min-height: 110px; align-items: center; }
+    .trust__value { font-size: 22px; }
+  }
+  @media (min-width: 1280px) {
+    .trust__in { min-height: 128px; }
+    .trust__item { gap: 4px; }
+    .trust__value { font-size: 28px; }
+    .trust__label { font-size: 14px; }
+  }
+
+  /* ---------- Works ---------- */
+  .works__in { gap: 16px; }
+  .works__chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+  .works__chips::-webkit-scrollbar { display: none; }
+  .works__chips .chip { font-size: 13px; padding: 0 14px; }
+  .works__grid {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .works__grid::-webkit-scrollbar { display: none; }
+  .works__grid > :global(*) { flex: 0 0 300px; scroll-snap-align: start; }
+  .works__featured { display: flex; flex-direction: column; gap: 12px; }
+  .works__featured-foot { display: flex; flex-direction: column; gap: 12px; }
+  .ba { display: flex; aspect-ratio: 300 / 220; border: 0; }
+  .ba__half { position: relative; overflow: hidden; background: var(--ug-bg); }
+  .ba__half--l { width: 55%; }
+  .ba__half--r { width: 45%; }
+  .ba__half :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ba__tag, .ba__cap { display: none; }
+  .ba__line { position: absolute; left: 55%; top: 0; bottom: 0; width: 2px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242, 244, 247, 0.7); }
+  .ba__knob {
+    position: absolute; left: 55%; top: 50%; width: 36px; height: 36px; margin: -18px 0 0 -17px; border-radius: 50%;
+    background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center;
+  }
+  .ba__knob :global(svg) { display: none; }
+  .works__more { align-self: stretch; }
+  .works :global(.case-card__title) { font-size: 17px; }
+
+  @media (min-width: 768px) {
+    .works__in { gap: 20px; }
+    .works__chips { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; gap: 8px; }
+    .works__chips .chip { font-size: 14px; padding: 0 16px; }
+    .works__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; overflow: visible; margin: 0; padding: 0; }
+    .works__grid > :global(*) { flex: none; }
+    .works__featured { grid-column: span 2; }
+    .ba { aspect-ratio: auto; height: 340px; }
+    .works__card--tall :global(.case-card__media) { --ratio: 1 / 1; }
+    .works__more { align-self: center; }
+    .ba__knob { width: 44px; height: 44px; margin: -22px 0 0 -21px; }
+    .ba__knob :global(svg) { display: block; }
+    .ba__tag { display: inline-flex; position: absolute; left: 16px; top: 16px; }
+    .ba__tag--r { left: auto; right: 16px; }
+    .ba__cap { display: block; position: absolute; left: 16px; bottom: 16px; font-size: 14px; font-weight: 600; color: #C9CED6; }
+    .ba__cap--r { left: auto; right: 16px; text-align: right; }
+    .works__featured-foot { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .works :global(.case-card__title) { font-size: var(--fs-h3); }
+  }
+  @media (min-width: 1280px) {
+    .works__in { gap: 36px; }
+    .works__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .works__featured { gap: 16px; }
+    .ba { height: 380px; border-radius: 20px; }
+    .ba__tag { left: 20px; top: 20px; }
+    .ba__tag--r { right: 20px; }
+    .ba__cap { left: 20px; bottom: 20px; }
+    .ba__cap--r { right: 20px; }
+    .works__card--tall { grid-column: 3; grid-row: 1; }
+    .works__card--tall :global(.case-card__media) { --ratio: auto; height: 380px; aspect-ratio: auto; }
+    .works__grid :global(.works__card:not(.works__card--tall) .case-card__media) { aspect-ratio: auto; height: 260px; }
+    .works__featured .ba__line { left: 55%; }
+  }
+
+  /* ---------- Why ---------- */
+  .why { padding-bottom: 20px; }
+  .why__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .why__item { display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid var(--ug-line-2); }
+  .why__title { font-size: 15px; font-weight: 700; }
+  .why__text { font-size: 13px; line-height: 1.45; color: var(--ug-muted); }
+  @media (min-width: 768px) {
+    .why { padding-bottom: 36px; }
+    .why__grid { gap: 24px; }
+    .why__item { gap: 12px; padding-top: 20px; }
+    .why__title { font-size: 18px; }
+    .why__text { font-size: 15px; line-height: 1.5; }
+  }
+  @media (min-width: 1280px) { .why { padding-bottom: 56px; } .why__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+  /* ---------- Process ---------- */
+  .process { padding-top: 36px; }
+  .process__list { position: relative; display: flex; flex-direction: column; gap: 20px; padding-left: 40px; }
+  .process :global(.process__strip) { position: absolute; left: 13px; top: 6px; bottom: 6px; width: 2px; height: auto; flex-direction: column; }
+  .process__step { position: relative; display: flex; flex-direction: column; gap: 2px; }
+  .process__num {
+    position: absolute; left: -40px; top: 0; width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid var(--ug-text); background: var(--ug-bg);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+  }
+  .process__title { font-size: 16px; font-weight: 700; min-height: 28px; display: flex; align-items: center; }
+  .process__text { font-size: 14px; line-height: 1.5; color: var(--ug-muted); }
+  @media (min-width: 768px) {
+    .process { padding-top: 36px; }
+    .process__list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding-left: 0; }
+    .process :global(.process__strip) { left: 0; right: 0; top: 13px; bottom: auto; width: auto; height: 2px; flex-direction: row; }
+    .process__step { gap: 14px; }
+    .process__num { position: relative; left: 0; }
+    .process__title { min-height: 0; font-size: 16px; }
+  }
+  @media (min-width: 1280px) {
+    .process { padding-top: 56px; }
+    .process__list { gap: 24px; }
+    .process__title { font-size: 17px; }
+  }
+
+  /* ---------- Reviews ---------- */
+  .reviews .section-head--row { align-items: center; }
+  .reviews__list {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .reviews__list::-webkit-scrollbar { display: none; }
+  .review {
+    flex: 0 0 calc(100% - 8px); scroll-snap-align: start;
+    padding: 20px; border-radius: 18px; background: var(--ug-surface); border: 1px solid var(--ug-border);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .review__top { display: flex; justify-content: space-between; align-items: center; }
+  .review__stars { letter-spacing: 2px; font-size: 16px; }
+  .review__src { min-height: 24px; padding: 0 8px; border-radius: 6px; background: var(--ug-surface-2); font-size: 12px; font-weight: 700; display: flex; align-items: center; }
+  .review__text { font-size: 15px; line-height: 1.5; color: var(--ug-text-2); }
+  .review__who { display: flex; flex-direction: column; gap: 2px; margin-top: auto; }
+  .review__who strong { font-size: 15px; }
+  .review__who span { font-size: 14px; color: var(--ug-kosmos-text); }
+  @media (min-width: 768px) {
+    .reviews__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; overflow: visible; margin: 0; padding: 0; }
+    .review { padding: 24px; border-radius: 20px; }
+  }
+  @media (min-width: 1280px) {
+    .reviews__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .review { padding: 28px; gap: 18px; }
+    .review__src { min-height: 26px; padding: 0 10px; }
+    .review__text { font-size: 16px; line-height: 1.55; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-sec__in { display: flex; flex-direction: column; gap: 20px; }
+  @media (min-width: 1280px) { .faq-sec__in { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; } }
+
+  /* ---------- Contacts ---------- */
+  .contacts__in { display: flex; flex-direction: column; gap: 16px; }
+  .call-card { position: relative; display: flex; flex-direction: column; gap: 12px; }
+  .call-card :global(.call-card__strip) { display: none; }
+  .call-card__title { font-family: var(--ug-font-display); font-size: var(--fs-h2); font-weight: 700; line-height: 1.15; }
+  .call-card__text { font-size: 15px; line-height: 1.5; color: var(--ug-text-2); margin-bottom: 4px; }
+  .call-card__phones { display: flex; flex-direction: column; gap: 12px; }
+  .call-card__phones :global(.call-btn--l) { min-height: 72px; }
+  .call-card__phones :global(.call-btn--l .call-btn__num) { font-size: 18px; }
+  .call-card__msgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .call-card__msgs .msg-btn { min-height: 48px; }
+  .call-card__wa { grid-column: span 2; }
+  .call-card__hours { font-size: 13px; color: var(--ug-muted); }
+  .contacts__map { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .contacts__addr { display: flex; flex-direction: column; gap: 12px; }
+  .contacts__street { font-size: 16px; font-weight: 700; }
+  .contacts__hours { font-size: 14px; color: var(--ug-text-2); }
+  .contacts__route { min-height: 48px; border-radius: 14px; font-size: 14px; }
+
+  @media (min-width: 768px) {
+    .contacts__in { gap: 20px; }
+    .call-card { padding: 32px; border-radius: 22px; background: var(--ug-surface); border: 1px solid var(--ug-border); overflow: hidden; gap: 14px; }
+    .call-card :global(.call-card__strip) { display: flex; position: absolute; left: 0; right: 0; top: 0; }
+    .call-card__title { font-size: 28px; }
+    .call-card__text { font-size: 16px; line-height: 1.55; margin-bottom: 8px; }
+    .call-card__phones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .call-card__msgs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .call-card__wa { grid-column: auto; }
+    .contacts__map { margin-top: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: end; }
+    .contacts__street { font-size: 18px; }
+    .contacts__hours { font-size: 15px; }
+    .contacts__route { align-self: flex-start; }
+  }
+  @media (min-width: 1280px) {
+    .contacts__in { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+    .contacts__map { order: -1; display: flex; flex-direction: column; gap: 20px; }
+    .contacts__addr { flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 20px; }
+    .contacts__route { align-self: auto; flex-shrink: 0; padding: 0 18px; font-size: 15px; }
+    .call-card { padding: 40px; border-radius: 24px; gap: 16px; }
+    .call-card__title { font-size: 32px; }
+    .call-card__phones { display: flex; flex-direction: column; gap: 16px; }
+    .call-card__phones :global(.call-btn--l) { min-height: 80px; }
+    .call-card__phones :global(.call-btn--l .call-btn__num) { font-size: 20px; }
+    .call-card__msgs .msg-btn { min-height: 52px; font-size: 14px; }
+  }
+</style>

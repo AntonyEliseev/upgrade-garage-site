@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Состояния и детали</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7}
+@keyframes sk{0%{background-position:-400px 0}100%{background-position:400px 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sk{background:linear-gradient(90deg,#15171A 0%,#1E2126 50%,#15171A 100%);background-size:800px 100%;animation:sk 1.4s linear infinite}
+.spin{animation:spin 0.9s linear infinite}
+</style>
+</helmet>
+<div data-name="States" style="width: 1440px; height: 2020px; box-sizing: border-box; padding: 72px 80px; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column; gap: 40px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end"><h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700">Состояния и детали</h1><span style="font-size: 14px; color: #9BA3AE">Все переходы — 180 мс, ease-out. На тач-устройствах hover не используется.</span></div>
+
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">1 · Наведение</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+
+<div style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">DirectionCard · default → hover</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="position: relative; padding: 22px; border-radius: 18px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 10px; overflow: hidden"><span style="position: absolute; left: 22px; right: 22px; top: 0; height: 2px; background: #E2609B; box-shadow: 0 0 10px rgba(226,96,155,0.6)"></span><span style="font-family: Unbounded, sans-serif; font-size: 17px; font-weight: 700">КОСМОС WRAP</span><span style="font-size: 13px; color: #C9CED6">Оклейка и защита</span><span style="font-size: 18px; color: #E2609B">→</span></div>
+<div style="position: relative; padding: 22px; border-radius: 18px; background: #1A1C20; border: 1px solid rgba(226,96,155,0.45); display: flex; flex-direction: column; gap: 10px; overflow: hidden; transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 32px rgba(226,96,155,0.18)"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #E2609B; box-shadow: 0 0 16px 2px rgba(226,96,155,0.9)"></span><span style="font-family: Unbounded, sans-serif; font-size: 17px; font-weight: 700">КОСМОС WRAP</span><span style="font-size: 13px; color: #C9CED6">Оклейка и защита</span><span style="font-size: 18px; color: #E2609B; padding-left: 6px">→</span></div>
+</div>
+<span style="font-size: 13px; line-height: 1.5; color: #9BA3AE">Подъём на 4px, рамка в цвет направления, световая линия растягивается на всю ширину и ярче светится, стрелка сдвигается на 6px.</span>
+</div>
+
+<div style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">CaseCard · default → hover</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 10px"><span style="position: relative; height: 130px; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(135deg, #0D0E10 0 14px, #111215 14px 28px)"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #CDE23C"></span></span><span style="font-size: 16px; font-weight: 700">Mitsubishi Outlander</span></div>
+<div style="display: flex; flex-direction: column; gap: 10px"><span style="position: relative; height: 130px; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(135deg, #111215 0 16px, #15171A 16px 32px); box-shadow: 0 0 0 1px rgba(205,226,60,0.45), 0 12px 32px rgba(0,0,0,0.4)"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #CDE23C; box-shadow: 0 0 14px 2px rgba(205,226,60,0.8)"></span><span style="position: absolute; right: 12px; bottom: 12px; height: 32px; padding: 0 12px; border-radius: 8px; background: #F2F4F7; color: #0D0E10; font-size: 13px; font-weight: 700; display: flex; align-items: center">Смотреть кейс →</span></span><span style="font-size: 16px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px">Mitsubishi Outlander</span></div>
+</div>
+<span style="font-size: 13px; line-height: 1.5; color: #9BA3AE">Фото увеличивается в 1.04 раза внутри рамки, появляется кнопка «Смотреть кейс», название подчёркивается.</span>
+</div>
+
+<div style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Ссылки, меню, чипы</span>
+<div style="display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px 20px; align-items: center; font-size: 15px">
+<span style="font-size: 12px; color: #9BA3AE"></span><span style="font-size: 12px; color: #9BA3AE">default</span><span style="font-size: 12px; color: #9BA3AE">hover / focus</span>
+<span style="font-size: 13px; color: #9BA3AE">Пункт меню</span><span style="font-weight: 600">Работы</span><span style="font-weight: 700; color: #FFFFFF; box-shadow: inset 0 -2px 0 #F2F4F7; padding-bottom: 4px; justify-self: start">Работы</span>
+<span style="font-size: 13px; color: #9BA3AE">Ссылка в тексте</span><span style="font-weight: 600; text-decoration: underline; text-decoration-color: rgba(242,244,247,0.35); text-underline-offset: 4px">Все отзывы →</span><span style="font-weight: 700; text-decoration: underline; text-decoration-color: #F2F4F7; text-underline-offset: 4px">Все отзывы →</span>
+<span style="font-size: 13px; color: #9BA3AE">Чип фильтра</span><span style="justify-self: start; height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); display: flex; align-items: center; font-weight: 600">Шумоизоляция</span><span style="justify-self: start; height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #CDE23C; background: rgba(205,226,60,0.1); display: flex; align-items: center; font-weight: 700">Шумоизоляция</span>
+<span style="font-size: 13px; color: #9BA3AE">Фокус с клавиатуры</span><span style="justify-self: start; height: 44px; padding: 0 18px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; font-weight: 700">Позвонить</span><span style="justify-self: start; height: 44px; padding: 0 18px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; font-weight: 700; outline: 2px solid #F2F4F7; outline-offset: 3px">Позвонить</span>
+</div>
+</div>
+
+<div style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 14px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">CallButton · default / hover / pressed</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<span style="height: 64px; padding: 0 14px; border-radius: 16px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 10px"><span style="width: 36px; height: 36px; border-radius: 50%; background: #0D0E10"></span><span style="font-size: 14px; font-weight: 800">+7 985 543-34-21</span></span>
+<span style="height: 64px; padding: 0 14px; border-radius: 16px; background: #FFFFFF; color: #0D0E10; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 28px rgba(242,244,247,0.35)"><span style="width: 36px; height: 36px; border-radius: 50%; background: #0D0E10; box-shadow: 0 0 0 4px rgba(13,14,16,0.12)"></span><span style="font-size: 14px; font-weight: 800">+7 985 543-34-21</span></span>
+<span style="height: 64px; padding: 0 14px; border-radius: 16px; background: #C9CED6; color: #0D0E10; display: flex; align-items: center; gap: 10px; transform: scale(0.98)"><span style="width: 36px; height: 36px; border-radius: 50%; background: #0D0E10"></span><span style="font-size: 14px; font-weight: 800">+7 985 543-34-21</span></span>
+</div>
+<span style="font-size: 13px; line-height: 1.5; color: #9BA3AE">На десктопе по нажатию — tel:-ссылка: на Mac звонок уйдёт через iPhone или FaceTime, на Windows — через «Связь с телефоном». Номер крупно, чтобы можно было набрать вручную.</span>
+</div>
+</div>
+
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">2 · Загрузка «Показать ещё»</span>
+<div style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; color: #9BA3AE">Кнопка</span>
+<button style="height: 56px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 15px Manrope, sans-serif">Показать ещё [N]</button>
+<button aria-busy="true" disabled style="height: 56px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: #C9CED6; font: 700 15px Manrope, sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px"><span class="spin" style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 50%; border: 2px solid rgba(242,244,247,0.25); border-top-color: #F2F4F7"></span>Загружаем…</button>
+<div style="padding: 14px; border-radius: 14px; border: 1px dashed rgba(255,255,255,0.16); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; font-weight: 700">Это все работы на сайте</span><a href="https://t.me/UpgradeGarage" style="font-size: 13px; color: #C9CED6">Ещё больше — в Telegram →</a></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; color: #9BA3AE">Скелетоны карточек, пока грузятся фото (переливаются слева направо)</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 12px"><span class="sk" style="height: 180px; border-radius: 18px"></span><span class="sk" style="width: 70%; height: 18px; border-radius: 6px"></span><span style="display: flex; gap: 6px"><span class="sk" style="width: 90px; height: 26px; border-radius: 6px"></span><span class="sk" style="width: 70px; height: 26px; border-radius: 6px"></span></span></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><span class="sk" style="height: 180px; border-radius: 18px"></span><span class="sk" style="width: 55%; height: 18px; border-radius: 6px"></span><span style="display: flex; gap: 6px"><span class="sk" style="width: 110px; height: 26px; border-radius: 6px"></span></span></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><span class="sk" style="height: 180px; border-radius: 18px"></span><span class="sk" style="width: 65%; height: 18px; border-radius: 6px"></span><span style="display: flex; gap: 6px"><span class="sk" style="width: 80px; height: 26px; border-radius: 6px"></span><span class="sk" style="width: 90px; height: 26px; border-radius: 6px"></span></span></div>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">3 · Карта не загрузилась</span>
+<div data-name="MapFallback" style="position: relative; height: 300px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); overflow: hidden">
+<svg width="100%" height="300" viewBox="0 0 520 300" preserveAspectRatio="none" style="position: absolute; inset: 0"><path d="M0 210 L520 150" stroke="rgba(255,255,255,0.08)" stroke-width="18"></path><path d="M260 0 L300 300" stroke="rgba(255,255,255,0.06)" stroke-width="12"></path></svg>
+<div style="position: absolute; left: 24px; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 18px; font-weight: 700">Москва, Алтуфьевское ш., 31с1</span>
+<span style="font-size: 14px; color: #C9CED6">Карта не загрузилась. Откройте маршрут в приложении:</span>
+<div style="display: flex; gap: 8px"><a href="#" style="height: 44px; padding: 0 16px; border-radius: 12px; background: #F2F4F7; color: #0D0E10; font-size: 14px; font-weight: 700; text-decoration: none; display: flex; align-items: center">Яндекс Карты</a><a href="#" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); color: #F2F4F7; font-size: 14px; font-weight: 700; text-decoration: none; display: flex; align-items: center">2ГИС</a><button style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 700 14px Manrope, sans-serif">Скопировать адрес</button></div>
+</div>
+<span style="position: absolute; left: 50%; top: 70px; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: #F2F4F7; box-shadow: 0 0 0 8px rgba(242,244,247,0.15)"></span>
+</div>
+<span style="font-size: 13px; line-height: 1.5; color: #9BA3AE">Карту подгружать только при прокрутке до контактов: так первый экран грузится быстрее.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">4 · Проверка контраста и тап-зон</span>
+<div data-name="A11yTable" style="padding: 20px 24px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr 72px 90px; gap: 0 12px; font-size: 14px">
+<span style="padding: 8px 0; font-size: 12px; color: #9BA3AE">Пара</span><span style="padding: 8px 0; font-size: 12px; color: #9BA3AE">Контраст</span><span style="padding: 8px 0; font-size: 12px; color: #9BA3AE">AA</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Текст #F2F4F7 на фоне</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">17.5</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Второстепенный #9BA3AE на карточке</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">7.1</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Розовый текст #EC86B4 на карточке</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">7.4</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Лайм #CDE23C на карточке</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">12.4</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Тёмный текст на розовой плашке</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">5.8</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Тёмный текст на лаймовой плашке</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">12.3</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Светлая тема: #B3336D / #5B6800 на белом</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">5.8 / 6.1</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Неактивная кнопка #8A919B на #2A2D33</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">4.3</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); color: #9BA3AE">не требуется</span>
+<span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">Итог «—» в пустом калькуляторе, 32px</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07); font-weight: 700">3.7</span><span style="padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.07)">да, крупный</span>
+<span style="padding: 12px 0 4px; border-top: 1px solid rgba(255,255,255,0.12); grid-column: span 3; font-size: 13px; line-height: 1.55; color: #C9CED6">Тап-зоны: кнопки и ссылки от 44px; чипы и вкладки на мобайле и планшете подняты с 40 до 44px; точки на машине — 28px на десктопе и 32px на мобайле.</span>
+</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2020}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

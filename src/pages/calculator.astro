@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+import Crumbs from '../components/Crumbs.astro';
+import CallStrip from '../components/CallStrip.astro';
+import ConfiguratorSection from '../components/ConfiguratorSection.astro';
+import { breadcrumbs } from '../lib/schema';
+
+const how = [
+  { t: 'Цена «от» по кузову', d: 'Считаем по типу кузова и выбранным зонам. Для крупных машин цена выше — это уже учтено.' },
+  { t: 'Точная — после осмотра', d: 'Мастер посмотрит машину и назовёт итог до начала работ. Без сюрпризов в конце.' },
+  { t: 'Расчёт по ссылке', d: 'Скопируйте ссылку — по ней откроется тот же набор зон. Удобно показать мастеру или сохранить.' },
+];
+---
+<Base
+  title="Калькулятор стоимости оклейки и шумоизоляции — Москва"
+  description="Отметьте зоны на машине: плёнка, шумоизоляция, салон и дооснащение. Калькулятор покажет цену «от» и срок по вашему типу кузова. Позвоните — уточним."
+  ogImage="/img/configurator-body.jpg"
+  current="calculator"
+  hideActionBar
+  bodyClass="calc-page"
+  jsonLd={[breadcrumbs(Astro.site!, [{ name: 'Главная', href: '/' }, { name: 'Калькулятор стоимости', href: '/calculator' }])]}
+>
+  <div class="calc-crumbs">
+    <div class="container"><Crumbs items={[{ name: 'Главная', href: url('/') }, { name: 'Калькулятор стоимости' }]} /></div>
+  </div>
+  <ConfiguratorSection mode="page" headingTag="h1" class="calc-cfg" />
+
+  <section class="section section--deep how" data-name="HowPriceWorks">
+    <div class="container how__grid">
+      {how.map((h, i) => (
+        <div class="how__item">
+          <span class="how__num">{String(i + 1).padStart(2, '0')}</span>
+          <h2 class="how__title">{h.t}</h2>
+          <p class="how__text">{h.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CallStrip title="Не нашли нужное в списке?" sub="Позвоните — посчитаем то, чего нет в калькуляторе" />
+</Base>
+
+<style>
+  .calc-crumbs { background: var(--ug-bg); }
+  .calc-crumbs .container { min-height: 56px; display: flex; align-items: center; }
+  :global(.calc-cfg) { padding-top: 16px; }
+  @media (min-width: 1280px) { :global(.calc-cfg) { padding-top: 64px; padding-bottom: 64px; } }
+  @media (max-width: 767.98px) { .calc-crumbs { display: none; } }
+
+  .how { padding-block: 48px; }
+  .how__grid { display: grid; gap: 24px; }
+  .how__item { padding-top: 18px; border-top: 1px solid var(--ug-line-2); display: flex; flex-direction: column; gap: 8px; }
+  .how__num { font-size: 13px; font-weight: 800; color: var(--ug-muted); }
+  .how__title { font-size: 18px; font-weight: 700; }
+  .how__text { font-size: 15px; line-height: 1.55; color: var(--ug-muted); }
+  @media (min-width: 768px) { .how__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .how { padding-block: 72px; } }
+  .how + :global(.call-strip) { padding-top: 0; }
+</style>

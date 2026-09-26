@@ -1,0 +1,57 @@
+---
+import CallButton from './CallButton.astro';
+import LightStrip from './LightStrip.astro';
+import { telegram, type Dir } from '../lib/data';
+
+interface Props {
+  title: string;
+  /** Подзаголовок; для услуг — со ссылкой на Telegram направления */
+  sub?: string;
+  dir?: Dir;
+  /** Цветная линия направления вместо двухцветной */
+  accent?: boolean;
+}
+const { title, sub, dir, accent } = Astro.props;
+---
+<section class:list={['section section--deep call-strip', dir && `dir-${dir}`]} data-name="CallStrip">
+  <div class="container">
+    <div class="call-strip__card">
+      {accent ? <span class="acc-line call-strip__line" aria-hidden="true"></span> : <LightStrip class="call-strip__strip" />}
+      <div class="call-strip__text">
+        <h2 class="call-strip__title">{title}</h2>
+        {dir
+          ? <p class="call-strip__sub">Или пришлите фото и марку в <a href={telegram(dir)} target="_blank" rel="noopener">Telegram</a></p>
+          : sub && <p class="call-strip__sub">{sub}</p>}
+      </div>
+      <CallButton index={0} size="l" />
+      <CallButton index={1} size="l" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .call-strip__card {
+    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px;
+  }
+  .call-strip__card :global(.call-strip__strip), .call-strip__line { display: none; }
+  .call-strip__text { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+  .call-strip__title { font-family: var(--ug-font-display); font-size: 24px; font-weight: 700; line-height: 1.2; }
+  .call-strip__sub { font-size: 15px; color: var(--ug-muted); }
+  .call-strip__sub a { color: var(--acc-text, var(--ug-text)); text-decoration: underline; text-underline-offset: 3px; }
+  .call-strip__card :global(.call-btn--l) { min-height: 72px; }
+  .call-strip__card :global(.call-btn--l .call-btn__num) { font-size: 18px; }
+  @media (min-width: 768px) {
+    .call-strip__card { display: grid; grid-template-columns: 1fr 1fr; padding: 32px; border-radius: 24px; background: var(--ug-surface); border: 1px solid var(--ug-border); gap: 16px; }
+    .call-strip__text { grid-column: span 2; }
+    .call-strip__card :global(.call-strip__strip) { display: flex; position: absolute; left: 0; right: 0; top: 0; }
+    .call-strip__line { display: block; --acc-inset: 32px; }
+    .call-strip__title { font-size: 28px; line-height: 1.15; }
+  }
+  @media (min-width: 1280px) {
+    .call-strip__card { grid-template-columns: 1.2fr 1fr 1fr; align-items: center; padding: 40px; }
+    .call-strip__text { grid-column: auto; margin: 0; }
+    .call-strip__line { --acc-inset: 40px; }
+    .call-strip__card :global(.call-btn--l) { min-height: 80px; }
+    .call-strip__card :global(.call-btn--l .call-btn__num) { font-size: 20px; }
+  }
+</style>

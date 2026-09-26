@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Логотип</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+</style>
+</helmet>
+<div data-name="Logo/Sheet" style="width: 1440px; height: 900px; box-sizing: border-box; padding: 72px 80px; background: #0A0B0D; color: #F2F4F7; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end"><div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">Вектор · SVG, шрифты переведены в кривые</span><h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700">Логотип</h1></div><span style="max-width: 460px; font-size: 14px; line-height: 1.5; color: #9BA3AE; text-align: right">Два слова — два направления. Цветная плашка показывает, чем занимается каждое: розовая — оклейка, лаймовая — дооснащение.</span></div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px">
+<div data-name="Logo/OnDark" style="height: 300px; border-radius: 24px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; padding: 28px; box-sizing: border-box"><span style="font-size: 13px; color: #9BA3AE">На тёмном фоне — основной</span><img src="/logo/logo-dark-bg.svg" alt="Логотип на тёмном фоне" style="align-self: center; width: 460px; height: auto"><span style="font-size: 12px; color: #9BA3AE">logo-dark-bg.svg</span></div>
+<div data-name="Logo/OnLight" style="height: 300px; border-radius: 24px; background: #F5F4F0; display: flex; flex-direction: column; justify-content: space-between; padding: 28px; box-sizing: border-box"><span style="font-size: 13px; color: #5E646D">На светлом фоне</span><img src="/logo/logo-light-bg.svg" alt="Логотип на светлом фоне" style="align-self: center; width: 460px; height: auto"><span style="font-size: 12px; color: #5E646D">logo-light-bg.svg</span></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px">
+<div style="height: 200px; border-radius: 20px; background: #E2609B; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box"><span style="font-size: 12px; font-weight: 700; color: #1A0A12">Одноцветный, на фото и цвете</span><img src="/logo/logo-mono-black.svg" alt="Одноцветный тёмный" style="align-self: center; width: 240px; height: auto"></div>
+<div style="height: 200px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box"><span style="font-size: 12px; font-weight: 700; color: #9BA3AE">Одноцветный белый</span><img src="/logo/logo-mono-white.svg" alt="Одноцветный белый" style="align-self: center; width: 240px; height: auto"></div>
+<div style="height: 200px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box"><span style="font-size: 12px; font-weight: 700; color: #9BA3AE">Фавикон и аватар</span><div style="align-self: center; display: flex; gap: 16px; align-items: flex-end"><img src="/logo/favicon.svg" alt="Фавикон" style="width: 96px; height: 96px"><img src="/logo/favicon.svg" alt="" style="width: 32px; height: 32px"><img src="/logo/favicon.svg" alt="" style="width: 16px; height: 16px"></div></div>
+<div style="height: 200px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 10px; padding: 20px; box-sizing: border-box; font-size: 13px; line-height: 1.5; color: #C9CED6"><span style="font-size: 12px; font-weight: 700; color: #9BA3AE">Правила</span><span>Поле вокруг — не меньше высоты плашки WRAP.</span><span>Минимум: 120 px в ширину на экране, 30 мм в печати.</span><span>Цвета плашек не меняем местами.</span></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

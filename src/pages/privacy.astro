@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+import Crumbs from '../components/Crumbs.astro';
+import { contacts } from '../lib/data';
+
+const { operator, email, policyDate } = contacts.legal;
+const sections = [
+  { id: 'p1', title: '1. Общие положения', body: [
+    'Эта политика описывает, как сайт студии «Космос Wrap» и «Апгрейд Garage» обрабатывает данные посетителей. Она составлена по Федеральному закону № 152-ФЗ «О персональных данных».',
+    `Оператор — ${operator}, адрес: ${contacts.address.split(', бокс')[0]}. Пользуясь сайтом, вы соглашаетесь с этой политикой.`,
+  ] },
+  { id: 'p2', title: '2. Какие данные собираем', body: [
+    'На сайте нет форм: мы не просим имя, телефон или e-mail. Вы связываетесь с нами сами — по телефону или в мессенджере, и эти разговоры идут вне сайта.',
+    'Автоматически собираются только технические данные: cookie, IP-адрес, тип устройства и браузера, посещённые страницы и время на сайте. По ним нельзя установить вашу личность.',
+  ] },
+  { id: 'p3', title: '3. Cookie и аналитика', body: [
+    'Мы используем Яндекс Метрику, чтобы понимать, какие страницы полезны, и делать сайт удобнее. Метрика обрабатывает данные по своей политике — yandex.ru/legal/confidential.',
+    'Ссылка на расчёт в калькуляторе хранит выбранные зоны в адресе страницы. Это не персональные данные.',
+    'Cookie можно отключить в настройках браузера — сайт продолжит работать. В плашке cookie можно выбрать «Только необходимые» — тогда Метрика не загружается.',
+  ] },
+  { id: 'p4', title: '4. Цели обработки', body: [
+    'Данные обрабатываются, чтобы сайт работал корректно, для статистики посещений и улучшения страниц. Мы не продаём данные и не передаём их третьим лицам, кроме случаев, прямо предусмотренных законом.',
+  ] },
+  { id: 'p5', title: '5. Права пользователя', body: [
+    'Вы можете узнать, какие данные о вас обрабатываются, попросить уточнить, заблокировать или удалить их и отозвать согласие. Для этого напишите оператору по контактам ниже. Ответим в течение 10 рабочих дней.',
+  ] },
+  { id: 'p6', title: '6. Контакты оператора', body: [
+    `${operator}. Адрес для обращений: ${contacts.address}. E-mail: ${email}.`,
+  ] },
+];
+---
+<Base
+  title="Политика конфиденциальности — Космос Wrap × Апгрейд Garage"
+  description="Как сайт студии обрабатывает данные посетителей: cookie, Яндекс Метрика, права пользователя и контакты оператора по 152-ФЗ."
+  policyCurrent
+>
+  <section class="policy">
+    <div class="container policy__in">
+      <nav aria-label="Содержание" class="toc" data-name="PolicyTOC">
+        <span class="label toc__label">Содержание</span>
+        {sections.map((s, i) => <a href={`#${s.id}`} class:list={['toc__link', i === 0 && 'is-active']}>{s.title}</a>)}
+      </nav>
+      <article class="policy__article">
+        <header class="policy__head">
+          <Crumbs items={[{ name: 'Главная', href: url('/') }, { name: 'Политика конфиденциальности' }]} />
+          <h1 class="policy__title">Политика конфиденциальности</h1>
+          <span class="policy__meta">Черновик · редакция от {policyDate} · проверить юристу</span>
+        </header>
+        {sections.map((s) => (
+          <section id={s.id} class="policy__sec">
+            <h2 class="policy__h2">{s.title}</h2>
+            {s.body.map((p) => <p>{p}</p>)}
+          </section>
+        ))}
+      </article>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Подсветка текущего раздела в содержании
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc__link')];
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) links.forEach((l) => l.classList.toggle('is-active', l.hash === `#${e.target.id}`));
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('.policy__sec').forEach((s) => io.observe(s));
+</script>
+
+<style>
+  .policy { background: var(--ug-bg-deep); }
+  .policy__in { padding-top: 32px; padding-bottom: 56px; display: flex; flex-direction: column; gap: 32px; }
+  .toc { display: none; }
+  .policy__article { max-width: 760px; display: flex; flex-direction: column; gap: 28px; }
+  .policy__head { display: flex; flex-direction: column; gap: 14px; }
+  .policy__title { font-family: var(--ug-font-display); font-size: clamp(30px, calc(30px + 18 * (100vw - 390px) / 1050), 48px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+  .policy__meta { font-size: 14px; color: var(--ug-muted); }
+  .policy__sec { display: flex; flex-direction: column; gap: 12px; }
+  .policy__h2 { font-size: 20px; font-weight: 800; }
+  .policy__sec p { font-size: 16px; line-height: 1.65; color: var(--ug-text-2); }
+  @media (min-width: 1280px) {
+    .policy__in { display: grid; grid-template-columns: 300px 1fr; gap: 80px; padding-top: 64px; padding-bottom: 104px; }
+    .toc {
+      display: flex; flex-direction: column; gap: 4px; align-self: start; position: sticky; top: 96px;
+      padding: 20px; border-radius: 18px; background: var(--ug-surface); border: 1px solid var(--ug-border);
+    }
+    .toc__label { margin-bottom: 8px; font-size: 12px; letter-spacing: 0.12em; }
+    .toc__link { min-height: 40px; display: flex; align-items: center; padding-left: 12px; font-size: 15px; font-weight: 600; color: var(--ug-text-2); transition: color var(--t), box-shadow var(--t); }
+    .toc__link.is-active { font-weight: 700; color: var(--ug-text); box-shadow: inset 2px 0 0 var(--ug-text); }
+    .policy__article { gap: 36px; }
+    .policy__h2 { font-size: 24px; }
+    .policy__sec p { font-size: 17px; }
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PortfolioFilter, { type CaseItem } from '../../islands/PortfolioFilter';
+import { BRANDS, cases, portfolioFilters, telegram } from '../../lib/data';
+import { photo } from '../../lib/images';
+import { breadcrumbs } from '../../lib/schema';
+
+const items: CaseItem[] = await Promise.all(
+  cases.map(async (c) => {
+    const src = photo(c.img);
+    let img: CaseItem['img'];
+    if (src) {
+      const widths = [400, 640, 820].filter((w) => w <= src.width);
+      const out = await Promise.all(widths.map((w) => getImage({ src, width: w, format: 'webp' })));
+      img = { src: out[out.length - 1].src, srcset: out.map((o, i) => `${o.src} ${widths[i]}w`).join(', ') };
+    }
+    return { slug: c.slug, name: c.name, brand: c.brand, d: c.d, s: c.s, tags: c.tags, photo: c.photo, img };
+  }),
+);
+---
+<Base
+  title="Работы студии: оклейка, шумоизоляция и дооснащение — Москва"
+  description="Фото наших работ: антигравийная плёнка, смена цвета, салон по лекалам, шумоизоляция, автозвук и Ambient-подсветка. Все фото — из бокса на Алтуфьевском."
+  ogImage="/img/mercedes-e-class-green.jpg"
+  current="works"
+  jsonLd={[breadcrumbs(Astro.site!, [{ name: 'Главная', href: '/' }, { name: 'Работы', href: '/works' }])]}
+>
+  <section class="works-head">
+    <div class="container works-head__in">
+      <div class="stack works-head__text">
+        <h1 class="works-head__title">Работы</h1>
+        <p class="works-head__sub">Все фото — наши, из бокса на Алтуфьевском. Никакого стока.</p>
+      </div>
+      <a href={telegram('garage')} class="btn btn--secondary hide-m" target="_blank" rel="noopener">Ещё больше — в Telegram</a>
+    </div>
+  </section>
+  <section class="works-body">
+    <div class="container">
+      <PortfolioFilter client:load cases={items} services={portfolioFilters} brands={BRANDS} telegram={telegram('garage')} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .works-head { background: var(--ug-bg-deep); }
+  .works-head__in { padding-top: 32px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
+  .works-head__text { gap: 10px; }
+  .works-head__title { font-family: var(--ug-font-display); font-size: clamp(34px, calc(34px + 22 * (100vw - 390px) / 1050), 56px); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; }
+  .works-head__sub { font-size: 15px; color: var(--ug-muted); }
+  .works-body { background: var(--ug-bg-deep); padding-bottom: 56px; }
+  @media (min-width: 768px) { .works-head__in { padding-top: 56px; padding-bottom: 32px; } .works-head__sub { font-size: 16px; } .works-body { padding-bottom: 72px; } }
+  @media (min-width: 1280px) { .works-head__in { padding-top: 72px; } .works-body { padding-bottom: 96px; } }
+</style>

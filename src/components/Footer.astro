@@ -1,0 +1,17 @@
+---
+import { contacts, shortAddress } from '../lib/data';
+import { url } from '../lib/url';
+
+interface Props { copyright?: boolean; policyCurrent?: boolean }
+const { copyright, policyCurrent } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="footer" data-name="Footer">
+  <div class="container footer__in">
+    <span>{contacts.legal.operator}</span>
+    {policyCurrent
+      ? <span class="footer__policy" aria-current="page">Политика конфиденциальности</span>
+      : <a href={url('/privacy')} class="footer__policy">Политика конфиденциальности</a>}
+    <span>{copyright ? `© ${contacts.stats.since}–${year} Космос Wrap × Апгрейд Garage` : shortAddress.replace('Москва, ', '')}</span>
+  </div>
+</footer>

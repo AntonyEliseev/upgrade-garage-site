@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>UI-кит</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#0A0B0D;font-family:Manrope,system-ui,sans-serif;color:#F2F4F7}
+a{color:#F2F4F7;text-decoration:none}
+</style>
+</helmet>
+<div data-name="UIKit" style="width: 1440px; height: 1800px; box-sizing: border-box; padding: 72px 80px; background: #0A0B0D; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end"><h1 style="margin: 0; font-family: Unbounded, sans-serif; font-size: 44px; font-weight: 700">UI-кит</h1><span style="font-size: 14px; color: #9BA3AE">Сетка 12 кол. · 1280 max · gutter 24 · радиусы 8 / 12 / 16 / 20 / 24</span></div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div data-name="Kit/Colors" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Цвета</span>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; font-size: 11px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #0A0B0D; border: 1px solid rgba(255,255,255,0.12)"></span>bg-deep<br>#0A0B0D</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.12)"></span>bg<br>#0D0E10</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #15171A; border: 1px solid rgba(255,255,255,0.12)"></span>surface<br>#15171A</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #1E2126"></span>surface-2<br>#1E2126</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #C9CED6"></span>text-2<br>#C9CED6</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #9BA3AE"></span>muted<br>#9BA3AE</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #E2609B"></span>kosmos<br>#E2609B</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #EC86B4"></span>kosmos-text<br>#EC86B4</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #1A0A12; border: 1px solid rgba(255,255,255,0.12)"></span>on-kosmos<br>#1A0A12</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #CDE23C"></span>garage<br>#CDE23C</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #151A04; border: 1px solid rgba(255,255,255,0.12)"></span>on-garage<br>#151A04</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 48px; border-radius: 10px; background: #F2F4F7"></span>text / cta<br>#F2F4F7</div>
+</div>
+<div data-name="LightStrip" style="display: flex; flex-direction: column; gap: 10px; padding-top: 8px">
+<span style="font-size: 12px; color: #9BA3AE">LightStrip — мотив Ambient: 2px + свечение 12px</span>
+<span style="height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B; box-shadow: 0 0 12px 1px rgba(226,96,155,0.8)"></span><span style="flex-grow: 1; background: #CDE23C; box-shadow: 0 0 12px 1px rgba(205,226,60,0.7)"></span></span>
+</div>
+</div>
+
+<div data-name="Kit/Type" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Типографика</span>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">H1 · 66/1.08</span><span style="font-family: Unbounded, sans-serif; font-size: 48px; font-weight: 700; line-height: 1.08">Защита</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">H2 · 44/1.1</span><span style="font-family: Unbounded, sans-serif; font-size: 36px; font-weight: 700">Кто за что</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">H3 · 20 Manrope 700</span><span style="font-size: 20px; font-weight: 700">Hyundai Santa Fe</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">Body · 18/1.55</span><span style="font-size: 18px; color: #C9CED6">Машину разбираем аккуратно</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">Small · 14</span><span style="font-size: 14px; color: #9BA3AE">Ориентировочная стоимость</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">Label · 13 caps</span><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9BA3AE">Услуги и цены</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; flex-shrink: 0; font-size: 12px; color: #9BA3AE">Маркер</span><span style="font-family: Unbounded, sans-serif; font-size: 32px; font-weight: 700"><span style="background: linear-gradient(transparent 74%, #E2609B 74%, #E2609B 96%, transparent 96%)">плёнка</span> и <span style="background: linear-gradient(transparent 74%, #CDE23C 74%, #CDE23C 96%, transparent 96%)">шумка</span></span></div>
+</div>
+</div>
+
+<div data-name="Kit/Buttons" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 140px repeat(5, minmax(0, 1fr)); gap: 16px 20px; align-items: center">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Кнопки</span><span style="font-size: 12px; color: #9BA3AE">Default</span><span style="font-size: 12px; color: #9BA3AE">Hover</span><span style="font-size: 12px; color: #9BA3AE">Pressed</span><span style="font-size: 12px; color: #9BA3AE">Focus</span><span style="font-size: 12px; color: #9BA3AE">Disabled</span>
+<span style="font-size: 14px; font-weight: 600">Primary</span>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #F2F4F7; color: #0D0E10; font: 700 15px Manrope, sans-serif">Рассчитать</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #FFFFFF; color: #0D0E10; font: 700 15px Manrope, sans-serif; box-shadow: 0 0 24px rgba(242,244,247,0.35)">Рассчитать</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #C9CED6; color: #0D0E10; font: 700 15px Manrope, sans-serif">Рассчитать</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #F2F4F7; color: #0D0E10; font: 700 15px Manrope, sans-serif; outline: 2px solid #F2F4F7; outline-offset: 3px">Рассчитать</button>
+<button disabled style="height: 52px; border: 0; border-radius: 16px; background: #2A2D33; color: #8A919B; font: 700 15px Manrope, sans-serif">Рассчитать</button>
+<span style="font-size: 14px; font-weight: 600">Secondary</span>
+<button style="height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 600 15px Manrope, sans-serif">Telegram</button>
+<button style="height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); color: #F2F4F7; font: 600 15px Manrope, sans-serif">Telegram</button>
+<button style="height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); color: #F2F4F7; font: 600 15px Manrope, sans-serif">Telegram</button>
+<button style="height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #F2F4F7; font: 600 15px Manrope, sans-serif; outline: 2px solid #F2F4F7; outline-offset: 3px">Telegram</button>
+<button disabled style="height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #80878F; font: 600 15px Manrope, sans-serif">Telegram</button>
+<span style="font-size: 14px; font-weight: 600">Ghost</span>
+<button style="height: 52px; border: 0; border-radius: 16px; background: transparent; color: #F2F4F7; font: 700 15px Manrope, sans-serif">Все отзывы →</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: rgba(255,255,255,0.06); color: #FFFFFF; font: 700 15px Manrope, sans-serif">Все отзывы →</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: rgba(255,255,255,0.1); color: #FFFFFF; font: 700 15px Manrope, sans-serif">Все отзывы →</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: transparent; color: #F2F4F7; font: 700 15px Manrope, sans-serif; outline: 2px solid #F2F4F7; outline-offset: 3px">Все отзывы →</button>
+<button disabled style="height: 52px; border: 0; border-radius: 16px; background: transparent; color: #80878F; font: 700 15px Manrope, sans-serif">Все отзывы →</button>
+<span style="font-size: 14px; font-weight: 600">Direction</span>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #E2609B; color: #1A0A12; font: 700 15px Manrope, sans-serif">Космос Wrap</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #EC86B4; color: #1A0A12; font: 700 15px Manrope, sans-serif; box-shadow: 0 0 24px rgba(226,96,155,0.5)">Космос Wrap</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #CDE23C; color: #151A04; font: 700 15px Manrope, sans-serif">Апгрейд Garage</button>
+<button style="height: 52px; border: 0; border-radius: 16px; background: #DCEE63; color: #151A04; font: 700 15px Manrope, sans-serif; box-shadow: 0 0 24px rgba(205,226,60,0.45)">Апгрейд Garage</button>
+<span style="font-size: 12px; color: #9BA3AE">Только в табах и фильтрах направлений</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div data-name="Kit/ChipsTabs" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Чипы и табы</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #F2F4F7; background: #F2F4F7; color: #0D0E10; font: 700 14px Manrope, sans-serif">Все</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(226,96,155,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Плёнка</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #E2609B; background: rgba(226,96,155,0.16); color: #F2F4F7; font: 700 14px Manrope, sans-serif">Салон ✓</button>
+<button style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(205,226,60,0.5); background: transparent; color: #F2F4F7; font: 600 14px Manrope, sans-serif">Шумка</button>
+</div>
+<div style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Тег Космос</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(205,226,60,0.14); color: #CDE23C; font-size: 13px; font-weight: 700; display: flex; align-items: center">Тег Апгрейд</span></div>
+<div role="tablist" style="display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: #0D0E10">
+<button role="tab" aria-selected="true" style="flex-grow: 1; height: 44px; border: 0; border-radius: 10px; background: #CDE23C; color: #151A04; font: 700 14px Manrope, sans-serif">Шумоизоляция</button>
+<button role="tab" style="flex-grow: 1; height: 44px; border: 0; border-radius: 10px; background: transparent; color: #C9CED6; font: 600 14px Manrope, sans-serif">Плёнка</button>
+</div>
+</div>
+
+<div data-name="Kit/Hotspot" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">HotspotDot · 28 десктоп / 32 мобайл</span>
+<div style="display: flex; justify-content: space-between; align-items: center">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 50%; border: 2px solid #F2F4F7; background: #0D0E10"></span><span style="font-size: 12px; color: #9BA3AE">idle</span></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 50%; border: 2px solid #F2F4F7; background: #0D0E10; box-shadow: 0 0 0 6px rgba(242,244,247,0.14)"></span><span style="font-size: 12px; color: #9BA3AE">hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #E2609B; box-shadow: 0 0 0 6px rgba(226,96,155,0.22), 0 0 20px rgba(226,96,155,0.6)"></span><span style="font-size: 12px; color: #9BA3AE">on · Космос</span></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 50%; background: #CDE23C; box-shadow: 0 0 0 6px rgba(205,226,60,0.2), 0 0 20px rgba(205,226,60,0.5)"></span><span style="font-size: 12px; color: #9BA3AE">on · Апгрейд</span></div>
+</div>
+<div data-name="SummaryRow" style="height: 52px; display: grid; grid-template-columns: 8px 1fr auto 32px; gap: 12px; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08)"><span style="width: 8px; height: 8px; background: #CDE23C"></span><span style="font-size: 15px; font-weight: 600">Двери ×4</span><span style="font-size: 15px; font-weight: 700">от 20 000 ₽</span><button aria-label="Убрать" style="width: 32px; height: 32px; border: 0; background: transparent; color: #9BA3AE; font-size: 18px">×</button></div>
+</div>
+
+<div data-name="Kit/CallButton" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">CallButton · вместо форм</span>
+<a href="tel:+79855433421" data-name="CallButton" style="height: 72px; padding: 0 22px; border-radius: 18px; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #0D0E10; color: #F2F4F7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 18px; font-weight: 800">+7 985 543-34-21</span><span style="font-size: 14px; color: #3D4148">Primary · Айк</span></span></a>
+<a href="tel:+79858276510" data-name="CallButton" style="height: 72px; padding: 0 22px; box-sizing: border-box; border-radius: 18px; border: 1px solid rgba(255,255,255,0.22); color: #F2F4F7; display: flex; align-items: center; gap: 16px; text-decoration: none"><span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 18px; font-weight: 800">+7 985 827-65-10</span><span style="font-size: 14px; color: #C9CED6">Secondary · Ксения</span></span></a>
+<span style="font-size: 12px; line-height: 1.5; color: #9BA3AE">href="tel:…" — на телефоне сразу звонок. На десктопе номер крупно, чтобы набрать с телефона.</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px">
+<div data-name="Kit/Cards" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">ServiceCard · CaseCard</span>
+<div style="position: relative; padding: 20px; border-radius: 16px; background: #0D0E10; border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; overflow: hidden"><span style="position: absolute; left: 20px; right: 20px; top: 0; height: 2px; background: #E2609B; box-shadow: 0 0 10px rgba(226,96,155,0.8)"></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 700">Матовая статика</span><span style="font-size: 13px; color: #9BA3AE">от 3 000 ₽</span></span><span style="color: #EC86B4">→</span></div>
+<div style="display: flex; flex-direction: column; gap: 10px"><span style="height: 140px; border-radius: 16px; background: repeating-linear-gradient(135deg, #0D0E10 0 14px, #111215 14px 28px)"></span><span style="font-size: 16px; font-weight: 700">Volkswagen Teramont X</span><span style="display: flex; gap: 6px"><span style="height: 26px; padding: 0 8px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 12px; font-weight: 700; display: flex; align-items: center">Статика</span></span></div>
+</div>
+
+<div data-name="Kit/Modal" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Modal · связаться с мастером</span>
+<div role="dialog" aria-label="Связаться с мастером" style="padding: 24px; border-radius: 20px; background: #1E2126; border: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 12px; box-shadow: 0 24px 60px rgba(0,0,0,0.5)">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 18px; font-weight: 700">Связаться с мастером</span><button aria-label="Закрыть" style="width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: #C9CED6; font-size: 20px">×</button></div>
+<span style="padding: 12px; border-radius: 12px; background: #15171A; font-size: 13px; line-height: 1.5; color: #C9CED6">Кроссовер · двери, пол, арки · от 72 000 ₽</span>
+<span style="height: 52px; border-radius: 14px; background: #F2F4F7; color: #0D0E10; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center">+7 985 543-34-21 · Айк</span>
+<span style="height: 44px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center">Скопировать ссылку на расчёт</span>
+</div>
+</div>
+
+<div data-name="Kit/AccordionToast" style="padding: 28px; border-radius: 20px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9BA3AE">Accordion · Toast</span>
+<div style="display: flex; flex-direction: column">
+<div style="padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 8px"><button aria-expanded="true" style="padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 16px Manrope, sans-serif; display: flex; justify-content: space-between">Можно ли снять плёнку?<span>−</span></button><span style="font-size: 14px; color: #C9CED6">Да, делаем и демонтаж — лак под плёнкой остаётся заводским.</span></div>
+<div style="padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12)"><button aria-expanded="false" style="width: 100%; padding: 0; border: 0; background: transparent; color: #F2F4F7; font: 700 16px Manrope, sans-serif; display: flex; justify-content: space-between">Сохранится ли гарантия?<span>+</span></button></div>
+</div>
+<div role="status" data-name="Toast" style="position: relative; padding: 16px 18px; border-radius: 16px; background: #1E2126; border: 1px solid rgba(255,255,255,0.12); display: flex; gap: 12px; align-items: center; overflow: hidden"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; display: flex"><span style="flex-grow: 1; background: #E2609B"></span><span style="flex-grow: 1; background: #CDE23C"></span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F2F4F7" stroke-width="2" stroke-linecap="round"><path d="M5 12l5 5 9-10"></path></svg><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Ссылка скопирована</span><span style="font-size: 13px; color: #9BA3AE">По ней откроется тот же расчёт</span></span></div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

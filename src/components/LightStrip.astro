@@ -1,0 +1,5 @@
+---
+interface Props { class?: string; vertical?: boolean }
+const { class: cls, vertical } = Astro.props;
+---
+<span class:list={['light-strip', vertical && 'light-strip--v', cls]} aria-hidden="true" data-name="LightStrip/Split"><span></span><span></span></span>

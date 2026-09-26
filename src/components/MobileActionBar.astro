@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { url } from '../lib/url';
+import { primaryPhone, telegram, telHref, whatsappHref, type Dir } from '../lib/data';
+
+interface Props { dir?: Dir; calcHref?: string }
+const { dir = 'garage', calcHref = url('/calculator') } = Astro.props;
+---
+<nav class="action-bar" aria-label="Быстрые действия" data-name="MobileActionBar">
+  <a href={calcHref} class="action-bar__item action-bar__item--main"><Icon name="calc" />Расчёт</a>
+  <a href={telegram(dir)} class="action-bar__item" target="_blank" rel="noopener"><Icon name="tgSimple" />Telegram</a>
+  <a href={whatsappHref} class="action-bar__item" target="_blank" rel="noopener"><Icon name="waSimple" />WhatsApp</a>
+  <a href={telHref(primaryPhone.tel)} class="action-bar__item"><Icon name="phone" />Позвонить</a>
+</nav>

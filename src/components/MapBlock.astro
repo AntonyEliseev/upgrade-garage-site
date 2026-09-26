@@ -1,0 +1,73 @@
+---
+// Яндекс Карта грузится, только когда пользователь долистал до контактов. Ошибка/таймаут — MapFallback.
+import { contacts, shortAddress } from '../lib/data';
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+const src = `https://yandex.ru/map-widget/v1/?mode=search&text=${encodeURIComponent(contacts.address.split(', бокс')[0])}&z=16`;
+const twoGis = `https://2gis.ru/moscow/search/${encodeURIComponent(shortAddress)}`;
+---
+<div class:list={['map', cls]} data-map data-src={src} data-name="Map">
+  <span class="map__pin" aria-hidden="true"></span>
+  <span class="map__hint">Яндекс Карта загрузится здесь</span>
+  <div class="map__fallback" data-map-fallback hidden data-name="MapFallback">
+    <span class="map__fb-title">{shortAddress}</span>
+    <span class="map__fb-text">Карта не загрузилась. Откройте маршрут в приложении:</span>
+    <div class="map__fb-actions">
+      <a href={contacts.yandexMaps} class="btn btn--primary btn--s" target="_blank" rel="noopener">Яндекс Карты</a>
+      <a href={twoGis} class="btn btn--secondary btn--s" target="_blank" rel="noopener">2ГИС</a>
+      <button type="button" class="btn btn--secondary btn--s" data-copy-address={contacts.address}>Скопировать адрес</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => {
+    const fallback = box.querySelector<HTMLElement>('[data-map-fallback]')!;
+    const fail = () => { box.classList.add('is-failed'); fallback.hidden = false; box.querySelector('iframe')?.remove(); };
+    box.querySelector('[data-copy-address]')?.addEventListener('click', async (e) => {
+      const text = (e.currentTarget as HTMLElement).dataset.copyAddress!;
+      try {
+        await navigator.clipboard.writeText(text);
+        document.dispatchEvent(new CustomEvent('ug:toast', { detail: { title: 'Адрес скопирован', sub: text } }));
+      } catch { /* нет доступа к буферу */ }
+    });
+    const load = () => {
+      if (!navigator.onLine) return fail();
+      const iframe = document.createElement('iframe');
+      iframe.src = box.dataset.src!;
+      iframe.title = 'Карта: как проехать в студию';
+      iframe.loading = 'lazy';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      const timer = window.setTimeout(fail, 10000);
+      iframe.addEventListener('load', () => { window.clearTimeout(timer); box.classList.add('is-loaded'); });
+      iframe.addEventListener('error', () => { window.clearTimeout(timer); fail(); });
+      box.appendChild(iframe);
+    };
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+    }, { rootMargin: '200px' });
+    io.observe(box);
+  });
+</script>
+
+<style>
+  .map {
+    position: relative; overflow: hidden; height: 180px; border-radius: 18px;
+    background: repeating-linear-gradient(0deg, var(--ug-surface) 0 31px, var(--ug-grid-line) 31px 32px), var(--ug-surface);
+    border: 1px solid var(--ug-border);
+  }
+  .map :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity var(--t); }
+  .map.is-loaded :global(iframe) { opacity: 1; }
+  .map__pin { position: absolute; left: 50%; top: 45%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: var(--ug-text); box-shadow: 0 0 0 7px rgba(242, 244, 247, 0.18); }
+  .map__hint { position: absolute; left: 20px; bottom: 16px; font-size: 13px; color: var(--ug-muted); }
+  .map.is-loaded .map__pin, .map.is-loaded .map__hint, .map.is-failed .map__hint { display: none; }
+  .map.is-failed { height: auto; min-height: 300px; }
+  .map.is-failed .map__pin { top: 70px; }
+  .map__fallback { position: absolute; left: 20px; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .map__fb-title { font-size: 18px; font-weight: 700; }
+  .map__fb-text { font-size: 14px; color: var(--ug-text-2); }
+  .map__fb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  @media (min-width: 768px) { .map { height: 300px; border-radius: 20px; } .map__pin { width: 20px; height: 20px; margin-left: -10px; box-shadow: 0 0 0 8px rgba(242, 244, 247, 0.18); } }
+  @media (min-width: 1280px) { .map { height: 340px; } .map__fallback { left: 24px; right: 24px; bottom: 24px; } }
+</style>

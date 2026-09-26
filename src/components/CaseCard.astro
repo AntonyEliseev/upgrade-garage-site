@@ -1,0 +1,39 @@
+---
+import Photo from './Photo.astro';
+import type { Dir } from '../lib/data';
+
+interface Props {
+  href?: string;
+  img?: string;
+  alt?: string;
+  caption?: string;
+  badge?: string;
+  title: string;
+  tags: string[];
+  dir: Dir;
+  sizes?: string;
+  class?: string;
+  /** Цветная линия сверху — как в портфолио */
+  line?: boolean;
+  headingTag?: 'h2' | 'h3';
+}
+const { href, img, alt = '', caption, badge, title, tags, dir, sizes = '(min-width: 1280px) 410px, (min-width: 768px) 50vw, 300px', class: cls, line, headingTag = 'h3' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const H = headingTag;
+---
+<Tag href={href} class:list={['case-card', `dir-${dir}`, cls]} data-name="CaseCard">
+  <span class:list={['case-card__media', !img && 'case-card__media--stripe']}>
+    {img && <Photo src={img} alt={alt} sizes={sizes} />}
+    {line && <span class="case-card__line" aria-hidden="true"></span>}
+    {badge && <span class="tag tag--photo case-card__badge">{badge}</span>}
+    {caption && <span class="case-card__caption">{caption}</span>}
+    {href && <span class="case-card__cta" aria-hidden="true">Смотреть кейс →</span>}
+  </span>
+  <H class="case-card__title">{title}</H>
+  <span class="tags">{tags.map((t) => <span class="tag">{t}</span>)}</span>
+</Tag>
+
+<style>
+  .case-card__badge { position: absolute; left: 16px; top: 16px; z-index: 1; }
+  @media (min-width: 1280px) { .case-card__badge { left: 20px; top: 20px; } }
+</style>

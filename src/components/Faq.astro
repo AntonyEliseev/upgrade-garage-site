@@ -1,0 +1,18 @@
+---
+// FAQ на <details>: работает без JS. Разметка FAQPage — в JsonLd на странице.
+interface Props {
+  items: { q: string; a: string }[];
+  /** Какой вопрос открыт сразу (по умолчанию первый) */
+  open?: number;
+  class?: string;
+}
+const { items, open = 0, class: cls } = Astro.props;
+---
+<div class:list={['faq', cls]} data-name="Accordion">
+  {items.map((it, i) => (
+    <details class="faq__item" open={i === open}>
+      <summary class="faq__q">{it.q}<span class="faq__sign" aria-hidden="true"></span></summary>
+      <p class="faq__a" set:html={it.a} />
+    </details>
+  ))}
+</div>

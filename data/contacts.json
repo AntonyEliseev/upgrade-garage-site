@@ -1,0 +1,37 @@
+{
+ "phones": [
+  {
+   "name": "Айк",
+   "tel": "+79855433421",
+   "display": "+7 985 543-34-21",
+   "primary": true
+  },
+  {
+   "name": "Ксения",
+   "tel": "+79858276510",
+   "display": "+7 985 827-65-10"
+  }
+ ],
+ "telegram": {
+  "kosmos": "https://t.me/KosmosWrap",
+  "garage": "https://t.me/UpgradeGarage"
+ },
+ "whatsapp": "[номер — заглушка]",
+ "address": "Москва, Алтуфьевское ш., 31с1, бокс 5, 3 этаж",
+ "hours": "Вт–Сб 11:00–20:00, пн и вс — выходной",
+ "yandexMaps": "https://yandex.ru/maps/-/CXQWaN6O",
+ "rating": {
+  "value": 4.6,
+  "reviews": 11,
+  "source": "Яндекс Карты"
+ },
+ "legal": {
+  "operator": "[ИП / ООО, ИНН, ОГРН — заглушка]",
+  "email": "[e-mail для обращений — заглушка]",
+  "policyDate": "[дата редакции — заглушка]"
+ },
+ "stats": {
+  "since": 2019,
+  "cars": "300+"
+ }
+}

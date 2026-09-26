@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import { phones, telHref } from '../lib/data';
+
+interface Props {
+  /** Индекс телефона из contacts.json: 0 — Айк (primary), 1 — Ксения */
+  index?: number;
+  size?: 'm' | 'default' | 'l';
+  class?: string;
+}
+const { index = 0, size = 'default', class: cls } = Astro.props;
+const p = phones[index];
+const primary = !!p.primary;
+---
+<a
+  href={telHref(p.tel)}
+  class:list={['call-btn', primary && 'call-btn--primary', size !== 'default' && `call-btn--${size}`, cls]}
+  data-name="CallButton"
+>
+  <span class="call-btn__icon"><Icon name="phone" size={size === 'm' ? 20 : 22} /></span>
+  <span class="call-btn__text">
+    <span class="call-btn__num">{p.display}</span>
+    <span class="call-btn__name">{p.name}</span>
+  </span>
+</a>

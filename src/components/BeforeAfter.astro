@@ -1,0 +1,68 @@
+---
+// До/после: ползунок перетаскивается мышью, пальцем или стрелками. Без полей ввода — role="slider".
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+
+interface Shot { img: string; alt: string; caption?: string }
+interface Props { before: Shot; after: Shot }
+const { before, after } = Astro.props;
+---
+<div class="ba2" data-ba style="--pos: 50%" data-name="BeforeAfter">
+  <span class="ba2__img ba2__img--after">
+    <Photo src={after.img} alt={after.alt} sizes="(min-width: 1280px) 850px, 100vw" />
+    {after.caption && <span class="tag tag--photo ba2__tag ba2__tag--r">{after.caption}</span>}
+  </span>
+  <span class="ba2__img ba2__img--before">
+    <Photo src={before.img} alt={before.alt} sizes="(min-width: 1280px) 850px, 100vw" />
+    {before.caption && <span class="tag tag--photo ba2__tag">{before.caption}</span>}
+  </span>
+  <span class="ba2__line" aria-hidden="true"></span>
+  <span class="ba2__knob" role="slider" tabindex="0" aria-label="Сравнить до и после" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50%">
+    <Icon name="swap" size={20} stroke={2} />
+  </span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((box) => {
+    const knob = box.querySelector<HTMLElement>('[role="slider"]')!;
+    const set = (p: number) => {
+      const v = Math.max(5, Math.min(95, p));
+      box.style.setProperty('--pos', `${v}%`);
+      knob.setAttribute('aria-valuenow', String(Math.round(v)));
+      knob.setAttribute('aria-valuetext', `${Math.round(v)}%`);
+    };
+    const fromEvent = (e: PointerEvent) => {
+      const r = box.getBoundingClientRect();
+      set(((e.clientX - r.left) / r.width) * 100);
+    };
+    box.addEventListener('pointerdown', (e) => {
+      box.setPointerCapture(e.pointerId);
+      fromEvent(e);
+      const move = (ev: PointerEvent) => fromEvent(ev);
+      const up = () => { box.removeEventListener('pointermove', move); box.removeEventListener('pointerup', up); };
+      box.addEventListener('pointermove', move);
+      box.addEventListener('pointerup', up);
+    });
+    knob.addEventListener('keydown', (e) => {
+      const cur = Number(knob.getAttribute('aria-valuenow'));
+      if (e.key === 'ArrowLeft') { set(cur - 5); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { set(cur + 5); e.preventDefault(); }
+    });
+  });
+</script>
+
+<style>
+  .ba2 { position: relative; overflow: hidden; height: 260px; border-radius: 18px; background: var(--ug-bg); touch-action: pan-y; cursor: ew-resize; user-select: none; }
+  .ba2__img { position: absolute; inset: 0; }
+  .ba2__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .ba2__img--before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .ba2__tag { position: absolute; left: 16px; top: 16px; }
+  .ba2__tag--r { left: auto; right: 16px; }
+  .ba2__line { position: absolute; left: var(--pos); top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242, 244, 247, 0.7); }
+  .ba2__knob {
+    position: absolute; left: var(--pos); top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
+    background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center;
+  }
+  .ba2__knob:focus-visible { outline: 2px solid #F2F4F7; outline-offset: 3px; }
+  @media (min-width: 768px) { .ba2 { height: 360px; border-radius: 20px; } }
+</style>

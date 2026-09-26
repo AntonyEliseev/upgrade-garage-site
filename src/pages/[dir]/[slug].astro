@@ -1,0 +1,383 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url';
+import Icon from '../../components/Icon.astro';
+import Photo from '../../components/Photo.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import CaseCard from '../../components/CaseCard.astro';
+import Faq from '../../components/Faq.astro';
+import CallStrip from '../../components/CallStrip.astro';
+import ConfiguratorSection from '../../components/ConfiguratorSection.astro';
+import { buildServicePages, markH1, type ServicePageData } from '../../lib/servicePage';
+import { DIR_NAME, telegram } from '../../lib/data';
+import { breadcrumbs, faqPage, serviceSchema } from '../../lib/schema';
+import { TABS } from '../../lib/calc';
+
+export function getStaticPaths() {
+  return buildServicePages().map((page) => ({
+    params: { dir: page.service.dir, slug: page.service.slug },
+    props: { page },
+  }));
+}
+
+interface Props { page: ServicePageData }
+const { page } = Astro.props;
+const { service: s, seo } = page;
+const dir = s.dir;
+const site = Astro.site!;
+const crumbs = [
+  { name: 'Главная', href: url('/') },
+  { name: DIR_NAME[dir] },
+  { name: s.name },
+];
+const tabName = TABS.find((t) => t.id === page.calc.tab)?.name ?? '';
+const calcTeaserHref = url('/calculator') + `?tab=${page.calc.tab}${page.calc.pkg ? `&pkg=${page.calc.pkg}` : ''}`;
+const tg = telegram(dir);
+const jsonLd = [
+  serviceSchema(site, { name: s.name, description: s.description, url: s.url }, page.priceFrom),
+  breadcrumbs(site, [{ name: 'Главная', href: '/' }, { name: s.name, href: s.url }]),
+  faqPage(seo.faq),
+];
+---
+<Base title={s.title} description={s.description} ogImage={page.hero.img} current="services" dir={dir} service={s.slug} jsonLd={jsonLd}>
+  <div class={`dir-${dir}`}>
+    <!-- ========== ServiceHero ========== -->
+    <section class="shero" data-name="ServiceHero">
+      <div class="shero__photo" data-name="HeroPhoto">
+        <Photo src={page.hero.img} alt={page.hero.alt} sizes="(min-width: 1280px) 52vw, 100vw" widths={[480, 780, 1100, 1480]} eager />
+        <span class="shero__shade" aria-hidden="true"></span>
+      </div>
+      <div class="container shero__in">
+        <div class="shero__content">
+          <Crumbs items={crumbs} class="shero__crumbs" />
+          <span class="shero__badge"><span class="shero__badge-sq" aria-hidden="true"></span>{DIR_NAME[dir]}</span>
+          <h1 class="shero__title" set:html={markH1(s.h1, page.h1Mark)} />
+          <p class="lead shero__lead" set:html={seo.lead} />
+          <div class="shero__stats">
+            {page.stats.map((st) => (
+              <span class="shero__stat">
+                <span class="price shero__stat-v">{st.v}</span>
+                <span class="shero__stat-l">{st.lm ? <><span class="hide-m">{st.l}</span><span class="show-m">{st.lm}</span></> : st.l}</span>
+              </span>
+            ))}
+          </div>
+          <div class="shero__btns">
+            <a href="#calc" class="btn btn--primary btn--l hide-m">Рассчитать для своей машины</a>
+            <a href={calcTeaserHref} class="btn btn--primary btn--l show-m">Рассчитать для своей машины</a>
+            <a href={tg} class="btn btn--secondary btn--l hide-m" target="_blank" rel="noopener">Написать в Telegram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Problems ========== -->
+    {page.problems && (
+      <section class="section section--deep svc-problems" data-name="Problems">
+        <div class="container stack gap-40">
+          <h2 class="h2">Какую проблему решаем</h2>
+          <ul role="list" class="problems">
+            {page.problems.map((p, i) => (
+              <li class="problem" data-name="ProblemCard">
+                <span class="acc-line" aria-hidden="true"></span>
+                <span class="problem__num hide-m">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="problem__title">{p.t}</h3>
+                <p class="problem__text">{p.d}</p>
+                <span class="problem__solve">{p.s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- ========== Included ========== -->
+    {page.includedBlock && (
+      <section class="section section--deep svc-included" data-name="Included">
+        <div class="container included">
+          <div class="included__head">
+            <h2 class="h2">Что входит</h2>
+            {page.includedBlock.lead && <p class="included__lead" set:html={page.includedBlock.lead} />}
+          </div>
+          {'items' in page.includedBlock ? (
+            <ul role="list" class="checklist" data-name="Checklist">
+              {page.includedBlock.items.map((it) => (
+                <li><Icon name="check" size={20} stroke={2.2} class="checklist__ico" /><span set:html={it} /></li>
+              ))}
+            </ul>
+          ) : (
+            <p class="included__text" set:html={page.includedBlock.text} />
+          )}
+        </div>
+      </section>
+    )}
+
+    <!-- ========== Details (SEO-блоки) ========== -->
+    {page.details.length > 0 && (
+      <section class="section section--deep svc-details" data-name="Details">
+        <div class="container">
+          <dl class="details">
+            {page.details.map((b) => (
+              <div class="details__row">
+                <dt class="details__title">{b.title}</dt>
+                <dd class="details__body">
+                  {b.text && <p set:html={b.text} />}
+                  {b.items.length > 0 && <ul>{b.items.map((it) => <li set:html={it} />)}</ul>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )}
+
+    <!-- ========== Packages ========== -->
+    {page.packages && (
+      <section class="section svc-packages" data-name="Packages">
+        <div class="container stack gap-40">
+          <h2 class="h2">Пакеты</h2>
+          <ul role="list" class="packages">
+            {page.packages.map((p) => (
+              <li class:list={['package', p.featured && 'package--featured']} data-name={p.featured ? 'PackageCard/featured' : 'PackageCard'}>
+                {p.featured && <span class="package__badge">Чаще выбирают</span>}
+                <h3 class="package__name">{p.name}</h3>
+                <span class="package__sub">{p.sub}</span>
+                <span class="price package__price">{p.price}</span>
+                <ul class="package__list">{p.items.map((it) => <li>{it}</li>)}</ul>
+                <a href={url(`/calculator?${p.calc}`)} class:list={['btn', p.featured ? 'btn--primary' : 'btn--secondary', 'package__btn']}>Выбрать<span class="sr-only">: {p.name}</span></a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- ========== Configurator / CalcTeaser ========== -->
+    <div class="svc-calc">
+      <ConfiguratorSection initialTab={page.calc.tab} initialFilmPkg={page.calc.pkg} />
+    </div>
+    <section class="section svc-teaser" data-name="CalcTeaser">
+      <div class="container">
+        <a href={calcTeaserHref} class="teaser">
+          <span class="acc-line" aria-hidden="true"></span>
+          <span class="teaser__title">Отметьте зоны на машине — покажем цену</span>
+          <span class="teaser__text">Калькулятор откроется на вкладке «{tabName}»</span>
+          <span class="btn btn--primary btn--block">Открыть калькулятор</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== Works ========== -->
+    {page.caseItems.length > 0 && (
+      <section class="section section--deep svc-works" data-name="Works">
+        <div class="container stack gap-32">
+          <div class="section-head section-head--row">
+            <h2 class="h2">{page.worksTitle}</h2>
+            <a href={url('/works')} class="link-arrow hide-m">Все работы →</a>
+          </div>
+          <div class="svc-works__grid">
+            {page.caseItems.map((c) => (
+              <CaseCard href={url(`/works/${c.slug}`)} img={c.img} alt={c.name} caption={c.photo} title={c.name} tags={c.tags.slice(0, 2)} dir={c.d} line={false} />
+            ))}
+          </div>
+          <a href={url('/works')} class="btn btn--secondary show-m">Все работы</a>
+        </div>
+      </section>
+    )}
+
+    <!-- ========== FAQ ========== -->
+    <section class="section svc-faq" data-name="FAQ">
+      <div class="container svc-faq__in">
+        <h2 class="h2"><span class="hide-m">{page.faqTitle}</span><span class="show-m">Вопросы</span></h2>
+        <Faq items={seo.faq} />
+      </div>
+    </section>
+
+    <CallStrip title="Позвоните — посчитаем для вашей машины" dir={dir} accent />
+  </div>
+</Base>
+
+<style>
+  .gap-32 { gap: 14px; }
+  @media (min-width: 768px) { .gap-32 { gap: 24px; } }
+  @media (min-width: 1280px) { .gap-32 { gap: 32px; } }
+
+  /* ---------- Hero ---------- */
+  .shero { position: relative; overflow: hidden; background: var(--ug-bg); }
+  .shero__photo { position: relative; height: 220px; overflow: hidden; background: var(--ug-bg); }
+  .shero__photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.72) saturate(0.9); }
+  .shero__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(var(--ug-scrim)) 0%, rgba(var(--ug-scrim), 0) 60%); }
+  .shero__in { position: relative; z-index: 1; padding-bottom: 32px; }
+  .shero__content { display: flex; flex-direction: column; gap: 18px; }
+  .shero__content :global(.shero__crumbs) { display: none; }
+  .shero__badge {
+    align-self: flex-start; min-height: 28px; padding: 0 10px; border-radius: 8px;
+    border: 1px solid var(--acc); color: var(--acc-text);
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;
+  }
+  .shero__badge-sq { width: 6px; height: 6px; background: var(--acc); }
+  .shero__title {
+    font-family: var(--ug-font-display); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12;
+    font-size: clamp(32px, calc(32px + 16 * (100vw - 390px) / 378), 48px); text-wrap: balance;
+  }
+  .shero__lead { font-size: 16px; line-height: 1.5; }
+  .shero__stats {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
+    padding: 14px 0; border-top: 1px solid var(--ug-press-bg); border-bottom: 1px solid var(--ug-press-bg);
+  }
+  .shero__stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .shero__stat-v { font-size: 15px; }
+  .shero__stat-l { font-size: 12px; color: var(--ug-muted); line-height: 1.35; }
+  .shero__btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .shero__btns .btn { flex: 1 1 auto; }
+
+  @media (min-width: 768px) {
+    .shero__photo { height: 340px; }
+    .shero__in { padding-bottom: 48px; }
+    .shero__content { gap: 22px; }
+    .shero__content :global(.shero__crumbs) { display: flex; order: -1; }
+    .shero__badge { min-height: 30px; padding: 0 12px; font-size: 13px; gap: 8px; }
+    .shero__lead { font-size: 18px; line-height: 1.55; }
+    .shero__stats { display: flex; gap: 40px; padding: 20px 0; }
+    .shero__stat { gap: 4px; }
+    .shero__stat-v { font-size: 24px; }
+    .shero__stat-l { font-size: 14px; }
+    .shero__btns .btn { flex: 0 0 auto; }
+  }
+  @media (min-width: 1280px) {
+    .shero { min-height: 640px; display: flex; }
+    .shero__photo { position: absolute; top: 0; right: 0; bottom: 0; height: auto; width: 51.4%; }
+    .shero__shade { background: linear-gradient(90deg, rgb(var(--ug-scrim)) 0%, rgba(var(--ug-scrim), 0) 40%); }
+    .shero__in { padding-top: 56px; padding-bottom: 56px; }
+    .shero__content { width: 640px; gap: 24px; }
+    .shero__title { font-size: 60px; line-height: 1.08; letter-spacing: -0.025em; }
+    .shero__stat-v { font-size: 30px; }
+  }
+
+  /* ---------- Problems ---------- */
+  .problems { display: flex; flex-direction: column; gap: 12px; }
+  .problem {
+    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px;
+    padding: 18px; border-radius: 16px; background: var(--ug-surface); border: 1px solid var(--ug-border);
+    --acc-inset: 18px;
+  }
+  .problem .acc-line { box-shadow: none; }
+  .problem__num { font-size: 13px; font-weight: 800; color: var(--acc-text); }
+  .problem__title { font-size: 17px; font-weight: 700; }
+  .problem__text { font-size: 14px; line-height: 1.5; color: var(--ug-muted); }
+  .problem__solve { font-size: 13px; font-weight: 700; color: var(--acc-text); }
+  @media (min-width: 768px) {
+    .problems { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .problem { padding: 28px 24px; gap: 14px; border-radius: 20px; --acc-inset: 24px; }
+    .problem .acc-line { box-shadow: 0 0 12px var(--acc-glow); }
+    .problem__title { font-size: 20px; }
+    .problem__text { font-size: 15px; }
+    .problem__solve { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--ug-border); font-size: 14px; font-weight: 600; color: var(--ug-text); }
+  }
+  @media (min-width: 1280px) { .problems { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; } }
+
+  /* ---------- Included ---------- */
+  .svc-problems + .svc-included, .svc-included + .svc-details { padding-top: 0; }
+  .included { display: flex; flex-direction: column; gap: 12px; }
+  .included__head { display: flex; flex-direction: column; gap: 16px; }
+  .included__lead { font-size: 16px; line-height: 1.55; color: var(--ug-muted); }
+  .included__text { font-size: 16px; line-height: 1.6; color: var(--ug-text-2); }
+  .checklist { display: flex; flex-direction: column; }
+  .checklist li {
+    min-height: 52px; padding: 10px 0; display: flex; align-items: center; gap: 12px;
+    border-top: 1px solid var(--ug-press-bg); font-size: 15px; font-weight: 600; line-height: 1.4;
+  }
+  .checklist li:last-child { border-bottom: 1px solid var(--ug-press-bg); }
+  .checklist :global(.checklist__ico) { flex-shrink: 0; color: var(--acc); }
+  .checklist :global(strong) { font-weight: 800; }
+  @media (min-width: 768px) {
+    .included { gap: 24px; }
+    .checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+    .checklist li { min-height: 60px; font-size: 16px; gap: 14px; }
+    .checklist li:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--ug-press-bg); }
+  }
+  @media (min-width: 1280px) { .included { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start; } }
+
+  /* ---------- Details ---------- */
+  .details { display: flex; flex-direction: column; margin: 0; }
+  .details__row { display: flex; flex-direction: column; gap: 8px; padding: 20px 0; border-top: 1px solid var(--ug-press-bg); }
+  .details__row:last-child { border-bottom: 1px solid var(--ug-press-bg); }
+  .details__title { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acc-text); }
+  .details__body { margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.6; color: var(--ug-text-2); max-width: 760px; }
+  .details__body ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .details__body li::marker { color: var(--acc); }
+  .details__body :global(strong) { color: var(--ug-text); }
+  @media (min-width: 768px) {
+    .details__row { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 24px 0; }
+    .details__body { font-size: 16px; }
+  }
+  @media (min-width: 1280px) { .details__row { grid-template-columns: 1fr 1.4fr; gap: 48px; } }
+
+  /* ---------- Packages ---------- */
+  .packages {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .packages::-webkit-scrollbar { display: none; }
+  .package {
+    position: relative; flex: 0 0 290px; scroll-snap-align: start;
+    padding: 24px; border-radius: 20px; background: var(--ug-surface); border: 1px solid var(--ug-border);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .package--featured { background: var(--ug-surface-hover); border-color: var(--acc); box-shadow: 0 0 40px var(--acc-ring); order: -1; }
+  .package__badge {
+    align-self: flex-start; min-height: 24px; padding: 0 8px; border-radius: 6px;
+    background: var(--acc); color: var(--acc-ink); font-size: 11px; font-weight: 800; display: flex; align-items: center;
+  }
+  .package__name { font-size: 20px; font-weight: 700; }
+  .package__sub { font-size: 15px; color: var(--ug-muted); }
+  .package__price { font-size: 24px; }
+  .package__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--ug-text-2); }
+  .package__list li::before { content: '— '; }
+  .package__btn { margin-top: auto; min-height: 48px; border-radius: 14px; }
+  @media (min-width: 768px) {
+    .packages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin: 0; padding: 0; }
+    .package { flex: none; padding: 24px; }
+    .package--featured { order: 0; }
+    .package__badge { position: absolute; right: 20px; top: 20px; }
+  }
+  @media (min-width: 1280px) {
+    .packages { gap: 24px; }
+    .package { padding: 32px; border-radius: 24px; gap: 20px; }
+    .package__badge { right: 24px; top: 24px; min-height: 28px; padding: 0 10px; font-size: 12px; }
+    .package__name { font-size: 22px; }
+    .package__price { font-size: 32px; }
+    .package__list { gap: 10px; font-size: 15px; }
+    .package__btn { min-height: 52px; }
+  }
+
+  /* ---------- Calc ---------- */
+  .svc-teaser { display: none; }
+  @media (max-width: 767.98px) {
+    .svc-calc { display: none; }
+    .svc-teaser { display: block; background: var(--ug-bg-deep); }
+  }
+  .teaser {
+    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px;
+    padding: 24px; border-radius: 20px; background: var(--ug-surface); border: 1px solid var(--ug-border);
+  }
+  .teaser .acc-line { box-shadow: 0 0 10px var(--acc-glow); }
+  .teaser__title { font-family: var(--ug-font-display); font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .teaser__text { font-size: 14px; color: var(--ug-muted); }
+  .teaser .btn { margin-top: 4px; }
+
+  /* ---------- Works ---------- */
+  .svc-works__grid { display: flex; flex-direction: column; gap: 20px; }
+  .svc-works__grid :global(.case-card__media) { aspect-ratio: auto; height: 200px; }
+  @media (min-width: 768px) {
+    .svc-works__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .svc-works__grid :global(.case-card__media) { height: 240px; }
+  }
+  @media (min-width: 1280px) {
+    .svc-works__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .svc-works__grid :global(.case-card__media) { height: 260px; border-radius: 20px; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .svc-faq__in { display: flex; flex-direction: column; gap: 16px; }
+  @media (min-width: 1280px) { .svc-faq__in { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; } }
+</style>

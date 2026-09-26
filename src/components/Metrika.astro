@@ -1,0 +1,39 @@
+---
+import { METRIKA_ID } from '../config';
+---
+<script is:inline define:vars={{ id: METRIKA_ID }}>
+  // Счётчик грузится после первой отрисовки и только если ID задан и нет отказа «Только необходимые».
+  (function () {
+    var denied = false;
+    try { denied = localStorage.getItem('ug-cookie') === 'necessary'; } catch (e) {}
+    if (!id || denied) return;
+    var load = function () {
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t); a = e.getElementsByTagName(t)[0];
+        k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+      window.ym(id, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false });
+    };
+    if (document.readyState === 'complete') setTimeout(load, 1500);
+    else window.addEventListener('load', function () { setTimeout(load, 1500); });
+  })();
+</script>
+<script>
+  // Цели: клики по телефону, Telegram, WhatsApp и ссылкам на калькулятор.
+  import { goal, GOALS } from '../lib/analytics';
+  import { stripBase, url } from '../lib/url';
+  const calcPath = url('/calculator');
+  const onCalc = stripBase(location.pathname) === '/calculator';
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null;
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('tel:')) goal(GOALS.phone, { phone: href.slice(4) });
+    else if (href.includes('t.me/')) goal(GOALS.telegram, { channel: href.split('/').pop() });
+    else if (href.includes('wa.me')) goal(GOALS.whatsapp);
+    else if (href.startsWith(calcPath) && !onCalc) goal(GOALS.calcOpen, { from: 'link' });
+  }, { capture: true });
+  if (onCalc) goal(GOALS.calcOpen, { from: 'page' });
+</script>
