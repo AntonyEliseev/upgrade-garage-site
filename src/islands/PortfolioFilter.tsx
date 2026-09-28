@@ -15,6 +15,10 @@ export interface CaseItem {
   tags: string[];
   photo: string;
   img?: { src: string; srcset: string };
+  /** Сколько всего фото в кейсе */
+  count: number;
+  /** Миниатюры 2–4-го фото */
+  thumbs: string[];
 }
 interface Filter { id: string; name: string; d?: Dir; sep?: boolean }
 interface Props {
@@ -26,6 +30,26 @@ interface Props {
 }
 
 const FIRST = 9;
+
+/** Бейдж «N фото» в правом верхнем углу обложки */
+export function PhotoCount({ n }: { n: number }) {
+  return (
+    <span class="case-card__count">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2" /><circle cx="12" cy="13" r="3.5" /><path d="M8 6l2-2h4l2 2" /></svg>
+      {n} фото
+    </span>
+  );
+}
+
+/** Три миниатюры под обложкой и плашка «+N», если фото больше четырёх */
+export function Thumbs({ thumbs, count }: { thumbs: string[]; count: number }) {
+  return (
+    <span class="case-card__thumbs" aria-hidden="true" data-name="CaseCard/Thumbs">
+      {thumbs.map((t) => <span class="case-card__thumb" key={t}><img src={t} alt="" loading="lazy" decoding="async" width={76} height={56} /></span>)}
+      {count > 4 && <span class="case-card__thumb case-card__more">+{count - 4}</span>}
+    </span>
+  );
+}
 const STEP = 6;
 
 export default function PortfolioFilter({ cases, services, brands, telegram, initialService = 'all' }: Props) {
@@ -100,9 +124,11 @@ export default function PortfolioFilter({ cases, services, brands, telegram, ini
                   />
                 )}
                 <span class="case-card__line" aria-hidden="true" />
+                {c.img && <PhotoCount n={c.count} />}
                 {!c.img && <span class="case-card__caption">Фото: {c.photo}</span>}
                 <span class="case-card__cta" aria-hidden="true">Смотреть кейс →</span>
               </span>
+              {c.thumbs.length > 0 && <Thumbs thumbs={c.thumbs} count={c.count} />}
               <h2 class="case-card__title">{c.name}</h2>
               <span class="tags">{c.tags.map((t) => <span class="tag" key={t}>{t}</span>)}</span>
             </a>

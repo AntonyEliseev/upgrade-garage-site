@@ -523,3 +523,20 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   }
   .draw { animation: none; stroke-dasharray: none; }
 }
+
+/* ---------- Карточка кейса: несколько фото (Portfolio, data-name="CaseCard/Thumbs") ---------- */
+.case-card__count {
+  position: absolute; right: 12px; top: 12px; z-index: 1; height: 28px; padding: 0 10px; border-radius: 8px;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(13, 14, 16, 0.82); color: #F2F4F7; font-size: 12px; font-weight: 700;
+}
+.case-card__thumbs { display: flex; gap: 8px; }
+.case-card__thumb {
+  position: relative; width: 64px; height: 48px; flex-shrink: 0; overflow: hidden; border-radius: 10px; background: var(--ug-bg);
+}
+.case-card__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.case-card__more {
+  display: flex; align-items: center; justify-content: center; background: none;
+  border: 1px solid var(--ug-line-2); font-size: 14px; font-weight: 700; color: var(--ug-text-2);
+}
+@media (min-width: 768px) { .case-card__thumb { width: 76px; height: 56px; } }

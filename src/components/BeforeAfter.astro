@@ -1,68 +1,109 @@
 ---
-// До/после: ползунок перетаскивается мышью, пальцем или стрелками. Без полей ввода — role="slider".
+// До/после (артборд Home, data-name="BeforeAfter"): «до» снизу, «после» сверху и обрезается clip-path: inset(0 0 0 X%).
+// Тянется мышью и пальцем, стрелками — шаг 5%, старт 50%. Ручка — role="slider"; полей ввода нет.
 import Photo from './Photo.astro';
 import Icon from './Icon.astro';
 
 interface Shot { img: string; alt: string; caption?: string }
-interface Props { before: Shot; after: Shot }
-const { before, after } = Astro.props;
+interface Props {
+  before: Shot;
+  after: Shot;
+  sizes?: string;
+  class?: string;
+}
+const { before, after, sizes = '(min-width: 1280px) 850px, 100vw', class: cls } = Astro.props;
 ---
-<div class="ba2" data-ba style="--pos: 50%" data-name="BeforeAfter">
+<div class:list={['ba2', cls]} data-ba style="--pos: 50%" data-name="BeforeAfter">
+  <span class="ba2__img">
+    <Photo src={before.img} alt={before.alt} sizes={sizes} />
+  </span>
   <span class="ba2__img ba2__img--after">
-    <Photo src={after.img} alt={after.alt} sizes="(min-width: 1280px) 850px, 100vw" />
-    {after.caption && <span class="tag tag--photo ba2__tag ba2__tag--r">{after.caption}</span>}
+    <Photo src={after.img} alt={after.alt} sizes={sizes} />
   </span>
-  <span class="ba2__img ba2__img--before">
-    <Photo src={before.img} alt={before.alt} sizes="(min-width: 1280px) 850px, 100vw" />
-    {before.caption && <span class="tag tag--photo ba2__tag">{before.caption}</span>}
-  </span>
-  <span class="ba2__line" aria-hidden="true"></span>
-  <span class="ba2__knob" role="slider" tabindex="0" aria-label="Сравнить до и после" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50%">
+  <span class="tag tag--photo ba2__tag">{before.caption ?? 'ДО · ПРОЦЕСС'}</span>
+  <span class="tag tag--photo ba2__tag ba2__tag--r">{after.caption ?? 'ПОСЛЕ'}</span>
+  <span class="ba2__line" aria-hidden="true" data-name="BeforeAfterHandle"></span>
+  <span
+    class="ba2__knob"
+    role="slider"
+    tabindex="0"
+    aria-label="Сравнить до и после"
+    aria-orientation="horizontal"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="50"
+    aria-valuetext="Граница на 50%"
+  >
     <Icon name="swap" size={20} stroke={2} />
   </span>
 </div>
 
 <script>
+  const STEP = 5;
   document.querySelectorAll<HTMLElement>('[data-ba]').forEach((box) => {
     const knob = box.querySelector<HTMLElement>('[role="slider"]')!;
+    let value = 50;
     const set = (p: number) => {
-      const v = Math.max(5, Math.min(95, p));
-      box.style.setProperty('--pos', `${v}%`);
-      knob.setAttribute('aria-valuenow', String(Math.round(v)));
-      knob.setAttribute('aria-valuetext', `${Math.round(v)}%`);
+      value = Math.max(0, Math.min(100, p));
+      const v = Math.round(value);
+      box.style.setProperty('--pos', `${value}%`);
+      knob.setAttribute('aria-valuenow', String(v));
+      knob.setAttribute('aria-valuetext', `Граница на ${v}%`);
     };
-    const fromEvent = (e: PointerEvent) => {
+    const fromX = (x: number) => {
       const r = box.getBoundingClientRect();
-      set(((e.clientX - r.left) / r.width) * 100);
+      set(((x - r.left) / r.width) * 100);
     };
     box.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
       box.setPointerCapture(e.pointerId);
-      fromEvent(e);
-      const move = (ev: PointerEvent) => fromEvent(ev);
-      const up = () => { box.removeEventListener('pointermove', move); box.removeEventListener('pointerup', up); };
+      box.classList.add('is-drag');
+      fromX(e.clientX);
+      const move = (ev: PointerEvent) => fromX(ev.clientX);
+      const up = () => {
+        box.classList.remove('is-drag');
+        box.removeEventListener('pointermove', move);
+        box.removeEventListener('pointerup', up);
+        box.removeEventListener('pointercancel', up);
+      };
       box.addEventListener('pointermove', move);
       box.addEventListener('pointerup', up);
+      box.addEventListener('pointercancel', up);
     });
     knob.addEventListener('keydown', (e) => {
-      const cur = Number(knob.getAttribute('aria-valuenow'));
-      if (e.key === 'ArrowLeft') { set(cur - 5); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { set(cur + 5); e.preventDefault(); }
+      const keys: Record<string, number> = {
+        ArrowLeft: value - STEP, ArrowDown: value - STEP, ArrowRight: value + STEP, ArrowUp: value + STEP,
+        PageDown: value - 25, PageUp: value + 25, Home: 0, End: 100,
+      };
+      if (!(e.key in keys)) return;
+      e.preventDefault();
+      set(Math.round(keys[e.key] / STEP) * STEP);
     });
   });
 </script>
 
 <style>
-  .ba2 { position: relative; overflow: hidden; height: 260px; border-radius: 18px; background: var(--ug-bg); touch-action: pan-y; cursor: ew-resize; user-select: none; }
+  .ba2 {
+    position: relative; overflow: hidden; height: 260px; border-radius: 18px; background: var(--ug-bg);
+    touch-action: pan-y; cursor: ew-resize; user-select: none; -webkit-user-select: none;
+  }
   .ba2__img { position: absolute; inset: 0; }
-  .ba2__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-  .ba2__img--before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
-  .ba2__tag { position: absolute; left: 16px; top: 16px; }
+  .ba2__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+  .ba2__img--after { clip-path: inset(0 0 0 var(--pos)); transition: clip-path 0.25s ease-out; }
+  .ba2__tag { position: absolute; left: 16px; top: 16px; z-index: 1; pointer-events: none; }
   .ba2__tag--r { left: auto; right: 16px; }
-  .ba2__line { position: absolute; left: var(--pos); top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242, 244, 247, 0.7); }
+  .ba2__line {
+    position: absolute; left: var(--pos); top: 0; bottom: 0; width: 2px; margin-left: -1px; z-index: 1; pointer-events: none;
+    background: #F2F4F7; box-shadow: 0 0 10px rgba(242, 244, 247, 0.7); transition: left 0.25s ease-out;
+  }
   .ba2__knob {
-    position: absolute; left: var(--pos); top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
+    position: absolute; left: var(--pos); top: 50%; z-index: 2; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
     background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); transition: left 0.25s ease-out;
   }
   .ba2__knob:focus-visible { outline: 2px solid #F2F4F7; outline-offset: 3px; }
-  @media (min-width: 768px) { .ba2 { height: 360px; border-radius: 20px; } }
+  /* Во время перетаскивания граница идёт за пальцем без задержки */
+  .ba2.is-drag .ba2__img--after, .ba2.is-drag .ba2__line, .ba2.is-drag .ba2__knob { transition: none; }
+  @media (min-width: 768px) { .ba2 { height: 360px; border-radius: 20px; } .ba2__tag { left: 20px; top: 20px; } .ba2__tag--r { left: auto; right: 20px; } }
+  @media (prefers-reduced-motion: reduce) { .ba2__img--after, .ba2__line, .ba2__knob { transition: none; } }
 </style>

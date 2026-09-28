@@ -6,6 +6,7 @@ import Icon from '../../components/Icon.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import CaseCard from '../../components/CaseCard.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
+import Gallery from '../../components/Gallery.astro';
 import casesJson from '@data/cases.json';
 import { DIR_NAME, cases, caseBySlug, services, telegram, type Case } from '../../lib/data';
 import { breadcrumbs } from '../../lib/schema';
@@ -105,20 +106,14 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
       </section>
     )}
 
-    {d && (
+    {c.photos.length > 0 && (
       <section class="section gallery" data-name="Gallery">
         <div class="container stack gap-32">
           <div class="section-head section-head--row">
             <h2 class="h2">Галерея</h2>
-            <span class="small muted">{d.gallery.length} фото · все наши, без стока</span>
+            <span class="small muted">{c.photos.length} фото · все наши, без стока</span>
           </div>
-          <ul role="list" class="gallery__grid">
-            {d.gallery.map((g, i) => (
-              <li class:list={['gallery__item', i === 0 && 'gallery__item--big']}>
-                <Photo src={g.img} alt={g.alt} sizes={i === 0 ? '(min-width: 1280px) 640px, 100vw' : '(min-width: 1280px) 310px, 50vw'} widths={[320, 480, 640, 960, 1280]} />
-              </li>
-            ))}
-          </ul>
+          <Gallery photos={c.photos} name={c.name} />
         </div>
       </section>
     )}
@@ -218,16 +213,7 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
     .block__photos--three .block__ph { aspect-ratio: auto; height: 300px; }
   }
 
-  .gallery__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .gallery__item { position: relative; overflow: hidden; border-radius: 16px; background: var(--ug-bg); aspect-ratio: 1; }
-  .gallery__item :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .gallery__item--big { grid-column: span 2; aspect-ratio: 4 / 3; }
-  @media (min-width: 768px) {
-    .gallery__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 200px; gap: 16px; }
-    .gallery__item, .gallery__item--big { aspect-ratio: auto; border-radius: 20px; }
-    .gallery__item--big { grid-row: span 2; }
-  }
-  @media (min-width: 1280px) { .gallery { padding-block: 88px; } .gallery__grid { grid-auto-rows: 240px; } }
+  @media (min-width: 1280px) { .gallery { padding-block: 88px; } }
 
   .cta {
     position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 24px;

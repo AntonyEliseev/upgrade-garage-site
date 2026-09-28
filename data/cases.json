@@ -18,14 +18,34 @@
   "bmw-g60": {
    "title": "BMW G60 · 5 Series",
    "crumb": "BMW G60",
-   "cover": { "img": "/img/bmw-g60-salon.jpg", "alt": "Салон BMW G60 после оклейки" },
-   "tags": ["Карбон под полиуретаном", "Матовая статика на экран", "Глянец салона по лекалам"],
+   "cover": {
+    "img": "/img/bmw-g60-salon.jpg",
+    "alt": "Салон BMW G60 после оклейки"
+   },
+   "tags": [
+    "Карбон под полиуретаном",
+    "Матовая статика на экран",
+    "Глянец салона по лекалам"
+   ],
    "brief": "[2–3 предложения от студии: новая машина, владелец хотел сохранить глянец и карбон салона и убрать блики с главного экрана.]",
    "facts": [
-    { "k": "Направление", "v": "Космос Wrap", "accent": true },
-    { "k": "Срок", "v": "1 день" },
-    { "k": "Материал", "v": "полиуретан по лекалам" },
-    { "k": "Стоимость", "v": "по запросу" }
+    {
+     "k": "Направление",
+     "v": "Космос Wrap",
+     "accent": true
+    },
+    {
+     "k": "Срок",
+     "v": "1 день"
+    },
+    {
+     "k": "Материал",
+     "v": "полиуретан по лекалам"
+    },
+    {
+     "k": "Стоимость",
+     "v": "по запросу"
+    }
    ],
    "blocks": [
     {
@@ -33,9 +53,19 @@
      "text": "[Что сделали и зачем: плёнка на карбоновые вставки, чтобы не появились царапины и потёртости.]",
      "layout": "big-two",
      "photos": [
-      { "img": "/img/bmw-g60-console-ppf.jpg", "alt": "Консоль BMW G60 под полиуретаном", "caption": "Карбон крупно, блик на плёнке" },
-      { "img": "/img/bmw-g60-console.jpg", "alt": "Оклейка консоли BMW G60" },
-      { "img": "/img/bmw-g60-screen-matte.jpg", "alt": "Экран BMW G60 с матовой статикой" }
+      {
+       "img": "/img/bmw-g60-console-ppf.jpg",
+       "alt": "Консоль BMW G60 под полиуретаном",
+       "caption": "Карбон крупно, блик на плёнке"
+      },
+      {
+       "img": "/img/bmw-g60-console.jpg",
+       "alt": "Оклейка консоли BMW G60"
+      },
+      {
+       "img": "/img/bmw-g60-screen-matte.jpg",
+       "alt": "Экран BMW G60 с матовой статикой"
+      }
      ]
     },
     {
@@ -43,8 +73,16 @@
      "text": "Без бликов на солнце и следов пальцев, экран читается днём.",
      "layout": "before-after",
      "photos": [
-      { "img": "/img/bmw-g60-exterior.jpg", "alt": "BMW G60 после оклейки", "caption": "ДО · блик" },
-      { "img": "/img/bmw-g60-screen-matte.jpg", "alt": "Экран BMW G60 с матовой статикой", "caption": "ПОСЛЕ · мат" }
+      {
+       "img": "/img/bmw-g60-exterior.jpg",
+       "alt": "BMW G60 после оклейки",
+       "caption": "ДО · блик"
+      },
+      {
+       "img": "/img/bmw-g60-screen-matte.jpg",
+       "alt": "Экран BMW G60 с матовой статикой",
+       "caption": "ПОСЛЕ · мат"
+      }
      ]
     },
     {
@@ -52,26 +90,27 @@
      "text": "[Все глянцевые элементы: консоль, вставки дверей, окантовки. Плёнка вырезана по лекалам G60.]",
      "layout": "three",
      "photos": [
-      { "img": "/img/bmw-g60-front.jpg", "alt": "BMW G60 спереди после работ" },
-      { "img": "/img/bmw-g60-rear.jpg", "alt": "BMW G60 сзади" },
-      { "img": "/img/configurator-salon.jpg", "alt": "Салон BMW G60: руль и консоль" }
+      {
+       "img": "/img/bmw-g60-front.jpg",
+       "alt": "BMW G60 спереди после работ"
+      },
+      {
+       "img": "/img/bmw-g60-rear.jpg",
+       "alt": "BMW G60 сзади"
+      },
+      {
+       "img": "/img/configurator-salon.jpg",
+       "alt": "Салон BMW G60: руль и консоль"
+      }
      ]
     }
    ],
-   "gallery": [
-    { "img": "/img/bmw-g60-mirror-carbon.jpg", "alt": "Зеркало BMW G60 в карбоне" },
-    { "img": "/img/bmw-g60-ambient.jpg", "alt": "Контурная подсветка BMW G60" },
-    { "img": "/img/bmw-g60-console-ppf.jpg", "alt": "Консоль BMW G60 под полиуретаном" },
-    { "img": "/img/bmw-g60-console.jpg", "alt": "Оклейка консоли BMW G60" },
-    { "img": "/img/bmw-g60-salon.jpg", "alt": "Салон BMW G60 после оклейки" },
-    { "img": "/img/bmw-g60-front.jpg", "alt": "BMW G60 спереди после работ" },
-    { "img": "/img/bmw-g60-rear.jpg", "alt": "BMW G60 сзади" },
-    { "img": "/img/bmw-g60-exterior.jpg", "alt": "BMW G60 после оклейки" },
-    { "img": "/img/bmw-g60-screen-matte.jpg", "alt": "Экран BMW G60 с матовой статикой" },
-    { "img": "/img/configurator-salon.jpg", "alt": "Салон BMW G60: руль и консоль" }
-   ],
    "calc": "tab=salon&z=s_screen,s_gloss,s_console,s_carbon",
-   "similar": ["vw-teramont-x", "hyundai-santa-fe", "mitsubishi-outlander-ambient"]
+   "similar": [
+    "vw-teramont-x",
+    "hyundai-santa-fe",
+    "mitsubishi-outlander"
+   ]
   }
  }
 }

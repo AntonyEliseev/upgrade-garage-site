@@ -2,7 +2,7 @@
 
 .cfg { position: relative; display: flex; flex-direction: column; gap: 16px; }
 
-/* ---------- Визуал ---------- */
+/* ---------- Визуал: вкладки → фото → карточка/плитки → пакеты ---------- */
 .cfg__visual {
   position: relative; overflow: hidden; display: flex; flex-direction: column;
   border-radius: 24px; background: var(--ug-surface); border: 1px solid var(--ug-border);
@@ -29,18 +29,34 @@
 .cfg__tab[aria-selected='true'] .cfg__count { background: var(--acc-ink); color: var(--acc); }
 .cfg__short { display: none; }
 
-.cfg__photo { position: relative; margin-top: 88px; aspect-ratio: 760 / 500; }
-.cfg__photo > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.78); transition: opacity var(--t); }
-.cfg__photo.is-xray > img { opacity: 0.4; }
-.cfg__caption { position: absolute; left: 24px; bottom: 104px; z-index: 1; font-size: 12px; font-weight: 600; color: #C9CED6; }
+/* Область фото. Десктоп: салон и оснащение 760×420 от top 88, плёнка 760×300 от top 76,
+   шумоизоляция — белая панель 712×280 (left 24, top 76). Точки — в долях от этой области. */
+.cfg__stage { position: relative; }
+.cfg__area {
+  position: relative; overflow: hidden; isolation: isolate;
+  margin-top: 88px; aspect-ratio: 760 / 420;
+}
+.cfg__area.is-film { margin-top: 76px; aspect-ratio: 760 / 300; }
+.cfg__area.is-noise { margin: 76px 24px 0; aspect-ratio: 712 / 280; background: #FFFFFF; border-radius: 16px; }
+.cfg__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cfg__area.is-equip .cfg__photo { filter: brightness(0.8); }
+.cfg__shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(21, 23, 26, 0.35) 0%, rgba(21, 23, 26, 0) 22%, rgba(21, 23, 26, 0) 75%, rgba(21, 23, 26, 0.6) 100%);
+}
+.cfg__caption {
+  position: absolute; left: 16px; bottom: 12px; z-index: 1; padding: 4px 10px; border-radius: 8px;
+  background: rgba(13, 14, 16, 0.75); font-size: 12px; font-weight: 700; color: #C9CED6; pointer-events: none;
+}
 
-.cfg__ambient, .cfg__lead { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-.cfg__ambient path { fill: none; stroke: #CDE23C; filter: drop-shadow(0 0 7px #CDE23C); }
-.cfg__lead path { fill: none; stroke: rgba(242, 244, 247, 0.5); stroke-width: 1.2; }
-.cfg__lead path.is-on { stroke: var(--acc); }
+.cfg__overlay, .cfg__shape { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.cfg__overlay { opacity: 0; transition: opacity 250ms ease-out; }
+.cfg__overlay.is-on { opacity: 1; }
+.cfg__shape { transition: opacity 250ms ease-out; }
+.cfg__shape path { transition: fill 250ms ease-out, stroke 250ms ease-out; }
 
 .cfg__dot {
-  position: absolute; z-index: 1; width: 28px; height: 28px; padding: 0;
+  position: absolute; z-index: 2; width: 28px; height: 28px; padding: 0;
   transform: translate(-50%, -50%);
   border-radius: 50%; border: 2px solid #F2F4F7; background: rgba(13, 14, 16, 0.65);
   transition: box-shadow var(--t), background-color var(--t), border-color var(--t);
@@ -50,56 +66,100 @@
 .cfg__dot.is-on { background: var(--acc); border-color: var(--acc); box-shadow: 0 0 0 7px var(--acc-ring), 0 0 22px var(--acc-ring); }
 @media (hover: hover) { .cfg__dot:not(.is-on):hover { box-shadow: 0 0 0 6px rgba(242, 244, 247, 0.14); } }
 .cfg__dot:focus-visible { outline: 2px solid #F2F4F7; outline-offset: 4px; }
-.cfg__glow {
-  position: absolute; width: 96px; height: 96px; border-radius: 50%; transform: translate(-50%, -50%);
-  background: radial-gradient(circle, var(--acc-line) 0%, rgba(0, 0, 0, 0) 70%); pointer-events: none;
-}
 .cfg__label {
-  position: absolute; z-index: 1; transform: translate(20px, -50%);
+  position: absolute; left: 0; top: 0; z-index: 1; visibility: hidden;
   padding: 3px 8px; border-radius: 6px; background: rgba(13, 14, 16, 0.8);
-  font-size: 13px; font-weight: 700; color: #F2F4F7; white-space: nowrap; pointer-events: none;
+  font-size: 13px; font-weight: 700; line-height: 18px; color: #F2F4F7; white-space: nowrap; pointer-events: none;
 }
 .cfg__label.is-on { color: var(--acc); }
 
-.cfg__card {
-  position: absolute; z-index: 2; width: 240px; padding: 16px; border-radius: 16px;
-  display: flex; flex-direction: column; gap: 6px;
-  background: var(--ug-surface-2); border: 1px solid var(--ug-line-2); color: var(--ug-text);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+/* ---------- Под фото ---------- */
+.cfg__mid { padding: 8px 24px 0; }
+.cfg__visual.is-film .cfg__mid { padding-top: 12px; }
+.cfg__mid-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+.cfg__mid-label { display: block; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ug-muted); }
+.cfg__film .cfg__mid-label { margin-bottom: 8px; }
+.cfg__mid-note { font-size: 13px; color: var(--ug-muted); }
+
+/* Карточка выбранной зоны — закреплена под фото, точки не перекрывает */
+.cfg__zone, .cfg__hint {
+  min-height: 84px; padding: 12px 12px 12px 18px; border-radius: 16px;
+  display: flex; align-items: center; gap: 16px;
 }
-.cfg__card.is-on { border-color: var(--acc-line); }
-.cfg__card-name { font-size: 16px; font-weight: 700; }
-.cfg__card-desc { font-size: 13px; line-height: 1.45; color: var(--ug-text-2); }
-.cfg__card-mat { font-size: 12px; color: var(--ug-muted); }
-.cfg__card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
-.cfg__card-price { font-size: 15px; font-weight: 700; }
-.cfg__card.is-on .cfg__card-price { color: var(--acc-text); }
-.cfg__card-btn {
-  min-height: 36px; padding: 0 12px; border-radius: 10px;
-  border: 1px solid var(--acc); background: var(--acc); color: var(--acc-ink);
-  font-size: 13px; font-weight: 700; transition: background-color var(--t), border-color var(--t);
+.cfg__zone { background: var(--ug-surface-2); border: 1px solid var(--ug-line-2); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+.cfg__zone.is-on { border-color: var(--acc-line); }
+.cfg__thumb { width: 88px; height: 60px; flex-shrink: 0; margin-left: -6px; border-radius: 10px; object-fit: cover; background: var(--ug-bg); }
+.cfg__zone-text { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.cfg__zone-text strong { font-size: 16px; }
+.cfg__zone-desc { font-size: 13px; line-height: 1.4; color: var(--ug-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cfg__zone-price { font-size: 16px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.cfg__zone.is-on .cfg__zone-price { color: var(--acc-text); }
+.cfg__zone-price--m { display: none; }
+.cfg__zone-btn {
+  flex-shrink: 0; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  border: 1px solid var(--acc); background: var(--acc); color: var(--acc-ink); font-size: 14px; font-weight: 700;
+  transition: background-color var(--t), border-color var(--t);
 }
-.cfg__card.is-on .cfg__card-btn, .cfg__zone.is-on .cfg__card-btn { background: transparent; border-color: var(--ug-border-strong); color: var(--ug-text); }
-.cfg__closers { display: flex; gap: 6px; margin-top: 4px; }
+.cfg__zone.is-on .cfg__zone-btn { background: transparent; border-color: var(--ug-border-strong); color: var(--ug-text); }
+.cfg__closers { display: flex; gap: 6px; flex-shrink: 0; }
 .cfg__closers button {
-  flex: 1 1 0; min-height: 36px; border-radius: 10px; border: 1px solid var(--ug-line-2);
+  min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ug-line-2);
   background: transparent; color: var(--ug-text); font-size: 13px; font-weight: 700;
 }
 .cfg__closers button[aria-pressed='true'] { border-color: var(--ug-garage); background: var(--ug-garage-soft); }
 
-.cfg__hint {
-  position: absolute; left: 50%; top: 50%; z-index: 1; transform: translate(-50%, -50%);
-  width: min(400px, 86%); padding: 20px 24px; border-radius: 18px;
-  display: flex; gap: 14px; align-items: center; pointer-events: none;
-  background: rgba(13, 14, 16, 0.88); border: 1px dashed rgba(255, 255, 255, 0.24); color: #F2F4F7;
-}
+.cfg__hint { padding: 20px 24px; gap: 14px; background: rgba(13, 14, 16, 0.88); border: 1px dashed rgba(255, 255, 255, 0.24); color: #F2F4F7; pointer-events: none; }
+[data-theme='light'] .cfg__hint { background: var(--ug-surface-2); border-color: var(--ug-border-strong); color: var(--ug-text); }
 .cfg__hint svg { flex-shrink: 0; }
 .cfg__hint strong { font-size: 16px; }
-.cfg__hint span span { font-size: 14px; color: #C9CED6; }
+.cfg__hint span span { font-size: 14px; color: var(--ug-text-2); }
 
+/* Плитки деталей «Плёнки»: 6×3 */
+.cfg__tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.cfg__tile {
+  min-height: 48px; padding: 0 6px; border-radius: 10px;
+  border: 1px solid var(--ug-border); background: var(--ug-surface-2); color: var(--ug-text);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-size: 12px; font-weight: 700; line-height: 1.15; text-align: center;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out, color 200ms ease-out;
+}
+.cfg__tile-price { font-size: 11px; font-weight: 600; color: var(--ug-muted); }
+.cfg__tile.is-active { background: #262A30; border-color: rgba(242, 244, 247, 0.4); }
+.cfg__tile.is-on { background: var(--ug-kosmos); border-color: var(--ug-kosmos); color: var(--ug-on-kosmos); }
+.cfg__tile.is-on .cfg__tile-price { color: rgba(26, 10, 18, 0.75); }
+@media (hover: hover) { .cfg__tile:not(.is-on):hover { border-color: var(--ug-kosmos-line); } }
+
+/* Зоны шумоизоляции с галочками: 3 колонки */
+.cfg__checks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.cfg__check {
+  min-height: 50px; padding: 0 10px; border-radius: 12px; min-width: 0;
+  border: 1px solid var(--ug-border); background: var(--ug-surface-2); color: var(--ug-text);
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  font-size: 13px; font-weight: 700; line-height: 1.2;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+}
+.cfg__check.is-active { background: #262A30; border-color: rgba(242, 244, 247, 0.4); }
+.cfg__check.is-on { background: var(--ug-garage-soft); border-color: var(--ug-garage); }
+@media (hover: hover) { .cfg__check:not(.is-on):hover { border-color: var(--ug-garage-line); } }
+.cfg__box {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px; border: 2px solid rgba(242, 244, 247, 0.5);
+  display: flex; align-items: center; justify-content: center;
+}
+[data-theme='light'] .cfg__box { border-color: rgba(17, 18, 20, 0.45); }
+.cfg__box svg { opacity: 0; }
+.cfg__check.is-on .cfg__box { background: var(--ug-garage); border-color: var(--ug-garage); }
+.cfg__check.is-on .cfg__box svg { opacity: 1; }
+.cfg__check-text { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.cfg__check-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cfg__check-meta { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.cfg__check-mat { flex: 1; min-width: 0; font-size: 11px; font-weight: 600; color: var(--ug-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cfg__check-price { flex-shrink: 0; font-size: 12px; color: var(--ug-muted); white-space: nowrap; }
+.cfg__check.is-on .cfg__check-price { color: var(--ug-garage-text); }
+
+/* ---------- Пакеты ---------- */
 .cfg__bottom {
-  min-height: 92px; padding: 12px 24px 24px; margin-top: auto;
-  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+  padding: 12px 24px 24px; margin-top: auto;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
 }
 .cfg__pkgs { display: flex; gap: 8px; flex-wrap: wrap; }
 .cfg__pkg {
@@ -175,11 +235,18 @@
 .cfg__actions .btn { border-radius: 14px; padding: 0 12px; white-space: normal; }
 .btn.is-copied { border-color: var(--ug-garage); }
 
-.cfg__strip, .cfg__bar { display: none; }
+.cfg__bar { display: none; }
 
-/* ---------- Десктоп: фото слева, панель справа ---------- */
+/* ---------- Планшет: фото во всю ширину, панель под ним ---------- */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .cfg__tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cfg__zone-mat { display: none; }
+}
+
+/* ---------- Десктоп: фото слева, панель справа, высота 680 ---------- */
 @media (min-width: 1280px) {
   .cfg { display: grid; grid-template-columns: minmax(0, 760fr) minmax(0, 496fr); gap: 24px; align-items: stretch; }
+  .cfg__visual { min-height: 680px; }
   .cfg__panel {
     display: flex; flex-direction: column; gap: 18px;
     height: 0; min-height: 100%; /* высота — по визуалу, список прокручивается */
@@ -201,33 +268,51 @@
   .cfg__count { min-width: 18px; height: 18px; font-size: 11px; padding: 0 4px; }
   .cfg__long { display: none; }
   .cfg__short { display: inline; }
-  .cfg__photo {
-    margin: 0; aspect-ratio: 358 / 300; overflow: hidden;
+
+  /* Блок с фото 358×300: салон и оснащение 358×198 от top 51, плёнка 358×240 от top 30,
+     шумоизоляция — белая панель 334×276 (left 12, top 12) */
+  .cfg__stage {
+    aspect-ratio: 358 / 300; overflow: hidden;
     border-radius: 20px; background: var(--ug-surface); border: 1px solid var(--ug-border);
   }
+  .cfg__area, .cfg__area.is-film, .cfg__area.is-noise { position: absolute; left: 0; right: 0; margin: 0; aspect-ratio: auto; }
+  .cfg__area { top: 17%; height: 66%; }
+  .cfg__area.is-film { top: 10%; height: 80%; }
+  .cfg__area.is-noise { left: 3.35%; right: 3.35%; top: 4%; height: 92%; border-radius: 14px; }
+  .cfg__caption { display: none; }
   .cfg__dot { width: 32px; height: 32px; }
   .cfg__dot::before { inset: -6px; }
-  .cfg__label { font-size: 11px; padding: 2px 6px; transform: translate(18px, -50%); }
-  .cfg__caption { position: static; margin-top: -6px; font-size: 11px; color: var(--ug-muted); }
-  .cfg__hint, .cfg__bottom, .cfg__summary { display: none; }
 
-  .cfg__strip { display: block; }
-  .cfg__zone {
-    min-height: 84px; padding: 12px 12px 12px 16px; border-radius: 16px;
-    display: flex; align-items: center; gap: 12px;
-    background: var(--ug-surface-2); border: 1px solid var(--ug-line-2);
-  }
-  .cfg__zone.is-on { border-color: var(--acc-line); }
-  .cfg__zone--empty { justify-content: center; background: none; border: 1px dashed rgba(255, 255, 255, 0.18); font-size: 14px; color: var(--ug-text-2); text-align: center; }
-  [data-theme='light'] .cfg__zone--empty { border-color: rgba(17, 18, 20, 0.18); }
-  .cfg__zone-text { flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cfg__mid { padding: 0; }
+  .cfg__visual.is-film .cfg__mid { padding: 0; }
+  .cfg__mid-label, .cfg__mid-head { display: none; }
+  .cfg__bottom { display: none; }
+
+  .cfg__zone { min-height: 84px; padding: 12px 12px 12px 16px; gap: 12px; box-shadow: none; }
+  .cfg__thumb { width: 70px; height: 48px; margin-left: 0; }
+  .cfg__zone-text { gap: 2px; }
   .cfg__zone-text strong { font-size: 15px; }
-  .cfg__zone-text span { font-size: 12px; line-height: 1.4; color: var(--ug-text-2); }
-  .cfg__zone-text .cfg__zone-price { font-size: 13px; font-weight: 700; color: var(--ug-text); }
-  .cfg__zone.is-on .cfg__zone-price { color: var(--acc-text); }
-  .cfg__zone-btn { flex-shrink: 0; min-height: 44px; padding: 0 14px; border-radius: 12px; }
-  .cfg__closers--v { flex-direction: column; margin: 0; }
-  .cfg__closers--v button { min-height: 44px; padding: 0 10px; flex: none; }
+  .cfg__zone-desc { font-size: 12px; white-space: normal; }
+  .cfg__zone-mat, .cfg__zone-price--d { display: none; }
+  .cfg__zone-price--m { display: block; font-size: 13px; }
+  .cfg__zone-btn { padding: 0 14px; font-size: 13px; }
+  .cfg__closers { flex-direction: column; }
+  .cfg__closers button { min-height: 44px; padding: 0 10px; }
+  .cfg__hint { justify-content: center; padding: 12px 16px; background: none; border-color: rgba(255, 255, 255, 0.18); }
+  .cfg__hint svg, .cfg__hint strong { display: none; }
+  .cfg__hint span span { text-align: center; }
+
+  /* Плитки и галочки — 2 ряда с горизонтальной прокруткой */
+  .cfg__tiles, .cfg__checks {
+    display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, 44px); grid-auto-columns: max-content; grid-template-columns: none;
+    overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter);
+  }
+  .cfg__tiles::-webkit-scrollbar, .cfg__checks::-webkit-scrollbar { display: none; }
+  .cfg__tile { min-height: 44px; padding: 0 12px; align-items: flex-start; gap: 2px; white-space: nowrap; text-align: left; line-height: 1.1; }
+  .cfg__tile-price { font-size: 10px; }
+  .cfg__check { min-height: 44px; padding: 0 12px 0 10px; gap: 8px; font-size: 12px; line-height: 1.1; white-space: nowrap; }
+  .cfg__check-mat { display: none; }
+  .cfg__check-price { font-size: 10px; font-weight: 600; }
 
   .cfg__panel { display: flex; flex-direction: column; gap: 16px; padding: 0; border: 0; border-radius: 0; background: none; }
   .cfg__bodies-wrap { gap: 8px; }
@@ -247,6 +332,7 @@
   .cfg__pkgbar-m .cfg__finish { align-self: flex-start; }
   .cfg__pkgbar-m .cfg__finish button { min-height: 40px; }
   .cfg__pkgbar-m .cfg__nopkg { min-height: 0; font-size: 13px; }
+  .cfg__summary { display: none; }
 
   .cfg__bar {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -312,3 +398,7 @@
 
 html.sheet-open { overflow: hidden; }
 html.sheet-open .action-bar, html.sheet-open .cookie { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cfg__overlay, .cfg__shape, .cfg__shape path, .cfg__tile, .cfg__check { transition: none; }
+}

@@ -1,8 +1,8 @@
 ---
-import { getImage } from 'astro:assets';
-import Configurator, { type Photo } from '../islands/Configurator';
-import { mustPhoto } from '../lib/images';
+import Configurator, { type TabPhoto, type Thumb } from '../islands/Configurator';
+import { photoSrcset } from '../lib/images';
 import { contacts, phones } from '../lib/data';
+import cfgData from '@data/configurator.json';
 import type { TabId } from '../lib/calc';
 
 interface Props {
@@ -17,18 +17,38 @@ interface Props {
 const { mode = 'embed', initialTab, initialFilmPkg, headingTag = 'h2', heading = 'Соберите свою машину', class: cls } = Astro.props;
 const H = headingTag;
 
-async function srcset(path: string): Promise<Photo> {
-  const src = mustPhoto(path);
-  const widths = [480, 760, 1140, 1520].filter((w) => w <= src.width);
-  const imgs = await Promise.all(widths.map((w) => getImage({ src, width: w, format: 'webp' })));
-  return { src: imgs[1]?.src ?? imgs[0].src, srcset: imgs.map((im, i) => `${im.src} ${widths[i]}w`).join(', ') };
-}
+// Фото вкладок из configurator.json → webp разных размеров через astro:assets
+type PhotoData = { src: string; alt: string; caption: string; objectPosition?: string; objectFit?: string };
+const rawPhotos = cfgData.photos as Record<TabId, PhotoData>;
+const photos = Object.fromEntries(
+  await Promise.all(
+    (Object.keys(rawPhotos) as TabId[]).map(async (tab) => {
+      const p = rawPhotos[tab];
+      const set = await photoSrcset(p.src, tab === 'noise' ? [360, 712, 1068, 1424] : [360, 760, 1140, 1520]);
+      const photo: TabPhoto = {
+        ...set,
+        alt: p.alt,
+        caption: p.caption,
+        position: p.objectPosition ?? '50% 50%',
+        fit: p.objectFit === 'contain' ? 'contain' : 'cover',
+      };
+      return [tab, photo] as const;
+    }),
+  ),
+) as Record<TabId, TabPhoto>;
 
-const photos = {
-  body: await srcset('/img/configurator-body.jpg'),
-  salon: await srcset('/img/configurator-salon.jpg'),
-};
-const islandProps = { photos, phones, hours: contacts.hours.split(',')[0], mode, initialTab, initialFilmPkg };
+// Фото-примеры в карточках зон салона: 88×60 (×2 для ретины)
+const thumbs = Object.fromEntries(
+  await Promise.all(
+    Object.entries(cfgData.zoneThumbs as Record<string, { src: string; alt: string }>).map(async ([id, t]) => {
+      const set = await photoSrcset(t.src, [176]);
+      const thumb: Thumb = { src: set.src, alt: t.alt };
+      return [id, thumb] as const;
+    }),
+  ),
+);
+
+const islandProps = { photos, thumbs, phones, hours: contacts.hours.split(',')[0], mode, initialTab, initialFilmPkg };
 ---
 <section id="calc" class:list={['section cfg-section', cls]} data-name="Configurator">
   <div class="container cfg-section__in">

@@ -5,7 +5,7 @@
 ## Схема
 
 ```
-git push в main
+git push в main или master
       │
       ▼
 GitHub Actions  (.github/workflows/deploy.yml)
@@ -19,7 +19,7 @@ GitHub Actions  (.github/workflows/deploy.yml)
 deploy-pages → https://<аккаунт>.github.io/<репозиторий>/   (или свой домен)
 ```
 
-Публикуется каждый пуш в `main`; вручную — Actions → Deploy to GitHub Pages → Run workflow. Статус и ссылка на сайт — во вкладке Actions и в Settings → Pages.
+Публикуется каждый пуш в `main` или `master`; вручную — Actions → Deploy to GitHub Pages → Run workflow. Статус и ссылка на сайт — во вкладке Actions и в Settings → Pages.
 
 ## Первый запуск
 

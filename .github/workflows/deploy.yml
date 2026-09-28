@@ -1,10 +1,10 @@
-# Сборка и публикация сайта на GitHub Pages при каждом пуше в main.
+# Сборка и публикация сайта на GitHub Pages при каждом пуше в main или master.
 # Настройка один раз: Settings → Pages → Source: «GitHub Actions». Подробности — docs/deploy.md.
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:

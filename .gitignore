@@ -1,4 +1,35 @@
+# Зависимости
 node_modules/
+
+# Сборка Astro
 dist/
 .astro/
+
+# Переменные окружения (SITE_URL, BASE_PATH и т. п. — только локально)
+.env
+.env.*
+!.env.example
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Кэши и отчёты
+.cache/
+.vite/
+coverage/
+lighthouse*.json
+
+# Локальные настройки Claude Code (превью dev-сервера)
+.claude/
+
+# Редакторы и ОС
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
 .DS_Store
+Thumbs.db

@@ -1,21 +1,30 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { url } from '../lib/url';
-import { Fragment } from 'preact';
 import Icon from './Icon';
 import {
-  BODIES, CFG, FILM_PKGS, INITIAL, NOISE_PKGS, TABS, ZONES,
-  daysWord, dirOfTab, dirOfZone, fmt, fromQuery, positionsWord, toQuery, totals, zoneMaterial, zonePrice, zoneSub,
-  type CalcState, type DirId, type TabId, type Zone,
+  BODIES, CFG, FILM_PKGS, HEADLIGHT, INITIAL, NOISE_PKGS, SHAPES, SHAPE_STYLE, TABS, ZONES,
+  daysWord, dirOfTab, fmt, fromQuery, noiseMaterial, positionsWord, toQuery, totals, zoneMaterial, zonePrice, zoneSub,
+  type CalcState, type DirId, type Shape, type TabId, type Zone,
 } from '../lib/calc';
 import { goal, GOALS } from '../lib/analytics';
 import './configurator.css';
 
 // Калькулятор: ничего не отправляет. Выбор хранится в адресе, кнопка копирует ссылку на расчёт.
 
-export interface Photo { src: string; srcset: string }
+export interface TabPhoto {
+  src: string;
+  srcset: string;
+  alt: string;
+  caption: string;
+  /** object-position из configurator.json */
+  position: string;
+  fit: 'cover' | 'contain';
+}
+export interface Thumb { src: string; alt: string }
 interface Phone { name: string; tel: string; display: string; primary?: boolean }
 interface Props {
-  photos: { body: Photo; salon: Photo };
+  photos: Record<TabId, TabPhoto>;
+  thumbs: Record<string, Thumb>;
   phones: Phone[];
   hours: string;
   /** page — страница /calculator: состояние синхронизируется с адресом, итог на мобайле — в фиксированной панели */
@@ -26,8 +35,9 @@ interface Props {
 }
 
 const MOBILE_Q = '(max-width: 767.98px)';
-const W = 760; // ширина фото в макете, от неё считаются отступы карточки
-const CARD_W = 240;
+const FILM_SHAPES = SHAPES.filter((f) => f.tab === 'film');
+const NOISE_SHAPES = SHAPES.filter((f) => f.tab === 'noise');
+const NOISE = SHAPE_STYLE.noise;
 
 function useMedia(q: string) {
   const [m, setM] = useState(false);
@@ -43,7 +53,7 @@ function useMedia(q: string) {
 
 function useSize<T extends HTMLElement>() {
   const ref = useRef<T>(null);
-  const [size, setSize] = useState({ w: W, h: 500 });
+  const [size, setSize] = useState({ w: 0, h: 0 });
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -71,7 +81,7 @@ async function copyText(text: string) {
     sel?.addRange(range);
     let ok = false;
     // Устаревший, но единственный способ без Clipboard API (http, старые браузеры)
-    try { ok = (document as Document & { execCommand(c: string): boolean }).execCommand('copy'); } catch { ok = false; }
+    try { ok = (Reflect.get(document, 'execCommand') as (c: string) => boolean).call(document, 'copy'); } catch { ok = false; }
     sel?.removeAllRanges();
     span.remove();
     return ok;
@@ -82,8 +92,53 @@ function lockScroll(on: boolean, cls: string) {
   document.documentElement.classList.toggle(cls, on);
 }
 
-export default function Configurator({ photos, phones, hours, mode = 'embed', initialTab, initialFilmPkg }: Props) {
+interface Box { x: number; y: number; w: number; h: number }
+const PAD = 4;
+const hit = (a: Box, b: Box) => a.x < b.x + b.w + PAD && b.x < a.x + a.w + PAD && a.y < b.y + b.h + PAD && b.y < a.y + a.h + PAD;
+
+/**
+ * Подписи без наложений (renderVals(), блок «Подписи без наложений»): для каждой точки слева направо
+ * пробуем справа, слева, сверху, снизу и по диагоналям; берём первую позицию внутри фото,
+ * которая не задевает точки, подпись фото и уже поставленные подписи. Ширина — по getBoundingClientRect().
+ */
+function placeLabels(area: HTMLElement, zones: Zone[], labels: Record<string, HTMLElement | null>, caption: HTMLElement | null) {
+  const W = area.clientWidth, H = area.clientHeight;
+  if (!W || !H) return;
+  const ar = area.getBoundingClientRect();
+  const boxes: Box[] = zones.map((z) => ({ x: z.x! * W - 16, y: z.y! * H - 16, w: 32, h: 32 }));
+  if (caption) {
+    const r = caption.getBoundingClientRect();
+    boxes.push({ x: r.left - ar.left, y: r.top - ar.top, w: r.width, h: r.height });
+  }
+  [...zones].sort((a, b) => a.x! - b.x!).forEach((z) => {
+    const el = labels[z.id];
+    if (!el) return;
+    const { width: w, height: h } = el.getBoundingClientRect();
+    const cx = z.x! * W, cy = z.y! * H;
+    // G — отступ от центра точки: радиус 16 + зазор 4 + 2 px запаса на дробные координаты
+    const G = 22;
+    const cand: [number, number][] = [
+      [cx + G, cy - h / 2], [cx - G - w, cy - h / 2], [cx - w / 2, cy - G - h], [cx - w / 2, cy + G],
+      [cx + 10, cy - G - h], [cx + 10, cy + G], [cx - 10 - w, cy - G - h], [cx - 10 - w, cy + G],
+    ];
+    let pick: Box | null = null;
+    for (const [x, y] of cand) {
+      const b = { x: Math.round(x), y: Math.round(y), w, h };
+      if (b.x < 6 || b.x + w > W - 6 || b.y < 6 || b.y + h > H - 6) continue;
+      if (boxes.some((o) => hit(b, o))) continue;
+      pick = b;
+      break;
+    }
+    if (!pick) pick = { x: Math.round(Math.max(6, Math.min(W - 6 - w, cx + G))), y: Math.round(cy - h / 2), w, h };
+    boxes.push(pick);
+    el.style.transform = `translate(${pick.x}px, ${pick.y}px)`;
+    el.style.visibility = 'visible';
+  });
+}
+
+export default function Configurator({ photos, thumbs, phones, hours, mode = 'embed', initialTab, initialFilmPkg }: Props) {
   const isPage = mode === 'page';
+  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const initial = useMemo<CalcState>(() => {
     const s: CalcState = { ...INITIAL, tab: initialTab ?? INITIAL.tab };
     if (initialFilmPkg) {
@@ -96,11 +151,16 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
   const [s, setS] = useState<CalcState>(initial);
   const [modal, setModal] = useState<'none' | 'form' | 'sheet'>('none');
   const [copied, setCopied] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
   const isMobile = useMedia(MOBILE_Q);
-  const [photoRef, box] = useSize<HTMLDivElement>();
+  const [areaRef, area] = useSize<HTMLDivElement>();
+  const labelRefs = useRef<Record<string, HTMLSpanElement | null>>({});
+  const captionRef = useRef<HTMLSpanElement>(null);
   const touched = useRef(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => { document.fonts?.ready.then(() => setFontsReady(true)); }, []);
 
   // Страница калькулятора: читаем расчёт из адреса
   useEffect(() => {
@@ -113,8 +173,8 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
   useEffect(() => {
     if (!isPage) return;
     const qs = toQuery(s);
-    const url = location.pathname + (qs ? `?${qs}` : '') + location.hash;
-    if (url !== location.pathname + location.search + location.hash) history.replaceState(null, '', url);
+    const next = location.pathname + (qs ? `?${qs}` : '') + location.hash;
+    if (next !== location.pathname + location.search + location.hash) history.replaceState(null, '', next);
   }, [s, isPage]);
 
   const update = useCallback((patch: Partial<CalcState> | ((p: CalcState) => Partial<CalcState>)) => {
@@ -137,13 +197,18 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
     });
 
   const { selected, sum, days, pk } = totals(s);
+  const on = (id: string) => s.sel.includes(id);
   const count = selected.length;
   const isEmpty = count === 0;
   const curDir: DirId = dirOfTab(s.tab);
+  const isFilm = s.tab === 'film';
+  const isNoise = s.tab === 'noise';
+  const isConstructor = isFilm || isNoise;
   const bodyObj = BODIES.find((b) => b.id === s.body);
   const carLine = bodyObj ? bodyObj.name : 'Кузов не выбран';
   const totalText = isEmpty ? '—' : fmt(sum);
   const daysText = isEmpty ? '' : `≈ ${days} ${daysWord(days)}`;
+  const noisePkgName = NOISE_PKGS.find((p) => p.id === s.noisePkg)?.name ?? '';
 
   const shareUrl = () => {
     const qs = toQuery(s);
@@ -192,47 +257,76 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
   // На десктопе шторка не нужна
   useEffect(() => { if (!isMobile && modal === 'sheet') setModal('none'); }, [isMobile, modal]);
 
-  /* ---------- Точки на фото ---------- */
-  const tabZones = ZONES.filter((z) => z.tab === s.tab);
-  const pos = (z: Zone) => (isMobile ? z.mobile : z.desktop);
-  const fillable = s.tab === 'film' || s.tab === 'salon';
-  const photo = s.tab === 'salon' ? photos.salon : photos.body;
-  const photoAlt = s.tab === 'salon' ? 'Салон: экран, консоль и глянцевые вставки' : 'Кроссовер в три четверти спереди';
+  /* ---------- Точки и подписи (Салон, Оснащение) ---------- */
+  const dotZones = isConstructor ? [] : ZONES.filter((z) => z.tab === s.tab && z.x !== undefined);
+  if (Object.keys(labelRefs.current).some((id) => !dotZones.some((z) => z.id === id))) labelRefs.current = {};
+  const showLabels = !isMobile && dotZones.length > 0;
 
+  useLayoutEffect(() => {
+    const el = areaRef.current;
+    if (!showLabels || !el) return;
+    const place = () => placeLabels(el, dotZones, labelRefs.current, captionRef.current);
+    place();
+    // Шрифт может догрузиться после первой раскладки — тогда ширина подписей меняется, раскладываем заново
+    let raf = 0;
+    const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(place); });
+    Object.values(labelRefs.current).forEach((l) => l && ro.observe(l));
+    if (captionRef.current) ro.observe(captionRef.current);
+    return () => { ro.disconnect(); cancelAnimationFrame(raf); };
+  }, [s.tab, showLabels, area.w, area.h, fontsReady]);
+
+  const photo = photos[s.tab];
   const az = ZONES.find((z) => z.id === s.active && z.tab === s.tab);
-  let card: null | { x: number; y: number; right: boolean; lead: string } = null;
-  if (az && !isMobile) {
-    const k = box.w / W;
-    const cx = pos(az).x * box.w, cy = pos(az).y * box.h;
-    const right = pos(az).x < 470 / 760;
-    let x = right ? cx + 70 * k : cx - 70 * k - CARD_W;
-    x = Math.max(8, Math.min(x, box.w - CARD_W - 8));
-    const y = Math.max(-4, Math.min(cy - 90 * k, box.h - 190));
-    const ey = y + 26, mx = right ? cx + 34 * k : cx - 34 * k, ex = right ? x : x + CARD_W;
-    card = { x, y, right, lead: `M${cx} ${cy} L${mx} ${ey} L${ex} ${ey}` };
-  }
+  const card = !isConstructor && az ? az : null;
+  const thumb = card ? thumbs[card.id] : undefined;
+
+  /* ---------- Контуры деталей на фото (Плёнка, Шумоизоляция) ---------- */
+  const filmShape = (f: Shape) => {
+    const sel = on(f.id), act = f.id === s.active && !sel;
+    const base = { mixBlendMode: sel ? SHAPE_STYLE.selected.mixBlendMode : 'normal' } as const;
+    if (f.line) {
+      return { style: { ...base, opacity: sel ? 0.95 : 1 }, fill: 'none', stroke: sel ? SHAPE_STYLE.selected.fill : act ? 'rgba(242,244,247,0.55)' : 'transparent', sw: f.w ?? 4 };
+    }
+    return {
+      style: { ...base, opacity: sel ? (f.id === 'f_glass' ? SHAPE_STYLE.selected.glassOpacity : SHAPE_STYLE.selected.opacity) : 1 },
+      fill: sel ? SHAPE_STYLE.selected.fill : act ? SHAPE_STYLE.active.fill : 'transparent',
+      stroke: act ? SHAPE_STYLE.active.stroke : 'none',
+      sw: act ? SHAPE_STYLE.active.strokeWidth : 0,
+    };
+  };
+  const noiseShape = (f: Shape) => {
+    const sel = on(f.id), act = f.id === s.active && !sel;
+    // Правило текстуры: пакет «Практичный» и капот — фольга, иначе шумопоглотитель; арки — всегда шумопоглотитель
+    const texture = f.id !== 'n_arches' && (s.noisePkg === 'prac' || f.id === 'n_hood') ? 'foil' : 'absorber';
+    return {
+      opacity: sel ? (f.id === 'n_arches' ? 0.96 : 0.94) : 1,
+      fill: sel ? `url(#${texture}-${uid}-${f.id})` : act ? 'rgba(255,255,255,0.10)' : 'transparent',
+      stroke: sel ? '#CDE23C' : act ? 'rgba(255,255,255,0.9)' : 'none',
+      sw: sel || act ? (f.id === 'n_arches' ? 2 : 1.5) : 0,
+    };
+  };
 
   /* ---------- Пакеты ---------- */
   type Pkg = { id: string; name: string; active: boolean; pick: () => void };
   let pkgs: Pkg[] = [];
   let noPkgText = '';
-  if (s.tab === 'noise') {
+  if (isNoise) {
     pkgs = NOISE_PKGS.map((p) => ({ id: p.id, name: p.name, active: p.id === s.noisePkg, pick: () => update({ noisePkg: p.id }) }));
-  } else if (s.tab === 'film') {
+  } else if (isFilm) {
     pkgs = FILM_PKGS.map((p) => ({
       id: p.id, name: p.name, active: p.id === s.filmPkg,
       pick: () => update((prev) => ({ sel: [...prev.sel.filter((k) => !k.startsWith('f_')), ...p.z], filmPkg: p.id, active: null })),
     }));
   } else if (s.tab === 'salon') {
-    noPkgText = 'Отметьте элементы салона на фото';
+    noPkgText = 'Экраны, глянец, подсветка, магнитола и звук';
   } else {
-    noPkgText = 'Режим «рентген»: узлы оснащения подписаны';
+    noPkgText = 'Нажмите на точку — покажем, как работает';
   }
 
   const pkgBar = (cls: string) => (
     <div class={cls}>
       {pkgs.length > 0 ? (
-        <div class="cfg__pkgs" role="group" aria-label={s.tab === 'noise' ? 'Уровень шумоизоляции' : 'Пакет плёнки'}>
+        <div class="cfg__pkgs" role="group" aria-label={isNoise ? 'Пакет шумоизоляции' : 'Готовые решения'}>
           {pkgs.map((p) => (
             <button type="button" class="cfg__pkg" aria-pressed={p.active} onClick={p.pick} key={p.id}>{p.name}</button>
           ))}
@@ -240,7 +334,7 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
       ) : (
         <span class="cfg__nopkg">{noPkgText}</span>
       )}
-      {s.tab === 'film' && (
+      {isFilm && (
         <div class="cfg__finish" role="group" aria-label="Фактура плёнки" data-name="FinishToggle">
           <button type="button" aria-pressed={s.finish === 'gloss'} onClick={() => update({ finish: 'gloss' })}>Глянец</button>
           <button type="button" aria-pressed={s.finish === 'matte'} onClick={() => update({ finish: 'matte' })}>Мат</button>
@@ -254,7 +348,7 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
     .map((d) => ({
       d,
       name: CFG.dirs[d].name,
-      rows: selected.filter((z) => dirOfZone(z.id) === d).map((z) => ({
+      rows: selected.filter((z) => z.dir === d).map((z) => ({
         z, sub: zoneSub(z, s), price: pk && pk.z.includes(z.id) ? 'в пакете' : fmt(zonePrice(z.id, s)),
       })),
     }))
@@ -293,19 +387,112 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
   const copyLabel = copied ? 'Ссылка скопирована ✓' : 'Скопировать ссылку на расчёт';
   const itemsText = selected.map((z) => z.name).join(', ');
 
+  /* ---------- Под фото: карточка зоны, плитки деталей или список зон ---------- */
+  const middle = () => {
+    if (isFilm) {
+      return (
+        <div class="cfg__film" data-name="FilmDetails">
+          <span class="cfg__mid-label">Выберите детали оклейки</span>
+          <div class="cfg__tiles" role="group" aria-label="Детали для оклейки">
+            {ZONES.filter((z) => z.tab === 'film').map((z) => (
+              <button
+                type="button" key={z.id}
+                class={'cfg__tile' + (on(z.id) ? ' is-on' : '') + (z.id === s.active && !on(z.id) ? ' is-active' : '')}
+                aria-pressed={on(z.id)}
+                title={`${z.name} — ${z.desc}`}
+                aria-label={`${z.name}, ${fmt(zonePrice(z.id, s))}. ${z.desc}`}
+                onClick={() => toggle(z.id)}
+                data-name="DetailTile"
+              >
+                <span class="cfg__tile-name">{z.short ?? z.name}</span>
+                <span class="cfg__tile-price">{fmt(zonePrice(z.id, s))}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    if (isNoise) {
+      return (
+        <div class="cfg__noise" data-name="NoiseChecklist">
+          <div class="cfg__mid-head">
+            <span class="cfg__mid-label">Отметьте зоны шумоизоляции</span>
+            <span class="cfg__mid-note">Материалы — пакет «{noisePkgName}»</span>
+          </div>
+          <div class="cfg__checks" role="group" aria-label="Зоны шумоизоляции">
+            {ZONES.filter((z) => z.tab === 'noise').map((z) => {
+              const mat = noiseMaterial(z.id, s.noisePkg);
+              return (
+                <button
+                  type="button" key={z.id} role="checkbox"
+                  class={'cfg__check' + (on(z.id) ? ' is-on' : '') + (z.id === s.active && !on(z.id) ? ' is-active' : '')}
+                  aria-checked={on(z.id)}
+                  title={`${z.name} — ${z.desc}`}
+                  aria-label={`${z.name}: ${mat}, ${fmt(zonePrice(z.id, s))}`}
+                  onClick={() => toggle(z.id)}
+                  data-name="ZoneCheck"
+                >
+                  <span class="cfg__box" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6.2 L4.8 9 L10 3" fill="none" stroke="#151A04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </span>
+                  <span class="cfg__check-text">
+                    <span class="cfg__check-name">{z.name}</span>
+                    <span class="cfg__check-meta">
+                      <span class="cfg__check-mat">{mat}</span>
+                      <span class="cfg__check-price">{fmt(zonePrice(z.id, s))}</span>
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+    if (card) {
+      const sel = on(card.id);
+      return (
+        <div class={`cfg__zone dir-${card.dir}` + (sel ? ' is-on' : '')} data-name="ZoneCard/Docked" aria-live="polite">
+          {thumb && <img class="cfg__thumb" src={thumb.src} alt={thumb.alt} width={88} height={60} loading="lazy" decoding="async" />}
+          <span class="cfg__zone-text">
+            <strong>{card.name}</strong>
+            <span class="cfg__zone-desc">{card.desc}<span class="cfg__zone-mat"> · {zoneMaterial(card)}</span></span>
+            <span class="cfg__zone-price cfg__zone-price--m">{fmt(zonePrice(card.id, s))}</span>
+          </span>
+          {card.id === 'e_closers' && (
+            <span class="cfg__closers">
+              <button type="button" aria-pressed={s.closers === 2} onClick={() => update({ closers: 2 })}>2 двери</button>
+              <button type="button" aria-pressed={s.closers === 4} onClick={() => update({ closers: 4 })}>4 двери</button>
+            </span>
+          )}
+          <span class="cfg__zone-price cfg__zone-price--d">{fmt(zonePrice(card.id, s))}</span>
+          <button type="button" class="cfg__zone-btn" onClick={() => toggle(card.id)}>{sel ? 'Убрать' : 'Добавить'}</button>
+        </div>
+      );
+    }
+    return (
+      <div class="cfg__hint" data-name="EmptyHint">
+        <Icon name="target" size={28} stroke={1.6} />
+        <span class="stack">
+          <strong>{s.body ? 'Отметьте зоны на машине' : 'Выберите кузов справа и отметьте зоны'}</strong>
+          <span>Нажмите на точку — зона попадёт в расчёт</span>
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div class={`cfg dir-${curDir}` + (isPage ? ' cfg--page' : '')} data-name="Configurator">
       {/* ---------- Визуал ---------- */}
-      <div class="cfg__visual" data-name="ConfiguratorVisual">
+      <div class={`cfg__visual is-${s.tab}`} data-name="ConfiguratorVisual">
         <div class="cfg__tabs" role="tablist" aria-label="Направление работ" data-name="Tabs/Direction">
           {TABS.map((t) => {
             const n = selected.filter((z) => z.tab === t.id).length;
-            const active = t.id === s.tab;
             return (
               <button
                 type="button" role="tab" key={t.id}
                 class={`cfg__tab dir-${t.dir}`}
-                aria-selected={active}
+                aria-selected={t.id === s.tab}
                 onClick={() => update({ tab: t.id, active: null })}
               >
                 {t.id === 'film' ? <><span class="cfg__long">{t.name}</span><span class="cfg__short">Плёнка</span></> : t.name}
@@ -315,102 +502,91 @@ export default function Configurator({ photos, phones, hours, mode = 'embed', in
           })}
         </div>
 
-        <div class={'cfg__photo' + (s.tab === 'equip' ? ' is-xray' : '')} ref={photoRef} data-name="ModelPhoto">
-          <img
-            src={photo.src}
-            srcset={photo.srcset}
-            sizes="(min-width: 1280px) 760px, (min-width: 768px) 100vw, 358px"
-            alt={photoAlt}
-            width={760}
-            height={500}
-            loading={isPage ? 'eager' : 'lazy'}
-            decoding="async"
-          />
+        <div class="cfg__stage">
+          <div class={`cfg__area is-${s.tab}`} ref={areaRef} data-name="Illustration">
+            <img
+              key={s.tab}
+              class="cfg__photo"
+              src={photo.src}
+              srcset={photo.srcset}
+              sizes={isNoise ? '(min-width: 1280px) 712px, (min-width: 768px) 92vw, 334px' : '(min-width: 1280px) 760px, (min-width: 768px) 100vw, 358px'}
+              alt={photo.alt}
+              style={{ objectFit: photo.fit, objectPosition: photo.position }}
+              loading={isPage || touched.current ? 'eager' : 'lazy'}
+              decoding="async"
+              data-name="CalcPhoto"
+            />
+            {!isNoise && <span class="cfg__shade" aria-hidden="true" />}
 
-          {s.tab === 'equip' && s.sel.includes('e_ambient') && (
-            <svg class="cfg__ambient" viewBox="0 0 760 500" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M300 162 C 380 137, 470 137, 560 162" stroke-width="3" />
-              <path d="M330 242 L 430 234" stroke-width="2.5" />
-              <path d="M470 234 L 570 242" stroke-width="2.5" />
-            </svg>
-          )}
+            {s.tab === 'equip' && (
+              <svg class={'cfg__overlay' + (on(HEADLIGHT.when) ? ' is-on' : '')} viewBox={HEADLIGHT.viewBox} preserveAspectRatio="none" aria-hidden="true" data-name="Overlay/Headlight">
+                <defs>
+                  <radialGradient id={`hlg-${uid}`}>
+                    <stop offset="0" stop-color={HEADLIGHT.glow.color} stop-opacity="0.95" />
+                    <stop offset="0.35" stop-color="#FFF1C2" stop-opacity="0.5" />
+                    <stop offset="1" stop-color="#FFF1C2" stop-opacity="0" />
+                  </radialGradient>
+                  <linearGradient id={`hlb-${uid}`} x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color={HEADLIGHT.glow.color} stop-opacity="0.4" />
+                    <stop offset="1" stop-color={HEADLIGHT.glow.color} stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d={HEADLIGHT.beam} fill={`url(#hlb-${uid})`} />
+                <ellipse cx={HEADLIGHT.glow.cx} cy={HEADLIGHT.glow.cy} rx={HEADLIGHT.glow.rx} ry={HEADLIGHT.glow.ry} fill={`url(#hlg-${uid})`} />
+              </svg>
+            )}
 
-          {card && az && (
-            <svg class="cfg__lead" width={box.w} height={box.h} viewBox={`0 0 ${box.w} ${box.h}`} aria-hidden="true">
-              <path d={card.lead} class={s.sel.includes(az.id) ? 'is-on' : ''} />
-            </svg>
-          )}
+            {isFilm && FILM_SHAPES.map((f) => {
+              const v = filmShape(f);
+              return (
+                <svg class="cfg__shape" viewBox={SHAPE_STYLE.viewBox} preserveAspectRatio={SHAPE_STYLE.preserveAspectRatio} style={v.style} aria-hidden="true" key={f.id} data-zone={f.id} data-name="FilmZone">
+                  <path d={f.d} fill={v.fill} fill-rule="evenodd" stroke={v.stroke} stroke-width={v.sw} stroke-linejoin="round" stroke-linecap="round" />
+                </svg>
+              );
+            })}
 
-          {tabZones.map((z) => {
-            const on = s.sel.includes(z.id);
-            const p = pos(z);
-            const style = { left: `${p.x * 100}%`, top: `${p.y * 100}%` };
-            return (
-              <Fragment key={z.id}>
-                {on && fillable && <span class="cfg__glow" style={style} aria-hidden="true" />}
+            {isNoise && NOISE_SHAPES.map((f) => {
+              const v = noiseShape(f);
+              return (
+                <svg class="cfg__shape" viewBox={NOISE.viewBox} preserveAspectRatio={NOISE.preserveAspectRatio} style={{ opacity: v.opacity }} aria-hidden="true" key={f.id} data-zone={f.id} data-name="NoiseZone">
+                  <defs dangerouslySetInnerHTML={{
+                    __html: NOISE.textures.foil.svgPattern.replace('<zoneId>', `${uid}-${f.id}`)
+                      + NOISE.textures.absorber.svgPattern.replace('<zoneId>', `${uid}-${f.id}`),
+                  }} />
+                  <path d={f.d} fill={v.fill} fill-rule="evenodd" stroke={v.stroke} stroke-width={v.sw} stroke-linejoin="round" stroke-linecap="round" />
+                </svg>
+              );
+            })}
+
+            {dotZones.map((z) => {
+              const sel = on(z.id);
+              return (
                 <button
-                  type="button"
-                  class={'cfg__dot' + (on ? ' is-on' : '') + (z.id === s.active ? ' is-active' : '')}
-                  style={style}
-                  aria-pressed={on}
+                  type="button" key={z.id}
+                  class={`cfg__dot dir-${z.dir}` + (sel ? ' is-on' : '') + (z.id === s.active ? ' is-active' : '')}
+                  style={{ left: `${z.x! * 100}%`, top: `${z.y! * 100}%` }}
+                  aria-pressed={sel}
                   aria-label={`${z.name}, ${fmt(zonePrice(z.id, s))}`}
                   onClick={() => toggle(z.id)}
                   data-name="HotspotDot"
                 />
-                {s.tab === 'equip' && <span class={'cfg__label' + (on ? ' is-on' : '')} style={style} aria-hidden="true">{z.name}</span>}
-              </Fragment>
-            );
-          })}
+              );
+            })}
+            {showLabels && dotZones.map((z) => (
+              <span
+                key={`${s.tab}-${z.id}`}
+                ref={(el) => { labelRefs.current[z.id] = el; }}
+                class={`cfg__label dir-${z.dir}` + (on(z.id) ? ' is-on' : '')}
+                aria-hidden="true"
+              >{z.label ?? z.name}</span>
+            ))}
 
-          {card && az && (
-            <div class={'cfg__card' + (s.sel.includes(az.id) ? ' is-on' : '')} style={{ left: `${card.x}px`, top: `${card.y}px` }} data-name="HotspotCard">
-              <span class="cfg__card-name">{az.name}</span>
-              <span class="cfg__card-desc">{az.desc}</span>
-              <span class="cfg__card-mat">Материал: {zoneMaterial(az)}</span>
-              {az.id === 'e_closers' && (
-                <div class="cfg__closers">
-                  <button type="button" aria-pressed={s.closers === 2} onClick={() => update({ closers: 2 })}>2 двери</button>
-                  <button type="button" aria-pressed={s.closers === 4} onClick={() => update({ closers: 4 })}>4 двери</button>
-                </div>
-              )}
-              <div class="cfg__card-foot">
-                <span class="cfg__card-price">{fmt(zonePrice(az.id, s))}</span>
-                <button type="button" class="cfg__card-btn" onClick={() => toggle(az.id)}>{s.sel.includes(az.id) ? 'Убрать' : 'Добавить'}</button>
-              </div>
-            </div>
-          )}
-
-          {isEmpty && !az && (
-            <div class="cfg__hint" data-name="EmptyHint">
-              <Icon name="target" size={28} stroke={1.6} />
-              <span class="stack"><strong>{s.body ? 'Отметьте зоны на машине' : 'Выберите кузов и отметьте зоны'}</strong><span>Нажмите на точку — зона попадёт в расчёт</span></span>
-            </div>
-          )}
-        </div>
-        {s.tab === 'equip' && <span class="cfg__caption">Режим «рентген»: узлы оснащения на полупрозрачном кузове</span>}
-        {pkgBar('cfg__bottom')}
-      </div>
-
-      {/* ---------- Мобайл: зона под фото ---------- */}
-      <div class="cfg__strip" aria-live="polite">
-        {az ? (
-          <div class={'cfg__zone' + (s.sel.includes(az.id) ? ' is-on' : '')} data-name="ZoneStrip">
-            <span class="cfg__zone-text">
-              <strong>{az.name}</strong>
-              <span>{az.desc}</span>
-              <span class="cfg__zone-price">{fmt(zonePrice(az.id, s))}</span>
-            </span>
-            {az.id === 'e_closers' && (
-              <span class="cfg__closers cfg__closers--v">
-                <button type="button" aria-pressed={s.closers === 2} onClick={() => update({ closers: 2 })}>2 дв.</button>
-                <button type="button" aria-pressed={s.closers === 4} onClick={() => update({ closers: 4 })}>4 дв.</button>
-              </span>
-            )}
-            <button type="button" class="cfg__card-btn cfg__zone-btn" onClick={() => toggle(az.id)}>{s.sel.includes(az.id) ? 'Убрать' : 'Добавить'}</button>
+            <span class="cfg__caption" ref={captionRef} data-name="PhotoCaption">{photo.caption}</span>
           </div>
-        ) : (
-          <div class="cfg__zone cfg__zone--empty">Нажмите на точку, чтобы добавить зону</div>
-        )}
+        </div>
+
+        <div class="cfg__mid">{middle()}</div>
+        {pkgBar('cfg__bottom')}
       </div>
 
       {/* ---------- Панель ---------- */}

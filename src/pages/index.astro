@@ -9,16 +9,26 @@ import Faq from '../components/Faq.astro';
 import LightStrip from '../components/LightStrip.astro';
 import DirTitle from '../components/DirTitle.astro';
 import MapBlock from '../components/MapBlock.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
 import ConfiguratorSection from '../components/ConfiguratorSection.astro';
 import home from '@data/home.json';
 import { DIR_SUB, contacts, portfolioFilters, telegram, tgHandle, whatsappHref, caseBySlug, type Dir } from '../lib/data';
 import { faqPage } from '../lib/schema';
+import { photoSrcset } from '../lib/images';
 
 const f = home.works.featured;
 const chips = home.works.chips.map((id) => portfolioFilters.find((x) => x.id === id)!).filter(Boolean);
 const dirs: Dir[] = ['kosmos', 'garage'];
 const caseHref = (slug: string) => (caseBySlug(slug) ? url(`/works/${slug}`) : undefined);
 const hours = contacts.hours;
+// Миниатюры 2–4-го фото кейса под обложкой карточки
+const cardThumbs = Object.fromEntries(
+  await Promise.all(home.works.cards.map(async (c) => {
+    const cs = caseBySlug(c.slug);
+    const list = await Promise.all((cs?.photos ?? []).slice(1, 4).map(async (p) => (await photoSrcset(p, [152])).src));
+    return [c.slug, list] as const;
+  })),
+);
 ---
 <Base
   title={home.meta.title}
@@ -121,27 +131,18 @@ const hours = contacts.hours;
         ))}
       </nav>
       <div class="works__grid" data-name="CaseGrid">
-        <a href={caseHref(f.slug)} class="case-card dir-kosmos works__featured" data-name="CaseCard/BeforeAfter">
-          <span class="case-card__media ba">
-            <span class="ba__half ba__half--l">
-              <Photo src={f.before.img} alt={f.before.alt} sizes="(min-width: 1280px) 470px, (min-width: 768px) 30vw, 165px" widths={[320, 480, 720, 960]} />
-              <span class="tag tag--photo ba__tag">{f.before.tag}</span>
-              <span class="ba__cap">{f.before.caption}</span>
-            </span>
-            <span class="ba__half ba__half--r">
-              <Photo src={f.after.img} alt={f.after.alt} sizes="(min-width: 1280px) 390px, (min-width: 768px) 25vw, 135px" widths={[320, 480, 720, 960]} />
-              <span class="tag tag--photo ba__tag ba__tag--r">{f.after.tag}</span>
-              <span class="ba__cap ba__cap--r">{f.after.caption}</span>
-            </span>
-            <span class="ba__line" aria-hidden="true" data-name="BeforeAfterHandle"></span>
-            <span class="ba__knob" aria-hidden="true"><Icon name="swap" size={20} stroke={2} /></span>
-            <span class="case-card__caption show-m">Процесс и результат</span>
-          </span>
+        <div class="case-card dir-kosmos works__featured" data-name="CaseCard/BeforeAfter">
+          <BeforeAfter
+            before={{ img: f.before.img, alt: f.before.alt, caption: f.before.tag }}
+            after={{ img: f.after.img, alt: f.after.alt, caption: f.after.tag }}
+            sizes="(min-width: 1280px) 850px, (min-width: 768px) 100vw, 300px"
+            class="works__ba"
+          />
           <span class="works__featured-foot">
-            <h3 class="case-card__title">{caseBySlug(f.slug)?.name}</h3>
+            <h3 class="case-card__title"><a href={caseHref(f.slug)} class="works__featured-link">{caseBySlug(f.slug)?.name}<span class="sr-only"> — смотреть кейс</span></a></h3>
             <span class="tags">{f.tags.map((t) => <span class="tag">{t}</span>)}</span>
           </span>
-        </a>
+        </div>
         {home.works.cards.map((c) => {
           const cs = caseBySlug(c.slug)!;
           return (
@@ -154,6 +155,8 @@ const hours = contacts.hours;
               title={c.title}
               tags={c.tags}
               dir={cs.d}
+              count={cs.photos.length}
+              thumbs={cardThumbs[c.slug]}
               class:list={['works__card', c.tall && 'works__card--tall']}
               sizes="(min-width: 1280px) 410px, (min-width: 768px) 50vw, 300px"
             />
@@ -376,18 +379,10 @@ const hours = contacts.hours;
   .works__grid > :global(*) { flex: 0 0 300px; scroll-snap-align: start; }
   .works__featured { display: flex; flex-direction: column; gap: 12px; }
   .works__featured-foot { display: flex; flex-direction: column; gap: 12px; }
-  .ba { display: flex; aspect-ratio: 300 / 220; border: 0; }
-  .ba__half { position: relative; overflow: hidden; background: var(--ug-bg); }
-  .ba__half--l { width: 55%; }
-  .ba__half--r { width: 45%; }
-  .ba__half :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ba__tag, .ba__cap { display: none; }
-  .ba__line { position: absolute; left: 55%; top: 0; bottom: 0; width: 2px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242, 244, 247, 0.7); }
-  .ba__knob {
-    position: absolute; left: 55%; top: 50%; width: 36px; height: 36px; margin: -18px 0 0 -17px; border-radius: 50%;
-    background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center;
-  }
-  .ba__knob :global(svg) { display: none; }
+  .works__featured :global(.works__ba) { height: auto; aspect-ratio: 300 / 220; }
+  .works__featured-link { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: text-decoration-color var(--t); }
+  .works__featured-link::after { content: ' →'; color: var(--acc-text); }
+  @media (hover: hover) { .works__featured-link:hover { text-decoration-color: currentColor; } }
   .works__more { align-self: stretch; }
   .works :global(.case-card__title) { font-size: 17px; }
 
@@ -398,15 +393,9 @@ const hours = contacts.hours;
     .works__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; overflow: visible; margin: 0; padding: 0; }
     .works__grid > :global(*) { flex: none; }
     .works__featured { grid-column: span 2; }
-    .ba { aspect-ratio: auto; height: 340px; }
+    .works__featured :global(.works__ba) { aspect-ratio: auto; height: 340px; }
     .works__card--tall :global(.case-card__media) { --ratio: 1 / 1; }
     .works__more { align-self: center; }
-    .ba__knob { width: 44px; height: 44px; margin: -22px 0 0 -21px; }
-    .ba__knob :global(svg) { display: block; }
-    .ba__tag { display: inline-flex; position: absolute; left: 16px; top: 16px; }
-    .ba__tag--r { left: auto; right: 16px; }
-    .ba__cap { display: block; position: absolute; left: 16px; bottom: 16px; font-size: 14px; font-weight: 600; color: #C9CED6; }
-    .ba__cap--r { left: auto; right: 16px; text-align: right; }
     .works__featured-foot { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
     .works :global(.case-card__title) { font-size: var(--fs-h3); }
   }
@@ -414,15 +403,10 @@ const hours = contacts.hours;
     .works__in { gap: 36px; }
     .works__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
     .works__featured { gap: 16px; }
-    .ba { height: 380px; border-radius: 20px; }
-    .ba__tag { left: 20px; top: 20px; }
-    .ba__tag--r { right: 20px; }
-    .ba__cap { left: 20px; bottom: 20px; }
-    .ba__cap--r { right: 20px; }
+    .works__featured :global(.works__ba) { height: 380px; }
     .works__card--tall { grid-column: 3; grid-row: 1; }
     .works__card--tall :global(.case-card__media) { --ratio: auto; height: 380px; aspect-ratio: auto; }
     .works__grid :global(.works__card:not(.works__card--tall) .case-card__media) { aspect-ratio: auto; height: 260px; }
-    .works__featured .ba__line { left: 55%; }
   }
 
   /* ---------- Why ---------- */

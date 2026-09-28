@@ -22,10 +22,10 @@
   "packages": [
    { "name": "Фронт", "sub": "Зоны, куда летят камни", "price": "от 110 000 ₽", "items": ["Капот, фары, крылья", "Бампер, полоса на крыше, стойки", "1 день"], "calc": "tab=film&pkg=front&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars" },
    { "name": "Фронт+", "sub": "Плюс зоны ежедневных царапин", "price": "от 135 000 ₽", "items": ["Всё из «Фронта»", "Зеркала и зоны под ручками", "Погрузочная зона багажника", "1–2 дня"], "featured": true, "calc": "tab=film&pkg=plus&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars,f_mirrors,f_handles,f_load" },
-   { "name": "Полный кузов", "sub": "Весь кузов под плёнкой", "price": "от 180 000 ₽", "items": ["Всё из «Фронта+»", "Двери, крыша, задние крылья", "Пороги и задний бампер", "3–5 дней"], "calc": "tab=film&pkg=full&z=f_hood,f_head,f_fenders,f_bumper,f_roof,f_pillars,f_mirrors,f_handles,f_load,f_sills,f_body" }
+   { "name": "Полный кузов", "sub": "Весь кузов под плёнкой", "price": "от 180 000 ₽", "items": ["Всё из «Фронта+»", "Двери, крыша, задние крылья", "Пороги и задний бампер", "3–5 дней"], "calc": "tab=film&pkg=full&z=f_bumper,f_hood,f_fenders,f_head,f_fog,f_mirrors,f_pillars,f_roof,f_roofful,f_fdoors,f_rdoors,f_rfenders,f_sills,f_handles,f_glass,f_load,f_rbumper,f_tailgate" }
   ],
   "calc": { "tab": "film", "pkg": "plus" },
-  "cases": ["hyundai-santa-fe", "mercedes-e-class", "mercedes-maybach-gls"],
+  "cases": ["hyundai-santa-fe", "mercedes-e-class", "maybach-gls"],
   "worksTitle": "Плёнка у нас",
   "faqTitle": "Вопросы про плёнку"
  },
@@ -95,7 +95,7 @@
   ],
   "priceFrom": 25000,
   "calc": { "tab": "film" },
-  "cases": ["hyundai-santa-fe", "mercedes-e-class", "keramika-na-diski"],
+  "cases": ["hyundai-santa-fe", "mercedes-e-class", "wheels-ceramic"],
   "worksTitle": "Полировка у нас",
   "faqTitle": "Вопросы про полировку"
  },
@@ -123,7 +123,7 @@
   ],
   "priceFrom": 150000,
   "calc": { "tab": "film" },
-  "cases": ["mercedes-e-class", "mercedes-maybach-gls", "yamaha"],
+  "cases": ["mercedes-e-class", "maybach-gls", "yamaha"],
   "worksTitle": "Смена цвета у нас",
   "faqTitle": "Вопросы про смену цвета"
  },
@@ -165,7 +165,7 @@
   ],
   "priceFrom": 8000,
   "calc": { "tab": "film" },
-  "cases": ["keramika-na-diski"],
+  "cases": ["wheels-ceramic"],
   "worksTitle": "Керамика у нас",
   "faqTitle": "Вопросы про керамику"
  },
@@ -203,12 +203,12 @@
    "items": ["Разборка без поломки клипс", "Обезжиривание металла", "Виброизоляция Шумофф", "Шумопоглотитель Шумофф", "Антискрип на стыки пластика", "Новые клипсы вместо сломанных", "Фотоотчёт в Telegram", "Тест-драйв при приёмке"]
   },
   "packages": [
-   { "name": "Практичный", "sub": "Двери и багажник — убрать дребезг", "price": "от 20 000 ₽", "items": ["Двери ×4", "Крышка багажника", "1 день"], "calc": "tab=noise&np=prac&z=n_doors,n_trunk" },
-   { "name": "Отличный", "sub": "Заметно тише на трассе", "price": "от 48 000 ₽", "items": ["Двери ×4 и багажник", "Пол и арки", "Антискрип салона", "1–2 дня"], "featured": true, "calc": "tab=noise&np=opt&z=n_doors,n_trunk,n_floor,n_arches" },
-   { "name": "Максимальный", "sub": "Вся машина, включая моторный щит", "price": "от 70 000 ₽", "items": ["Всё из «Отличного»", "Крыша и капот", "Моторный щит", "2 дня"], "calc": "tab=noise&np=max&z=n_doors,n_trunk,n_floor,n_arches,n_roof,n_hood,n_wall" }
+   { "name": "Практичный", "sub": "Двери и багажник — убрать дребезг", "price": "от 20 000 ₽", "items": ["Двери ×4", "Крышка багажника", "1 день"], "calc": "tab=noise&np=prac&z=n_doors,n_lid" },
+   { "name": "Отличный", "sub": "Заметно тише на трассе", "price": "от 48 000 ₽", "items": ["Двери ×4 и багажник", "Пол и арки", "Антискрип салона", "1–2 дня"], "featured": true, "calc": "tab=noise&np=opt&z=n_doors,n_lid,n_trunk,n_floor,n_arches" },
+   { "name": "Максимальный", "sub": "Вся машина, включая моторный щит", "price": "от 70 000 ₽", "items": ["Всё из «Отличного»", "Крыша и капот", "Моторный щит", "2 дня"], "calc": "tab=noise&np=max&z=n_doors,n_lid,n_trunk,n_floor,n_arches,n_roof,n_hood,n_wall" }
   ],
   "calc": { "tab": "noise" },
-  "cases": ["mitsubishi-outlander-ambient", "hyundai-accent", "geely-monjaro"],
+  "cases": ["mitsubishi-outlander", "hyundai-accent", "geely-monjaro"],
   "worksTitle": "Шумоизоляция у нас",
   "faqTitle": "Вопросы про шумку"
  },
@@ -222,12 +222,12 @@
   ],
   "priceFrom": 20000,
   "packages": [
-   { "name": "Базовый", "sub": "Замена фронтальных динамиков", "price": "от 20 000 ₽", "items": ["Компонентная акустика во фронт", "Полдня"], "calc": "tab=equip&z=e_audio" },
-   { "name": "Оптимальный", "sub": "Звук плотнее и без дребезга", "price": "от 60 000 ₽", "items": ["Фронт и усилитель", "Сабвуфер", "Шумоизоляция дверей", "1 день"], "featured": true, "calc": "tab=equip&z=e_audio,n_doors" },
-   { "name": "Hi-Fi", "sub": "Сцена перед водителем", "price": "от 120 000 ₽", "items": ["Процессор DSP и многоканальный усилитель", "Подиумы или стелс-сабвуфер", "Настройка по замерам", "3–7 дней"], "calc": "tab=equip&z=e_audio,n_doors,n_floor" }
+   { "name": "Базовый", "sub": "Замена фронтальных динамиков", "price": "от 20 000 ₽", "items": ["Компонентная акустика во фронт", "Полдня"], "calc": "tab=salon&z=e_audio" },
+   { "name": "Оптимальный", "sub": "Звук плотнее и без дребезга", "price": "от 60 000 ₽", "items": ["Фронт и усилитель", "Сабвуфер", "Шумоизоляция дверей", "1 день"], "featured": true, "calc": "tab=salon&z=e_audio,n_doors" },
+   { "name": "Hi-Fi", "sub": "Сцена перед водителем", "price": "от 120 000 ₽", "items": ["Процессор DSP и многоканальный усилитель", "Подиумы или стелс-сабвуфер", "Настройка по замерам", "3–7 дней"], "calc": "tab=salon&z=e_audio,n_doors,n_floor" }
   ],
-  "calc": { "tab": "equip" },
-  "cases": ["helix-v-eighteen-dsp", "helix-v-eight-eton", "provodka-shumoff"],
+  "calc": { "tab": "salon" },
+  "cases": ["audio-helix-v18", "audio-helix-v8-eton", "audio-wiring"],
   "worksTitle": "Автозвук у нас",
   "faqTitle": "Вопросы про автозвук"
  },
@@ -268,8 +268,8 @@
    { "v": "CarPlay", "l": "Wide Media, Teyes, FarCar" }
   ],
   "priceFrom": 5000,
-  "calc": { "tab": "equip" },
-  "cases": ["mitsubishi-outlander-wide-media"],
+  "calc": { "tab": "salon" },
+  "cases": ["mitsubishi-outlander-2"],
   "worksTitle": "Магнитолы у нас",
   "faqTitle": "Вопросы про магнитолы"
  },
@@ -296,8 +296,8 @@
    { "v": "со смартфона", "l": "цвет и режимы" }
   ],
   "priceFrom": 35000,
-  "calc": { "tab": "equip" },
-  "cases": ["ambient-18", "mitsubishi-outlander-ambient", "bmw-g60"],
+  "calc": { "tab": "salon" },
+  "cases": ["ambient", "mitsubishi-outlander", "bmw-g60"],
   "worksTitle": "Подсветка у нас",
   "faqTitle": "Вопросы про подсветку"
  },
@@ -311,7 +311,7 @@
   ],
   "priceFrom": 3000,
   "calc": { "tab": "equip" },
-  "cases": ["mitsubishi-outlander-wide-media"],
+  "cases": ["mitsubishi-outlander-2"],
   "worksTitle": "Камеры у нас",
   "faqTitle": "Вопросы про регистраторы и камеры"
  },

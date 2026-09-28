@@ -35,14 +35,14 @@
   "chips": ["film", "salon", "pdr", "glass", "noise", "closers", "light", "hu"],
   "featured": {
    "slug": "hyundai-santa-fe",
-   "before": { "img": "/img/santa-fe-polishing.jpg", "alt": "Полировка Hyundai Santa Fe", "tag": "ПРОЦЕСС", "caption": "Полировка кузова" },
-   "after": { "img": "/img/santa-fe-front.jpg", "alt": "Hyundai Santa Fe после работ", "tag": "РЕЗУЛЬТАТ", "caption": "После полировки и плёнки" },
+   "before": { "img": "/img/santa-fe-polishing.jpg", "alt": "Hyundai Santa Fe в процессе полировки", "tag": "ДО · ПРОЦЕСС" },
+   "after": { "img": "/img/santa-fe-front.jpg", "alt": "Hyundai Santa Fe после полировки и плёнки", "tag": "ПОСЛЕ" },
    "tags": ["Полировка", "Плёнка на перед", "PDR"]
   },
   "cards": [
-   { "slug": "ambient-18", "img": "/img/ambient-salon.jpg", "alt": "Контурная подсветка Ambient в салоне", "badge": "18 световых точек", "caption": "Салон ночью, Ambient", "title": "Контурная подсветка салона", "tags": ["Ambient"], "tall": true },
+   { "slug": "ambient", "img": "/img/ambient-salon.jpg", "alt": "Контурная подсветка Ambient в салоне", "badge": "18 световых точек", "caption": "Салон ночью, Ambient", "title": "Контурная подсветка салона", "tags": ["Ambient"], "tall": true },
    { "slug": "bmw-g60", "img": "/img/bmw-g60-salon.jpg", "alt": "Салон BMW G60 после оклейки", "caption": "BMW G60, салон: экран и карбон под плёнкой", "title": "BMW G60 · 5 Series", "tags": ["Карбон", "Статика на экран", "Глянец по лекалам"] },
-   { "slug": "mitsubishi-outlander-ambient", "img": "/img/outlander-doors-shumoff.jpg", "alt": "Шумоизоляция дверей Mitsubishi Outlander", "caption": "Двери без обшивок, слои Шумофф", "title": "Mitsubishi Outlander", "tags": ["Шумоизоляция дверей", "Подсветка в подарок"] },
+   { "slug": "mitsubishi-outlander", "img": "/img/outlander-doors-shumoff.jpg", "alt": "Шумоизоляция дверей Mitsubishi Outlander", "caption": "Двери без обшивок, слои Шумофф", "title": "Mitsubishi Outlander", "tags": ["Шумоизоляция дверей", "Подсветка в подарок"] },
    { "slug": "vw-teramont-x", "img": "/img/teramont-screen.jpg", "alt": "Монитор Volkswagen Teramont X с матовой статикой", "caption": "VW Teramont X, монитор после матовой статики", "title": "Volkswagen Teramont X", "tags": ["Статика на монитор"] }
   ]
  },

@@ -34,8 +34,19 @@ export const services: Service[] = servicesJson.map((s) => ({
 }));
 export const servicesByDir = (dir: Dir) => services.filter((s) => s.dir === dir);
 
-export type Case = (typeof portfolioJson)['cases'][number] & { d: Dir };
-export const cases = portfolioJson.cases as Case[];
+type RawCase = (typeof portfolioJson)['cases'][number];
+export type Case = Omit<RawCase, 'direction' | 'cover' | 'photos'> & {
+  d: Dir;
+  /** Обложка (первое фото), у кейсов без фото — undefined */
+  img?: string;
+  photos: string[];
+};
+export const cases: Case[] = portfolioJson.cases.map(({ direction, cover, photos, ...c }) => ({
+  ...c,
+  d: direction as Dir,
+  img: cover ?? undefined,
+  photos: photos ?? [],
+}));
 export const caseBySlug = (slug: string) => cases.find((c) => c.slug === slug);
 export const portfolioFilters = portfolioJson.filters as { id: string; name: string; d?: Dir; sep?: boolean }[];
 

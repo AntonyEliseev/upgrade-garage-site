@@ -1,28 +1,23 @@
 ---
-import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import PortfolioFilter, { type CaseItem } from '../../islands/PortfolioFilter';
 import { BRANDS, cases, portfolioFilters, telegram } from '../../lib/data';
-import { photo } from '../../lib/images';
+import { photoSrcset } from '../../lib/images';
 import { breadcrumbs } from '../../lib/schema';
 
 const items: CaseItem[] = await Promise.all(
   cases.map(async (c) => {
-    const src = photo(c.img);
-    let img: CaseItem['img'];
-    if (src) {
-      const widths = [400, 640, 820].filter((w) => w <= src.width);
-      const out = await Promise.all(widths.map((w) => getImage({ src, width: w, format: 'webp' })));
-      img = { src: out[out.length - 1].src, srcset: out.map((o, i) => `${o.src} ${widths[i]}w`).join(', ') };
-    }
-    return { slug: c.slug, name: c.name, brand: c.brand, d: c.d, s: c.s, tags: c.tags, photo: c.photo, img };
+    const img = c.img ? await photoSrcset(c.img, [400, 640, 820]) : undefined;
+    // Под обложкой — до трёх следующих фото (76×56, ×2 для ретины)
+    const thumbs = await Promise.all(c.photos.slice(1, 4).map(async (p) => (await photoSrcset(p, [152])).src));
+    return { slug: c.slug, name: c.name, brand: c.brand, d: c.d, s: c.s, tags: c.tags, photo: c.photo, img, count: c.photos.length, thumbs };
   }),
 );
 ---
 <Base
   title="Работы студии: оклейка, шумоизоляция и дооснащение — Москва"
   description="Фото наших работ: антигравийная плёнка, смена цвета, салон по лекалам, шумоизоляция, автозвук и Ambient-подсветка. Все фото — из бокса на Алтуфьевском."
-  ogImage="/img/mercedes-e-class-green.jpg"
+  ogImage="/img/works/mercedes-e-class-1.jpg"
   current="works"
   jsonLd={[breadcrumbs(Astro.site!, [{ name: 'Главная', href: '/' }, { name: 'Работы', href: '/works' }])]}
 >

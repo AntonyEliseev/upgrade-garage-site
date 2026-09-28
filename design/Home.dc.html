@@ -176,15 +176,18 @@ a{color:#F2F4F7;text-decoration:none}a:hover{color:#FFFFFF}
 </div>
 <div data-name="CaseGrid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
 
-<a href="#" data-name="CaseCard/BeforeAfter" style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px">
-<div style="position: relative; height: 380px; border-radius: 20px; overflow: hidden; display: flex">
-<div style="width: 55%; height: 380px; background: #0D0E10; position: relative; overflow: hidden"><img src="/img/santa-fe-polishing.jpg" alt="Полировка Hyundai Santa Fe" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; left: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">ПРОЦЕСС</span><span style="position: absolute; left: 20px; bottom: 20px; font-size: 14px; font-weight: 600; color: #C9CED6">Полировка кузова</span></div>
-<div style="width: 45%; height: 380px; background: #0D0E10; position: relative; overflow: hidden"><img src="/img/santa-fe-front.jpg" alt="Hyundai Santa Fe после работ" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><span style="position: absolute; right: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">РЕЗУЛЬТАТ</span><span style="position: absolute; right: 20px; bottom: 20px; font-size: 14px; font-weight: 600; color: #C9CED6; text-align: right">После полировки и плёнки</span></div>
-<span data-name="BeforeAfterHandle" style="position: absolute; left: 55%; top: 0; width: 2px; height: 380px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242,244,247,0.7)"></span>
-<span style="position: absolute; left: calc(55% - 22px); top: 168px; width: 44px; height: 44px; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"></path></svg></span>
+<div data-name="CaseCard/BeforeAfter" style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px">
+<div data-name="BeforeAfter" style="position: relative; height: 380px; border-radius: 20px; overflow: hidden; background: #0D0E10; cursor: ew-resize">
+<img src="/img/santa-fe-polishing.jpg" alt="Hyundai Santa Fe в процессе полировки" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; inset: 0; clip-path: inset(0 0 0 {{split}}%); transition: clip-path .25s ease-out"><img src="/img/santa-fe-front.jpg" alt="Hyundai Santa Fe после полировки и плёнки" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></div>
+<span style="position: absolute; left: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">ДО · ПРОЦЕСС</span>
+<span style="position: absolute; right: 20px; top: 20px; height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 12px; font-weight: 700; display: flex; align-items: center">ПОСЛЕ</span>
+<span data-name="BeforeAfterHandle" style="position: absolute; left: {{split}}%; top: 0; width: 2px; height: 380px; margin-left: -1px; background: #F2F4F7; box-shadow: 0 0 10px rgba(242,244,247,0.7); transition: left .25s ease-out; pointer-events: none"></span>
+<span role="slider" aria-label="Сравнить до и после" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{split}}" style="position: absolute; left: {{split}}%; top: 168px; width: 44px; height: 44px; margin-left: -22px; border-radius: 50%; background: #F2F4F7; color: #0D0E10; display: flex; align-items: center; justify-content: center; transition: left .25s ease-out; pointer-events: none; box-shadow: 0 6px 18px rgba(0,0,0,0.4)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"></path></svg></span>
+<div style="position: absolute; inset: 0; display: flex"><sc-for list="{{splitSteps}}" as="st" hint-placeholder-count="10"><button onClick="{{st.go}}" aria-label="{{st.label}}" style="flex-grow: 1; height: 100%; border: 0; padding: 0; background: transparent; cursor: ew-resize"></button></sc-for></div>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px"><span style="font-size: 20px; font-weight: 700">Hyundai Santa Fe</span><span style="display: flex; gap: 6px"><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Полировка</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">Плёнка на перед</span><span style="height: 28px; padding: 0 10px; border-radius: 6px; background: rgba(226,96,155,0.14); color: #EC86B4; font-size: 13px; font-weight: 700; display: flex; align-items: center">PDR</span></span></div>
-</a>
+</div>
 
 <a href="#" data-name="CaseCard/Ambient" style="display: flex; flex-direction: column; gap: 16px">
 <div style="position: relative; height: 380px; border-radius: 20px; overflow: hidden; background: #0B0C0E; border: 1px solid rgba(255,255,255,0.06)"><img src="/img/ambient-salon.jpg" alt="Контурная подсветка Ambient в салоне" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
@@ -283,7 +286,11 @@ a{color:#F2F4F7;text-decoration:none}a:hover{color:#FFFFFF}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6340}}'>
 class Component extends DCLogic {
-renderVals() { return {}; }
+renderVals() {
+  const split = (this.state && this.state.split !== undefined) ? this.state.split : 50;
+  const splitSteps = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95].map((v) => ({ label: 'Сдвинуть на ' + v + '%', go: () => this.setState({ split: v }) }));
+  return { split: split, splitSteps: splitSteps };
+}
 }
 </script>
 </body>

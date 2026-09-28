@@ -26,43 +26,53 @@ body{margin:0}
 <div style="display: flex; gap: 24px; height: 680px">
 
 <div data-name="ConfiguratorVisual" style="position: relative; width: 760px; height: 680px; flex-shrink: 0; border-radius: 24px; background: #15171A; border: 1px solid rgba(255,255,255,0.08); overflow: hidden">
-<div data-name="ModelPhoto" style="position: absolute; left: 0; top: 88px; width: 760px; height: 500px; opacity: {{photoOpacity}}; overflow: hidden"><img src="{{photoSrc}}" alt="{{photoAlt}}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.78)"></div>
-<span style="position: absolute; left: 24px; top: 560px; font-size: 12px; font-weight: 600; color: #9BA3AE">{{photoCaption}}</span>
-
-<sc-if value="{{ambientOn}}" hint-placeholder-val="{{ false }}">
-<svg width="760" height="680" viewBox="0 0 760 680" style="position: absolute; inset: 0; pointer-events: none"><path d="M300 250 C 380 225, 470 225, 560 250" fill="none" stroke="#CDE23C" stroke-width="3" style="filter: drop-shadow(0 0 8px #CDE23C)"></path><path d="M330 330 L 430 322" fill="none" stroke="#CDE23C" stroke-width="2.5" style="filter: drop-shadow(0 0 6px #CDE23C)"></path><path d="M470 322 L 570 330" fill="none" stroke="#CDE23C" stroke-width="2.5" style="filter: drop-shadow(0 0 6px #CDE23C)"></path></svg>
-</sc-if>
-
-<sc-if value="{{lead.show}}" hint-placeholder-val="{{ false }}">
-<svg width="760" height="680" viewBox="0 0 760 680" style="position: absolute; inset: 0; pointer-events: none"><path d="{{lead.d}}" fill="none" stroke="{{lead.color}}" stroke-width="1.2"></path></svg>
-</sc-if>
+<div data-name="Illustration" style="position: absolute; left: {{ill.l}}px; top: {{ill.top}}px; width: {{ill.w}}px; height: {{ill.h}}px; background: {{ill.bg}}; border-radius: {{ill.r}}px; overflow: hidden; isolation: isolate">
+<img data-name="CalcPhoto" src="{{photo.src}}" alt="{{photo.alt}}" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: {{photo.fit}}; object-position: 50% {{photo.pos}}%; filter: {{photo.filter}}; transition: filter 400ms">
+<span style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: {{photo.grad}}; background: linear-gradient(180deg, rgba(21,23,26,0.35) 0%, rgba(21,23,26,0) 22%, rgba(21,23,26,0) 75%, rgba(21,23,26,0.6) 100%); pointer-events: none"></span>
+<sc-if value="{{photo.lights}}" hint-placeholder-val="{{ false }}"><svg data-name="Overlay/Headlight" viewBox="0 0 760 420" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none"><defs><radialGradient id="hlg"><stop offset="0" stop-color="#FFF6D8" stop-opacity="0.95"/><stop offset="0.35" stop-color="#FFF1C2" stop-opacity="0.5"/><stop offset="1" stop-color="#FFF1C2" stop-opacity="0"/></radialGradient><linearGradient id="hlb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF6D8" stop-opacity="0.4"/><stop offset="1" stop-color="#FFF6D8" stop-opacity="0"/></linearGradient></defs><path d="M505 206 L760 160 L760 330 L505 232 Z" fill="url(#hlb)"/><ellipse cx="468" cy="216" rx="95" ry="36" fill="url(#hlg)"/></svg></sc-if>
+<sc-for list="{{filmShapes}}" as="fs" hint-placeholder-count="0"><svg data-name="FilmZone" viewBox="{{fs.vb}}" preserveAspectRatio="{{fs.par}}" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: {{fs.blend}}; opacity: {{fs.op}}; transition: opacity 250ms"><defs><pattern id="pfd-{{fs.id}}" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)"><rect width="16" height="16" fill="#CDD1D6"/><path d="M0 8 H16 M8 0 V16" stroke="#A9AFB7" stroke-width="0.7"/><rect x="6" y="6" width="4" height="4" transform="rotate(45 8 8)" fill="#8F969F"/></pattern><pattern id="pad-{{fs.id}}" width="30" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)"><rect width="30" height="18" fill="#17191C"/><text x="2" y="12" font-family="Manrope, sans-serif" font-size="9" font-weight="800" fill="#CDE23C">UG</text><circle cx="23" cy="9" r="3" fill="none" stroke="#CDE23C" stroke-width="1"/><circle cx="23" cy="9" r="0.9" fill="#CDE23C"/></pattern></defs><path d="{{fs.d}}" fill="{{fs.fill}}" fill-rule="evenodd" stroke="{{fs.stroke}}" stroke-width="{{fs.sw}}" stroke-linejoin="round" stroke-linecap="round" style="transition: fill 250ms, stroke 250ms"/></svg></sc-for>
+<span data-name="PhotoCaption" style="position: absolute; left: 16px; bottom: 12px; padding: 4px 10px; border-radius: 8px; background: rgba(13,14,16,0.75); font-size: 12px; font-weight: 700; color: #C9CED6; pointer-events: none">{{photo.cap}}</span>
+</div>
 
 <sc-for list="{{zones}}" as="z" hint-placeholder-count="6">
 <sc-if value="{{z.fill}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: {{z.fl}}px; top: {{z.ft}}px; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle, {{z.soft}} 0%, rgba(0,0,0,0) 70%); pointer-events: none"></span></sc-if>
 <button data-name="HotspotDot" aria-label="{{z.aria}}" aria-pressed="{{z.on}}" onClick="{{z.toggle}}" style="position: absolute; left: {{z.l}}px; top: {{z.t}}px; width: 28px; height: 28px; box-sizing: border-box; padding: 0; border-radius: 50%; cursor: pointer; background: {{z.bg}}; border: {{z.border}}; box-shadow: {{z.shadow}}"></button>
-<sc-if value="{{z.showLabel}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: {{z.labL}}px; top: {{z.labT}}px; padding: 3px 8px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 13px; font-weight: 700; color: {{z.labColor}}; white-space: nowrap; pointer-events: none">{{z.name}}</span></sc-if>
+<sc-if value="{{z.showLabel}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: {{z.labL}}px; top: {{z.labT}}px; padding: 3px 8px; border-radius: 6px; background: rgba(13,14,16,0.8); font-size: 13px; font-weight: 700; color: {{z.labColor}}; white-space: nowrap; pointer-events: none">{{z.lab}}</span></sc-if>
 </sc-for>
 
 <sc-if value="{{card.show}}" hint-placeholder-val="{{ false }}">
-<div data-name="HotspotCard" style="position: absolute; left: {{card.x}}px; top: {{card.y}}px; width: 240px; box-sizing: border-box; padding: 16px; border-radius: 16px; background: #1E2126; border: 1px solid {{card.border}}; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 16px 40px rgba(0,0,0,0.4)">
-<span style="font-size: 16px; font-weight: 700">{{card.name}}</span>
-<span style="font-size: 13px; line-height: 1.45; color: #C9CED6">{{card.desc}}</span>
-<span style="font-size: 12px; color: #9BA3AE">Материал: {{card.mat}}</span>
+<div data-name="ZoneCard/Docked" style="position: absolute; left: 24px; right: 24px; top: 516px; height: 84px; box-sizing: border-box; padding: 12px 12px 12px 18px; border-radius: 16px; background: #1E2126; border: 1px solid {{card.border}}; display: flex; align-items: center; gap: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.35)">
+<sc-if value="{{card.hasThumb}}" hint-placeholder-val="{{ false }}"><img src="{{card.thumb}}" alt="{{card.thumbAlt}}" style="width: 88px; height: 60px; flex-shrink: 0; border-radius: 10px; object-fit: cover; margin-left: -6px"></sc-if>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 16px; font-weight: 700">{{card.name}}</span><span style="font-size: 13px; line-height: 1.4; color: #C9CED6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{card.desc}} · {{card.mat}}</span></span>
 <sc-if value="{{card.isClosers}}" hint-placeholder-val="{{ false }}">
-<div style="display: flex; gap: 6px; margin-top: 4px">
-<button onClick="{{closers2}}" style="flex-grow: 1; height: 36px; border-radius: 10px; border: 1px solid {{c2Border}}; background: {{c2Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">2 двери</button>
-<button onClick="{{closers4}}" style="flex-grow: 1; height: 36px; border-radius: 10px; border: 1px solid {{c4Border}}; background: {{c4Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">4 двери</button>
+<div style="flex-shrink: 0; display: flex; gap: 6px">
+<button onClick="{{closers2}}" style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid {{c2Border}}; background: {{c2Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">2 двери</button>
+<button onClick="{{closers4}}" style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid {{c4Border}}; background: {{c4Bg}}; color: #F2F4F7; font: 700 13px Manrope, sans-serif; cursor: pointer">4 двери</button>
 </div>
 </sc-if>
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px">
-<span style="font-size: 15px; font-weight: 700; color: {{card.priceColor}}">{{card.price}}</span>
-<button onClick="{{card.toggle}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid {{card.btnBorder}}; background: {{card.btnBg}}; color: {{card.btnFg}}; font: 700 13px Manrope, sans-serif; cursor: pointer">{{card.btn}}</button>
-</div>
+<span style="flex-shrink: 0; font-size: 16px; font-weight: 700; color: {{card.priceColor}}; white-space: nowrap">{{card.price}}</span>
+<button onClick="{{card.toggle}}" style="flex-shrink: 0; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{card.btnBorder}}; background: {{card.btnBg}}; color: {{card.btnFg}}; font: 700 14px Manrope, sans-serif; cursor: pointer">{{card.btn}}</button>
 </div>
 </sc-if>
 
-<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
-<div data-name="EmptyHint" style="position: absolute; left: 180px; top: 300px; width: 400px; box-sizing: border-box; padding: 20px 24px; border-radius: 18px; background: rgba(13,14,16,0.88); border: 1px dashed rgba(255,255,255,0.24); display: flex; gap: 14px; align-items: center; pointer-events: none">
+<sc-if value="{{isNoise}}" hint-placeholder-val="{{ false }}">
+<div data-name="NoiseChecklist" style="position: absolute; left: 24px; right: 24px; top: 364px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px"><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE">Отметьте зоны шумоизоляции</span><span style="font-size: 13px; color: #9BA3AE">Материалы — пакет «{{noisePkgName}}»</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{noiseTiles}}" as="nt" hint-placeholder-count="8"><button data-name="ZoneCheck" role="checkbox" aria-checked="{{nt.on}}" title="{{nt.desc}}" onClick="{{nt.toggle}}" style="height: 50px; padding: 0 10px; border-radius: 12px; border: 1px solid {{nt.border}}; background: {{nt.bg}}; color: #F2F4F7; font: 700 13px/1.2 Manrope, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; text-align: left; transition: background 200ms, border-color 200ms"><span style="flex-shrink: 0; width: 20px; height: 20px; box-sizing: border-box; border-radius: 6px; border: 2px solid {{nt.boxBorder}}; background: {{nt.boxBg}}; display: flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 12 12" style="opacity: {{nt.tick}}"><path d="M2 6.2 L4.8 9 L10 3" fill="none" stroke="#151A04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{nt.name}}</span><span style="display: flex; gap: 8px; align-items: baseline; min-width: 0"><span style="flex: 1; min-width: 0; font-size: 11px; font-weight: 600; color: #9BA3AE; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{nt.mat}}</span><span style="flex-shrink: 0; font-size: 12px; color: {{nt.pc}}; white-space: nowrap">{{nt.price}}</span></span></span></button></sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isFilm}}" hint-placeholder-val="{{ false }}">
+<div data-name="FilmDetails" style="position: absolute; left: 24px; right: 24px; top: 388px">
+<div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9BA3AE; margin-bottom: 8px">Выберите детали оклейки</div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{filmTiles}}" as="ft" hint-placeholder-count="18"><button data-name="DetailTile" aria-pressed="{{ft.on}}" title="{{ft.desc}}" onClick="{{ft.toggle}}" style="height: 48px; padding: 0 6px; border-radius: 10px; border: 1px solid {{ft.border}}; background: {{ft.bg}}; color: {{ft.fg}}; font: 700 12px/1.15 Manrope, sans-serif; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-align: center; transition: background 200ms"><span>{{ft.name}}</span><span style="font-size: 11px; font-weight: 600; color: {{ft.pc}}">{{ft.price}}</span></button></sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showHint}}" hint-placeholder-val="{{ false }}">
+<div data-name="EmptyHint" style="position: absolute; left: 24px; right: 24px; top: 516px; height: 84px; box-sizing: border-box; padding: 20px 24px; border-radius: 18px; background: rgba(13,14,16,0.88); border: 1px dashed rgba(255,255,255,0.24); display: flex; gap: 14px; align-items: center; pointer-events: none">
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F4F7" stroke-width="1.6" stroke-linecap="round" style="flex-shrink: 0"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle></svg>
 <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 16px; font-weight: 700">{{hintTitle}}</span><span style="font-size: 14px; color: #C9CED6">Нажмите на точку — зона попадёт в расчёт</span></span>
 </div>
@@ -167,42 +177,51 @@ class Component extends DCLogic {
         { id: 'pickup', name: 'Пикап', d: 'M2 15h34M3 15V9l5-1 3-4h9v5h15v6' }
       ],
       zones: [
-        { id: 'n_hood', tab: 'noise', name: 'Капот', desc: 'Меньше шума мотора в салоне', x: 0.54, y: 0.24 },
-        { id: 'n_wall', tab: 'noise', name: 'Моторный щит', desc: 'Главный барьер для гула двигателя', x: 0.44, y: 0.24 },
-        { id: 'n_doors', tab: 'noise', name: 'Двери ×4', desc: 'Вибро + шумопоглотитель, меньше гула и дребезга', x: 0.15, y: 0.31 },
-        { id: 'n_floor', tab: 'noise', name: 'Пол', desc: 'Гул шин и дороги на трассе', x: 0.22, y: 0.52 },
-        { id: 'n_roof', tab: 'noise', name: 'Крыша', desc: 'Шум дождя и вибрация крыши', x: 0.32, y: 0.06 },
-        { id: 'n_arches', tab: 'noise', name: 'Арки', desc: 'Камни и шорох шин', x: 0.36, y: 0.47 },
-        { id: 'n_trunk', tab: 'noise', name: 'Багажник', desc: 'Гул из задней части на скорости', x: 0.11, y: 0.20 },
-        { id: 'f_head', tab: 'film', name: 'Фары', desc: 'Защита от сколов и помутнения', x: 0.62, y: 0.43 },
-        { id: 'f_hood', tab: 'film', name: 'Капот', desc: 'Главная зона сколов', x: 0.58, y: 0.27 },
-        { id: 'f_bumper', tab: 'film', name: 'Передний бампер', desc: 'Камни и мелкие касания на парковке', x: 0.72, y: 0.68 },
-        { id: 'f_fenders', tab: 'film', name: 'Передние крылья', desc: 'Сколы от колёс', x: 0.38, y: 0.41 },
-        { id: 'f_mirrors', tab: 'film', name: 'Зеркала', desc: 'Царапины в узких местах', x: 0.22, y: 0.18 },
-        { id: 'f_glass', tab: 'film', name: 'Антидождь на стёкла', desc: 'Капли скатываются сами, в дождь лучше видно', x: 0.40, y: 0.09 },
-        { id: 'f_pillars', tab: 'film', name: 'Стойки лобового', desc: 'Сколы и пескоструй по краю стекла', x: 0.28, y: 0.07 },
-        { id: 'f_roof', tab: 'film', name: 'Полоса на крыше', desc: 'Передний край крыши над лобовым', x: 0.45, y: 0.06 },
-        { id: 'f_handles', tab: 'film', name: 'Зоны под ручками', desc: 'Царапины от ногтей и ключей', x: 0.17, y: 0.26 },
-        { id: 'f_load', tab: 'film', name: 'Погрузочная зона багажника', desc: 'Бампер под крышкой багажника', x: 0.11, y: 0.41 },
-        { id: 'f_sills', tab: 'film', name: 'Пороги', desc: 'Потёртости от обуви и грязь', x: 0.19, y: 0.59 },
-        { id: 'f_body', tab: 'film', name: 'Остальной кузов', desc: 'Двери, крыша, задние крылья', x: 0.20, y: 0.41 },
-        { id: 's_screen', tab: 'salon', name: 'Главный экран', desc: 'Матовая статика — без бликов и отпечатков', x: 0.33, y: 0.14 },
-        { id: 's_dash', tab: 'salon', name: 'Приборная панель', desc: 'Статика на экран приборов', x: 0.13, y: 0.18 },
-        { id: 's_gloss', tab: 'salon', name: 'Глянцевые вставки', desc: 'Полиуретан по лекалам', x: 0.68, y: 0.16 },
-        { id: 's_console', tab: 'salon', name: 'Центральная консоль', desc: 'Самая царапаемая зона салона', x: 0.65, y: 0.84 },
-        { id: 's_carbon', tab: 'salon', name: 'Карбон', desc: 'Полиуретан на карбоновые элементы', x: 0.80, y: 0.41 },
-        { id: 'e_closers', tab: 'equip', name: 'Доводчики дверей', desc: 'Дверь закрывается сама, без хлопка', x: 0.18, y: 0.36 },
-        { id: 'e_tail', tab: 'equip', name: 'Привод багажника', desc: 'Открывается кнопкой или с брелока', x: 0.11, y: 0.27 },
-        { id: 'e_hu', tab: 'equip', name: 'Магнитола (ГУ)', desc: 'Замена головного устройства', x: 0.33, y: 0.18 },
-        { id: 'e_lights', tab: 'equip', name: 'Автосвет', desc: 'Линзы, LED', x: 0.60, y: 0.47 },
-        { id: 'e_ambient', tab: 'equip', name: 'Ambient-подсветка', desc: 'Контурные линии по салону, 18+ точек', x: 0.30, y: 0.12 },
-        { id: 'e_audio', tab: 'equip', name: 'Автозвук', desc: 'Акустика, усилитель, сабвуфер, настройка DSP', x: 0.25, y: 0.44 }
+        { id: 'n_hood', tab: 'noise', dir: 'garage', name: 'Капот', desc: 'Шум мотора в салоне', x: 0.760, y: 0.100, lab: 'Капот · спереди' },
+        { id: 'n_wall', tab: 'noise', dir: 'garage', name: 'Моторный щит', desc: 'Главный путь шума двигателя', x: 0.760, y: 0.220, lab: 'Моторный щит · спереди' },
+        { id: 'n_doors', tab: 'noise', dir: 'garage', name: 'Двери ×4', desc: 'Дребезг обшивок и шум улицы', x: 0.060, y: 0.400 },
+        { id: 'n_floor', tab: 'noise', dir: 'garage', name: 'Пол', desc: 'Гул шин на трассе', x: 0.400, y: 0.840 },
+        { id: 'n_roof', tab: 'noise', dir: 'garage', name: 'Крыша', desc: 'Дождь и гул на скорости', x: 0.200, y: 0.080 },
+        { id: 'n_arches', tab: 'noise', dir: 'garage', name: 'Арки', desc: 'Камешки и шорох шипов', x: 0.300, y: 0.380 },
+        { id: 'n_trunk', tab: 'noise', dir: 'garage', name: 'Багажник', desc: 'Гул из задней части на скорости', x: 0.500, y: 0.620 },
+        { id: 'n_lid', tab: 'noise', dir: 'garage', name: 'Крышка багажника', desc: 'Гул и дребезг пятой двери', x: 0.800, y: 0.100 },
+        { id: 'f_bumper', tab: 'film', dir: 'kosmos', name: 'Передний бампер', short: 'Передний бампер', desc: 'Камни и мелкие касания на парковке', x: 0.5, y: 0.5 },
+        { id: 'f_hood', tab: 'film', dir: 'kosmos', name: 'Капот', short: 'Капот', desc: 'Главная зона сколов', x: 0.5, y: 0.5 },
+        { id: 'f_fenders', tab: 'film', dir: 'kosmos', name: 'Передние крылья', short: 'Передние крылья', desc: 'Сколы от колёс', x: 0.5, y: 0.5 },
+        { id: 'f_head', tab: 'film', dir: 'kosmos', name: 'Оптика (фары)', short: 'Оптика', desc: 'Защита от сколов и помутнения', x: 0.5, y: 0.5 },
+        { id: 'f_fog', tab: 'film', dir: 'kosmos', name: 'Противотуманные фары', short: 'ПТФ', desc: 'Сколы и трещины от камней', x: 0.5, y: 0.5 },
+        { id: 'f_mirrors', tab: 'film', dir: 'kosmos', name: 'Зеркала', short: 'Зеркала', desc: 'Царапины в узких местах', x: 0.5, y: 0.5 },
+        { id: 'f_pillars', tab: 'film', dir: 'kosmos', name: 'Стойки лобового', short: 'Передние стойки', desc: 'Сколы и пескоструй по краю стекла', x: 0.5, y: 0.5 },
+        { id: 'f_roof', tab: 'film', dir: 'kosmos', name: 'Полоса на крыше', short: 'Полоса на крыше', desc: 'Передний край крыши над лобовым', x: 0.5, y: 0.5 },
+        { id: 'f_roofful', tab: 'film', dir: 'kosmos', name: 'Крыша целиком', short: 'Крыша', desc: 'Ветки, мойки, багажник на крыше', x: 0.5, y: 0.5 },
+        { id: 'f_fdoors', tab: 'film', dir: 'kosmos', name: 'Передние двери', short: 'Передние двери', desc: 'Царапины и сколы по бокам', x: 0.5, y: 0.5 },
+        { id: 'f_rdoors', tab: 'film', dir: 'kosmos', name: 'Задние двери', short: 'Задние двери', desc: 'Царапины и сколы по бокам', x: 0.5, y: 0.5 },
+        { id: 'f_rfenders', tab: 'film', dir: 'kosmos', name: 'Задние крылья', short: 'Задние крылья', desc: 'Пескоструй от задних колёс', x: 0.5, y: 0.5 },
+        { id: 'f_sills', tab: 'film', dir: 'kosmos', name: 'Пороги', short: 'Пороги', desc: 'Потёртости от обуви и грязь', x: 0.5, y: 0.5 },
+        { id: 'f_handles', tab: 'film', dir: 'kosmos', name: 'Зоны под ручками', short: 'Под ручками', desc: 'Царапины от ногтей и ключей', x: 0.5, y: 0.5 },
+        { id: 'f_glass', tab: 'film', dir: 'kosmos', name: 'Антидождь на стёкла', short: 'Антидождь', desc: 'Капли скатываются сами, в дождь лучше видно', x: 0.5, y: 0.5 },
+        { id: 'f_load', tab: 'film', dir: 'kosmos', name: 'Погрузочная зона багажника', short: 'Зона погрузки', desc: 'Бампер под крышкой багажника', x: 0.5, y: 0.5 },
+        { id: 'f_rbumper', tab: 'film', dir: 'kosmos', name: 'Задний бампер', short: 'Задний бампер', desc: 'Сколы и парковочные касания сзади', x: 0.5, y: 0.5 },
+        { id: 'f_tailgate', tab: 'film', dir: 'kosmos', name: 'Крышка багажника (5-я дверь)', short: '5-я дверь', desc: 'Сколы и царапины на двери багажника', x: 0.5, y: 0.5 },
+        { id: 's_screen', tab: 'salon', dir: 'kosmos', name: 'Главный экран', desc: 'Матовая статика — без бликов и отпечатков', x: 0.660, y: 0.400 },
+        { id: 's_dash', tab: 'salon', dir: 'kosmos', name: 'Приборная панель', desc: 'Статика на экран приборов', x: 0.450, y: 0.240 },
+        { id: 's_gloss', tab: 'salon', dir: 'kosmos', name: 'Глянцевые вставки', desc: 'Полиуретан по лекалам', x: 0.720, y: 0.270 },
+        { id: 's_console', tab: 'salon', dir: 'kosmos', name: 'Центральная консоль', desc: 'Самая царапаемая зона салона', x: 0.660, y: 0.820 },
+        { id: 's_carbon', tab: 'salon', dir: 'kosmos', name: 'Карбон', desc: 'Полиуретан на карбоновые элементы', x: 0.920, y: 0.380 },
+        { id: 'e_hu', tab: 'salon', dir: 'garage', name: 'Магнитола (ГУ)', desc: 'Android с CarPlay в штатную рамку', x: 0.750, y: 0.600 },
+        { id: 'e_ambient', tab: 'salon', dir: 'garage', name: 'Ambient-подсветка', desc: 'Контурные линии по салону, 18+ точек', x: 0.060, y: 0.470 },
+        { id: 'e_audio', tab: 'salon', dir: 'garage', name: 'Автозвук', desc: 'Акустика, усилитель, сабвуфер, настройка DSP', x: 0.080, y: 0.720 },
+        { id: 'e_closers', tab: 'equip', dir: 'garage', name: 'Доводчики дверей', desc: 'Дверь закрывается сама, без хлопка', x: 0.180, y: 0.423 },
+        { id: 'e_tail', tab: 'equip', dir: 'garage', name: 'Привод багажника', desc: 'Открывается кнопкой или с брелока', x: 0.100, y: 0.315 },
+        { id: 'e_lights', tab: 'equip', dir: 'garage', name: 'Автосвет', desc: 'Линзы bi-LED, LED — свет ярче и ровнее', x: 0.620, y: 0.530 },
+        { id: 'e_cam', tab: 'equip', dir: 'garage', name: 'Регистратор и камеры', desc: 'Скрытая установка, камера заднего вида', x: 0.400, y: 0.120 },
+        { id: 'e_washer', tab: 'equip', dir: 'garage', name: 'Омыватель камеры', desc: 'Камера чистая в любую погоду', x: 0.060, y: 0.640 }
       ],
       noisePkgs: [{ id: 'prac', name: 'Практичный' }, { id: 'opt', name: 'Отличный' }, { id: 'max', name: 'Максимальный' }],
       filmPkgs: [
         { id: 'front', name: 'Фронт · от 110 000 ₽', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars'] },
         { id: 'plus', name: 'Фронт+ · от 135 000 ₽', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load'] },
-        { id: 'full', name: 'Полный кузов', z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load', 'f_sills', 'f_body'] }
+        { id: 'full', name: 'Полный кузов', z: ['f_bumper', 'f_hood', 'f_fenders', 'f_head', 'f_fog', 'f_mirrors', 'f_pillars', 'f_roof', 'f_roofful', 'f_fdoors', 'f_rdoors', 'f_rfenders', 'f_sills', 'f_handles', 'f_glass', 'f_load', 'f_rbumper', 'f_tailgate'] }
       ]
     };
   }
@@ -214,8 +233,8 @@ class Component extends DCLogic {
       empty: {},
       one: { body: 'crossover', sel: { n_doors: true }, active: 'n_doors' },
       many: many,
-      equip: { body: 'suv', tab: 'equip', sel: { e_closers: true, e_tail: true, e_ambient: true }, active: 'e_ambient' },
-      salon: { body: 'sedan', tab: 'salon', sel: { s_screen: true, s_gloss: true, s_carbon: true }, active: 's_screen' },
+      equip: { body: 'suv', tab: 'equip', sel: { e_closers: true, e_tail: true, e_lights: true }, active: 'e_tail' },
+      salon: { body: 'sedan', tab: 'salon', sel: { s_screen: true, s_gloss: true, e_ambient: true, e_hu: true }, active: 'e_ambient' },
       form: Object.assign({}, many, { modal: 'form' })
     };
     const base = { body: null, tab: 'noise', sel: {}, active: null, noisePkg: 'opt', filmPkg: null, finish: 'gloss', closers: 4, modal: 'none', copied: false };
@@ -230,7 +249,7 @@ class Component extends DCLogic {
     C.tabs.forEach((t) => { tabById[t.id] = t; });
     const dirOf = (tabId) => C.dirs[tabById[tabId].dir];
     const cur = dirOf(s.tab);
-    const W = 760, TOP = 88, H = 500;
+    const W = 760, TOP = 88, H = 420;
 
     const toggle = (id) => {
       const sel = Object.assign({}, s.sel);
@@ -244,18 +263,53 @@ class Component extends DCLogic {
     const count = selected.length;
     const isEmpty = count === 0;
 
-    const PR = { n_hood: 6000, n_wall: 12000, n_doors: 20000, n_floor: 25000, n_roof: 12000, n_arches: 18000, n_trunk: 10000,
-      f_head: 8000, f_hood: 35000, f_bumper: 30000, f_fenders: 18000, f_mirrors: 5000, f_glass: 8000, f_pillars: 8000, f_roof: 6000, f_handles: 4000, f_load: 5000, f_sills: 8000, f_body: 80000,
+    const zoneOn = (id) => !!s.sel[id];
+    const hl = {}, hs = {}, ha = {};
+    C.zones.forEach((z) => {
+      const d = C.dirs[z.dir];
+      const on = zoneOn(z.id), act = z.id === s.active;
+      hl[z.id] = on ? d.soft : (act ? 'rgba(242,244,247,0.10)' : 'rgba(0,0,0,0)');
+      hs[z.id] = on ? d.c : (act ? 'rgba(242,244,247,0.6)' : 'rgba(0,0,0,0)');
+      ha[z.id] = on ? d.c : (act ? 'rgba(242,244,247,0.5)' : 'rgba(205,226,60,0.14)');
+    });
+    const lightsOn = zoneOn('e_lights');
+    const ambOn = zoneOn('e_ambient');
+    const MAT = { e_hu: 'Wide Media, Teyes', e_ambient: 'комплект 18+ точек', e_audio: 'Helix, Focal, Hertz', e_closers: 'SlamStop или под модель', e_tail: 'комплект под модель', e_lights: 'Optima Phantom bi-LED', e_cam: 'скрытая проводка', e_washer: 'форсунка + клапан', f_glass: 'гидрофобный состав', s_screen: 'матовая статика', s_dash: 'матовая статика' };
+    const matOf = (z) => MAT[z.id] || (z.tab === 'noise' ? 'Шумофф' : (z.tab === 'film' ? 'Hexis Bodyfence X' : 'полиуретан по лекалам'));
+    const PH = { noise: { src: '/img/configurator-noise-body.jpg', pos: 50, fit: 'contain', grad: 0, alt: 'Кузов кроссовера без обшивок — отметьте зоны шумоизоляции', cap: 'Кузов без обшивок' },
+      film: { src: '/img/configurator-film-fortuner.jpg', pos: 50, alt: 'Toyota Fortuner в студии — выберите детали для оклейки', cap: 'Фото: Unsplash' },
+      equip: { src: '/img/configurator-body.jpg', pos: 25, ih: 570, iy: -37.5, alt: 'Mercedes-Maybach GLS: фары, двери и багажник', cap: 'Наша работа · Mercedes-Maybach GLS' },
+      salon: { src: '/img/configurator-salon-lexus.jpg', pos: 50, ih: 506.3, iy: -43.2, alt: 'Салон Lexus с контурной подсветкой: приборы, экран, консоль, двери', cap: 'Фото: Ian Edokov / Unsplash' } };
+    const THUMB = {"s_screen": "/img/zones/s_screen.jpg", "s_dash": "/img/zones/s_dash.jpg", "s_gloss": "/img/zones/s_gloss.jpg", "s_console": "/img/zones/s_console.jpg", "s_carbon": "/img/zones/s_carbon.jpg", "e_hu": "/img/zones/e_hu.jpg", "e_ambient": "/img/zones/e_ambient.jpg", "e_audio": "/img/zones/e_audio.jpg"};
+    const photo = Object.assign({ fit: 'cover', grad: 1 }, PH[s.tab], { lights: s.tab === 'equip' && lightsOn,
+      filter: (s.tab === 'salon' || s.tab === 'film' || s.tab === 'noise') ? 'none' : 'brightness(0.8)' });
+    const FS = [{"id": "s_dash", "tab": "salon", "d": "M272 84 L410 84 L416 136 L342 142 L276 136 Z", "line": false}, {"id": "s_gloss", "tab": "salon", "d": "M478 88 L630 94 L630 140 L596 140 L474 136 Z", "line": false}, {"id": "e_hu", "tab": "salon", "d": "M466 138 L602 140 L604 272 L464 272 Z", "line": false}, {"id": "s_screen", "tab": "salon", "d": "M480 140 L596 142 L596 208 L484 206 Z", "line": false}, {"id": "s_carbon", "tab": "salon", "d": "M640 120 L760 112 L760 210 L642 216 Z", "line": false}, {"id": "s_console", "tab": "salon", "d": "M468 286 L566 286 L580 416 L452 416 Z", "line": false}, {"id": "e_audio", "tab": "salon", "d": "M16 300 A46 40 0 1 0 108 300 A46 40 0 1 0 16 300 Z", "line": false}, {"id": "f_roofful", "tab": "film", "d": "M200 29 L220 20 L260 15 L295 14 L350 13 L410 12 L435 15 L450 20 L435 21.5 L400 22 L350 22.5 L300 23 L260 25 L215 31 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_glass", "tab": "film", "d": "M297.5 28.5 L350 27.5 L400 27 L435 25.5 L450 27.5 L465 33.5 L475 46 L488.5 64 L496.5 76.5 L450 76 L400 76 L350 76.5 L306.5 78.5 L301.5 60 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_hood", "tab": "film", "d": "M307.5 80 L350 79 L400 78.5 L450 78.5 L505 78.5 L530 82.5 L555 92.5 L574 106 L564 112 L551 116.5 L550 118 L414 120 L420 123 L415 119 L383.5 114.5 L350 109.5 L321 106 L317.5 103.5 L307.5 98.5 L304.5 92.5 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_fenders", "tab": "film", "d": "M285 87 L289.5 86.5 L308.5 84 L305.5 89 L304.5 92.5 L307.5 98.5 L317.5 103.5 L321 106 L320 110 L323.5 116 L331 124 L338.5 132.5 L330 141 L320 152.5 L312.5 160 L308.5 162.5 L305 150 L297.5 143.5 L290 142.5 L283.5 145 L280 151 L276 157.5 L276 132.5 L277.5 120 L280.5 107.5 L283.5 95 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_rfenders", "tab": "film", "d": "M170 80 L181.5 75 L182.5 76 L184 105 L185 131.5 L176 131 L169 135 L166 120 L166.5 95 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_rdoors", "tab": "film", "d": "M182.5 76 L205 71 L210 80 L231.5 86 L231.5 115 L231 150 L231 195.5 L206 190 L205 187.5 L202.5 167.5 L199 150 L193 137.5 L185 131.5 L184 105 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_fdoors", "tab": "film", "d": "M231.5 86 L260 88 L285 90.5 L283.5 95 L280.5 107.5 L277.5 120 L276 132.5 L275.5 170 L275.5 206 L250 200.5 L231 195.5 L231 150 L231.5 115 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_bumper", "tab": "film", "d": "M341.5 131.5 L350 133.5 L373.5 131.5 L403.5 135 L408.5 136 L420 123 L414 120 L550 118 L554 124 L556 130.5 L579 128 L585 131.5 L590 137.5 L594 150 L595 175 L593.5 195 L590 205 L584 216 L550 222.5 L500 227.5 L450 229 L400 228.5 L370 227.5 L348.5 226 L338.5 216.5 L325 200 L315 178.5 L308.5 162.5 L312.5 160 L320 152.5 L330 141 L338.5 132.5 Z M414 120 L550 118 L549 163.5 L440 164.5 L431 150 Z M351.5 156 L393.5 159 L400 170 L390 183.5 L378.5 193.5 L351.5 193.5 L349 175 Z M561 150 L575 148 L589 149 L592.5 160 L591.5 185 L587.5 190 L575 189 L565 175 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_fog", "tab": "film", "d": "M351.5 156 L393.5 159 L400 170 L390 183.5 L378.5 193.5 L351.5 193.5 L349 175 Z M561 150 L575 148 L589 149 L592.5 160 L591.5 185 L587.5 190 L575 189 L565 175 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_head", "tab": "film", "d": "M320 105 L350 109.5 L383.5 114.5 L415 119 L420 123 L408.5 136 L403.5 135 L373.5 131.5 L350 133.5 L341.5 131.5 L331 124 L325 115 L320.5 109 Z M551 116.5 L564 112 L575 107.5 L579 112.5 L582 120 L583 126 L579 128 L556 130.5 L554 124 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_sills", "tab": "film", "d": "M206 190 L240 198 L275 205.5 L275.5 210.5 L240 203 L212.5 197 L206.5 194 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_mirrors", "tab": "film", "d": "M240 73 L242.5 69.5 L255 65.5 L272.5 65 L277 66 L278.5 70.5 L278.5 81 L277.5 85 L267.5 85.5 L242.5 84.5 L239.5 80 L239 76 Z M500.5 62.5 L505 61 L513 62 L522 67 L524.5 71 L524 76 L520 79 L513 80 L508 79 L505 76 L501 68 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_handles", "tab": "film", "d": "M231.5 104 L238 101.5 L246 103.5 L247 109.5 L239 114 L232 112 Z M187.5 100.5 L194 97.5 L202 99 L203 106 L196 109.5 L188.5 107.5 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_pillars", "tab": "film", "d": "M284 24 L294 25 L298 32 L302.5 60 L307 79 L308.5 84 L289.5 86.5 L289 77 L288 60 L286.5 40 Z M458.5 26 L466.5 26.5 L480 42.5 L495 62.5 L503.5 76 L496.5 76.5 L488.5 64 L475 46 Z", "line": false, "vb": "0 0 760 300"}, {"id": "f_roof", "tab": "film", "d": "M300 23.5 L350 23 L400 22.5 L435 22.5 L450 24.5 L462.5 30", "line": true, "w": 3.5, "vb": "0 0 760 300"}, {"id": "n_roof", "tab": "noise", "d": "M396.3 211.4 L426.1 196.1 L455.2 182.2 L544.4 154.3 L589.2 143.5 L632.5 134.3 L666.1 154.7 L686.3 167.3 L699.8 177 L726.4 198.8 L746 214.7 L749.8 218.3 L752.5 222 L699 241.9 L624.6 269.5 L568.9 296 L525.2 325.5 L484.6 296.3 L442.9 262.9 L415.4 235.4 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_floor", "tab": "noise", "d": "M317.2 387.6 L360 372 L418.6 350.2 L459.6 333.5 L478.7 325.3 L507.4 344.5 L482.2 375.8 L453.7 411.4 L422.6 451 L412.9 449.9 L399.1 445.1 L366 430.5 L340 408.2 Z M454.2 447.3 L457 435.2 L478.7 406.3 L499 379.3 L514.5 360.4 L533.6 342.6 L548 330.1 L564.4 320.1 L582.2 311.4 L591.1 308.8 L594.4 308.9 L597.4 309.4 L600.9 311.6 L603.5 314.8 L605 320.2 L604.7 325.3 L602.3 359.7 L597.9 405.2 L576.1 411 L562.8 415.8 L548.9 421.8 L535 428 L520.9 433.7 L495 446.1 L454.2 472.6 Z M595.7 413.2 L591.8 434.1 L589.5 446.5 L587.4 460 L586.1 473.8 L584.3 481.6 L584.3 483.1 L574.2 482.3 L552.8 479.2 L527.7 477.1 L524.3 461.7 L521.5 459.7 L512.2 460.3 L504.6 463.1 L497 469.5 L494.7 473.9 L490.7 471.5 L491.4 464.5 L496.2 454.6 L500.3 450.7 L508.8 445.8 L517.8 441.3 L526.5 437.3 L536.5 432.6 L544.8 429 L553 425.5 L561.3 422.7 L569.9 420.1 L578.4 417 L585.6 415.6 Z M626.1 312.4 L656.7 338.7 L650.3 359.7 L634.3 400.4 L629.8 401 L627.8 345.6 L626.4 322.4 Z M671.9 349.2 L709.5 379.2 L710.4 390.8 L663.1 388.1 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_doors", "tab": "noise", "d": "M455.7 510 L463.1 503.1 L482.1 502.1 L532.8 504.1 L598.9 510.3 L652.5 515.9 L651.3 538.8 L648.1 561.2 L642.8 581.6 L636.9 598.1 L595.9 593.7 L558.9 588.7 L504.2 583.4 L457.9 580.4 L456.5 565.3 L454.1 538.5 Z M712.6 412.2 L799.8 418 L803.7 440.6 L802.7 458.1 L794.6 473.9 L783 480.7 L770.6 489.2 L754.2 506.5 L684.5 500 L692.9 474.2 Z M280.9 313 L296.2 300.9 L398 257.3 L407.6 266.9 L420 279 L428.4 284.9 L423.7 316.1 L420.2 340.1 L406.8 349 L316.8 386 L308.5 378 L300.7 368 L290.9 354.4 L283.3 337.4 L277.9 323.4 Z M634.5 408.5 L682.6 411.9 L686.1 415.2 L687.4 418.2 L687.6 421.6 L687.6 423.9 L686.3 426.3 L662.3 491.2 L642.1 488.7 L622.6 487.6 L626.9 446.7 L629.9 425 Z M461.1 233.9 L575.1 192.4 L578.9 198.2 L577.1 204.4 L549.3 249.4 L521.2 293.7 L512.9 293.8 L503.9 291.2 L457 249 Z M448.5 302.1 L447 329.2 L448.6 332.2 L452.5 332.5 L476.6 323.1 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_hood", "tab": "noise", "d": "M28.3 375.5 L29.5 368.2 L31.7 361.3 L36.9 353.4 L43.5 345.9 L50.5 338.2 L59.1 332.1 L69.3 327.8 L97.9 314 L118.2 307.2 L189.7 308.3 L238.1 308.2 L242.8 306 L251.1 304.6 L256.6 304.3 L251.4 307.2 L250.5 310.8 L252.8 317.3 L255.9 324.6 L266 337.8 L275.2 348.1 L286.3 359.6 L306 380 L328.1 402.1 L348 419.1 L372.6 437.9 L382.3 444.5 L405 458.8 L421.2 465.7 L439.3 470.6 L435.8 495.4 L434.3 507.1 L430.3 519.1 L405 524.9 L329.3 541.3 L307.9 544.5 L287.8 546.7 L254.4 548.7 L217.9 542.9 L178.7 525.8 L143.8 510.1 L114 490 L87.1 465.4 L65.8 441.8 L54.9 430.6 L46.9 419 L35.6 400.3 L31 392.7 L29.1 384.2 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_wall", "tab": "noise", "d": "M240 321.3 L213.8 334 L238.8 374.8 L290.2 424.1 L345.5 478.5 L414.7 519.8 L420.5 499.8 L437.7 452.9 L400.7 436 L353.6 407.3 L324 382.6 L306 356.3 L281.3 308 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_trunk", "tab": "noise", "d": "M730.6 363.4 L739.9 343.2 L741.7 333.4 L740.9 327.2 L737.9 319.5 L725.7 317.5 L692.3 311.9 L684.9 313.6 L680.6 316.7 L677.7 320.6 L675.3 328.6 L674.7 334.2 L681.4 338.9 L689.8 345.3 L705.4 356.5 L716 364.1 L727.6 370.3 Z M660.4 320.9 L630 295.9 L631 293.5 L633.5 291.1 L639.4 288.6 L654.4 283.5 L670.1 278.4 L705.9 267.9 L708.8 269.4 L712.8 274.3 L718.3 283.8 L726.7 298.5 L734.1 313 L714 309.8 L695.7 306.8 L668.1 303 L666.9 302.8 Z M761.1 279 L779.7 294 L762.1 305.7 L745.8 282.2 L737.7 270 L737.7 268.9 L738.2 268.1 L740.2 267.9 L757 271.8 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_lid", "tab": "noise", "d": "M734.8 52.1 L733.4 49.4 L733 46.7 L732.8 44.1 L733.4 41.8 L734 38.4 L735 34.6 L736.9 30.9 L741.3 25.9 L751.3 25.2 L761.9 26.4 L774.3 24.2 L784.1 24.1 L788.6 23.2 L794.3 22.4 L808.7 24.8 L827.6 30.3 L846.6 38 L865.6 47.6 L886.9 61.2 L905.3 76.8 L922.9 93.8 L934.8 109.6 L935.7 113.7 L934.7 117.4 L929.1 121.5 L920.1 120.9 L904.5 98.8 L897.7 93.1 L890.9 92.3 L888 95 L886.4 97.7 L885.5 100.4 L884.9 103.1 L886.9 108.6 L892.1 118.3 L897.2 127.5 L883.8 137.8 L880.7 140.3 L876.3 140.8 L871 140.8 L867.9 140.5 L864.4 139.3 L861.7 136.7 L859.9 133.1 L853.2 122 L844 111.8 L834.5 102 L825.3 93.2 L815 84.7 L799.7 74.6 L784.2 66.4 L766.2 58.7 L750.3 54.3 L743.7 52.5 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}, {"id": "n_arches", "tab": "noise", "d": "M408.9 608.6 L420.9 614.9 L422.8 606.4 L422.5 597.7 L422.3 592 L420.3 586.4 L415.7 580.4 L409.3 574 L401.5 570.7 L390.4 568.8 L378.4 568.9 L369.6 570.1 L376.9 573 L384.8 575.2 L390.2 578.2 L395.5 582.4 L401.9 588.5 L406.5 595.6 L408.3 601.6 Z M846.7 396.6 L847.7 399.4 L850.3 401.7 L853.6 399.9 L855.7 396.9 L857.1 393.9 L857.9 391.1 L858.6 388.5 L859 384.9 L858.9 379.9 L857.1 374.3 L854.8 370.1 L850.5 366.4 L845.2 363.8 L839.2 362.2 L827.5 362.2 L817.3 364.1 L811.7 367.2 L811.3 368.3 L816.2 368.9 L821.1 369.9 L826.1 370.9 L830.5 373.4 L833.8 376.3 L837.4 379.5 L839.5 381.9 L841 384.6 L843.4 388.2 L845.4 391.8 Z", "line": false, "vb": "0 0 950 750", "par": "xMidYMid meet"}];
+    const filmShapes = FS.filter((f) => f.tab === s.tab && (f.tab === 'film' || f.tab === 'noise')).map((f) => {
+      const on = zoneOn(f.id), act = f.id === s.active;
+      if (f.id === 'n_arches') return { id: f.id, vb: f.vb, par: f.par, d: f.d, fill: on ? 'url(#pad-' + f.id + ')' : (act ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0)'), stroke: on ? '#CDE23C' : (act ? 'rgba(255,255,255,0.9)' : 'none'), sw: on || act ? 2 : 0, blend: 'normal', op: on ? 0.96 : 1 };
+      if (f.tab === 'noise') return { id: f.id, vb: f.vb, par: f.par, d: f.d, fill: on ? ((s.noisePkg === 'prac' || f.id === 'n_hood') ? 'url(#pfd-' + f.id + ')' : 'url(#pad-' + f.id + ')') : (act ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0)'), stroke: on ? '#CDE23C' : (act ? 'rgba(255,255,255,0.9)' : 'none'), sw: on || act ? 1.5 : 0, blend: 'normal', op: on ? 0.94 : 1 };
+      if (f.line) return { vb: f.vb, par: 'xMidYMid slice', d: f.d, fill: 'none', stroke: on ? '#E2609B' : (act ? 'rgba(242,244,247,0.55)' : 'rgba(0,0,0,0)'), sw: f.w || 4, blend: on ? 'color' : 'normal', op: on ? 0.95 : 1 };
+      return { vb: f.vb, par: 'xMidYMid slice', d: f.d, fill: on ? '#E2609B' : (act ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0)'), stroke: act && !on ? 'rgba(255,255,255,0.85)' : 'none', sw: act && !on ? 1.5 : 0, blend: on ? 'color' : 'normal', op: on ? (f.id === 'f_glass' ? 0.35 : 0.92) : 1 };
+    });
+
+    const PR = { n_hood: 6000, n_wall: 12000, n_doors: 20000, n_floor: 25000, n_roof: 12000, n_arches: 18000, n_trunk: 10000, n_lid: 8000,
+      f_head: 8000, f_hood: 35000, f_bumper: 30000, f_fenders: 18000, f_mirrors: 5000, f_glass: 8000, f_pillars: 8000, f_roof: 6000, f_handles: 4000, f_load: 5000, f_sills: 8000, f_fog: 4000, f_roofful: 25000, f_fdoors: 30000, f_rdoors: 28000, f_rfenders: 30000, f_rbumper: 26000, f_tailgate: 22000,
       s_screen: 3000, s_dash: 3000, s_gloss: 6000, s_console: 6000, s_carbon: 8000,
-      e_closers: 70000, e_tail: 40000, e_hu: 30000, e_lights: 35000, e_ambient: 35000, e_audio: 20000 };
-    const DY = { n_floor: 2, n_roof: 2, f_body: 4, f_hood: 1, e_audio: 1 };
+      e_closers: 70000, e_tail: 40000, e_hu: 30000, e_lights: 35000, e_ambient: 35000, e_audio: 20000, e_cam: 3000, e_washer: 6000 };
+    const DY = { n_floor: 2, n_roof: 2, f_fdoors: 2, f_rdoors: 2, f_roofful: 2, f_hood: 1, e_audio: 1 };
     const KB = { sedan: 1, hatch: 0.95, wagon: 1.05, lift: 1, crossover: 1.15, suv: 1.3, minivan: 1.35, pickup: 1.25 };
     const PK = { front: { p: 110000, z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars'] }, plus: { p: 135000, z: ['f_hood', 'f_head', 'f_fenders', 'f_bumper', 'f_roof', 'f_pillars', 'f_mirrors', 'f_handles', 'f_load'] } };
     const fmt = (n) => 'от ' + String(Math.round(n / 500) * 500).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+    const NK = { prac: 0.75, opt: 1, max: 1.35 };
+    const NMAT = {
+      prac: { n_hood: 'Шумофф Термо', n_wall: 'вибро Шумофф М2', n_doors: 'вибро Шумофф М2', n_floor: 'вибро Шумофф М2', n_roof: 'вибро Шумофф М2', n_arches: 'вибро Шумофф М2 снаружи', n_trunk: 'вибро Шумофф М2', n_lid: 'вибро Шумофф М2' },
+      opt: { n_hood: 'Шумофф Термо + М2', n_wall: 'вибро М3 + Комфорт 10', n_doors: 'вибро М3 + Комфорт 6', n_floor: 'вибро М3 + Комфорт 10', n_roof: 'вибро М2 + Комфорт 6', n_arches: 'вибро М3 снаружи и изнутри', n_trunk: 'вибро М3 + Комфорт 6', n_lid: 'вибро М3 + Комфорт 6' },
+      max: { n_hood: 'Термо + вибро М3', n_wall: 'вибро М4 + Комфорт 10 + Барьер', n_doors: 'вибро М4 + Комфорт 10 + Лайнер', n_floor: 'вибро М4 + Комфорт 10 + Барьер', n_roof: 'вибро М3 + Комфорт 10', n_arches: 'вибро М4 + Барьер, снаружи и изнутри', n_trunk: 'вибро М4 + Комфорт 10', n_lid: 'вибро М4 + Комфорт 6' } };
     const zPrice = (id) => {
       let p = PR[id] || 0;
       if (id === 'e_closers' && s.closers === 2) p = 38000;
       if (id.indexOf('n_') === 0 || id.indexOf('f_') === 0) p = p * (KB[s.body] || 1);
+      if (id.indexOf('n_') === 0) p = p * (NK[s.noisePkg] || 1);
       return p;
     };
     const pk = PK[s.filmPkg] && PK[s.filmPkg].z.every((k) => s.sel[k]) ? PK[s.filmPkg] : null;
@@ -277,24 +331,61 @@ class Component extends DCLogic {
     });
 
     const zones = C.zones.filter((z) => z.tab === s.tab).map((z) => {
+      const zc = C.dirs[z.dir];
       const on = !!s.sel[z.id];
       const isActive = z.id === s.active;
       const cx = Math.round(z.x * W), cy = Math.round(TOP + z.y * H);
       return {
         name: z.name, on: on, aria: z.name + (on ? ' — выбрано' : ''),
         l: cx - 14, t: cy - 14, fl: cx - 48, ft: cy - 48,
-        fill: on && (s.tab === 'film' || s.tab === 'salon'), soft: cur.soft,
-        bg: on ? cur.c : 'rgba(13,14,16,0.65)',
+        fill: false, soft: zc.soft,
+        bg: on ? zc.c : 'rgba(13,14,16,0.65)',
         border: on ? '0' : '2px solid #F2F4F7',
-        shadow: on ? ('0 0 0 7px ' + cur.ring + ', 0 0 22px ' + cur.ring) : (isActive ? '0 0 0 6px rgba(242,244,247,0.18)' : 'none'),
-        showLabel: s.tab === 'equip', labL: cx + 20, labT: cy - 12, labColor: on ? cur.c : '#F2F4F7',
+        shadow: on ? ('0 0 0 7px ' + zc.ring + ', 0 0 22px ' + zc.ring) : (isActive ? '0 0 0 6px rgba(242,244,247,0.18)' : 'none'),
+        showLabel: s.tab !== 'film', lab: z.lab || z.name, labL: cx > 520 ? cx - 24 - Math.round((z.lab || z.name).length * 7.4 + 16) : cx + 20, labT: cy - 12, labColor: on ? zc.c : '#F2F4F7', _cx: cx, _cy: cy,
         toggle: () => toggle(z.id)
       };
     });
+    // Подписи без наложений: пробуем справа, слева, сверху, снизу и по диагоналям
+    if (s.tab !== 'film') {
+      const LH = 24, pad = 4, boxes = [];
+      const hit = (a, b) => a.x < b.x + b.w + pad && b.x < a.x + a.w + pad && a.y < b.y + b.h + pad && b.y < a.y + a.h + pad;
+      zones.forEach((z) => boxes.push({ x: z._cx - 16, y: z._cy - 16, w: 32, h: 32 }));
+      const capW = Math.round(((PH[s.tab] || {}).cap || '').length * 6.6 + 24);
+      boxes.push({ x: 16, y: TOP + H - 38, w: capW, h: 26 });
+      zones.slice().sort((a, b) => a._cx - b._cx).forEach((z) => {
+        const w = Math.round(z.lab.length * 7.8 + 16), cx = z._cx, cy = z._cy;
+        const cand = [[cx + 20, cy - 12], [cx - 20 - w, cy - 12], [cx - w / 2, cy - 44], [cx - w / 2, cy + 20], [cx + 18, cy - 38], [cx + 18, cy + 14], [cx - 18 - w, cy - 38], [cx - 18 - w, cy + 14]];
+        let pick = null;
+        for (const [x, y] of cand) {
+          const b = { x: Math.round(x), y: Math.round(y), w: w, h: LH };
+          if (b.x < 6 || b.x + w > W - 6 || b.y < TOP + 6 || b.y + LH > TOP + H - 6) continue;
+          if (boxes.some((o) => hit(b, o))) continue;
+          pick = b; break;
+        }
+        if (!pick) pick = { x: Math.max(6, Math.min(W - 6 - w, cx + 20)), y: cy - 12, w: w, h: LH };
+        boxes.push(pick); z.labL = pick.x; z.labT = pick.y;
+      });
+    }
 
+    const isFilm = s.tab === 'film', isNoise = s.tab === 'noise', isCons = isFilm || isNoise;
+    const ill = isNoise ? { top: 76, h: 280, l: 24, w: 712, bg: '#FFFFFF', r: 16 } : (isFilm ? { top: 76, h: 300, l: 0, w: 760, bg: 'transparent', r: 0 } : { top: 88, h: 420, l: 0, w: 760, bg: 'transparent', r: 0 });
+    const filmTiles = !isFilm ? [] : C.zones.filter((z) => z.tab === 'film').map((z) => {
+      const on = zoneOn(z.id), act = z.id === s.active;
+      return { name: z.short || z.name, desc: z.name + ' — ' + z.desc, on: on, price: fmt(zPrice(z.id)),
+        bg: on ? '#E2609B' : (act ? '#262A30' : '#1E2126'), fg: on ? '#1A0A12' : '#F2F4F7', pc: on ? 'rgba(26,10,18,0.75)' : '#9BA3AE',
+        border: on ? '#E2609B' : (act ? 'rgba(242,244,247,0.4)' : 'rgba(255,255,255,0.08)'), toggle: () => toggle(z.id) };
+    });
+    const noiseTiles = !isNoise ? [] : C.zones.filter((z) => z.tab === 'noise').map((z) => {
+      const on = zoneOn(z.id), act = z.id === s.active;
+      return { name: z.name, desc: z.name + ' — ' + z.desc, on: on, price: fmt(zPrice(z.id)), mat: (NMAT[s.noisePkg] || NMAT.opt)[z.id] || '',
+        bg: on ? 'rgba(205,226,60,0.14)' : (act ? '#262A30' : '#1E2126'), border: on ? '#CDE23C' : (act ? 'rgba(242,244,247,0.4)' : 'rgba(255,255,255,0.08)'),
+        boxBg: on ? '#CDE23C' : 'transparent', boxBorder: on ? '#CDE23C' : 'rgba(242,244,247,0.5)', tick: on ? 1 : 0, pc: on ? '#CDE23C' : '#9BA3AE', toggle: () => toggle(z.id) };
+    });
     const az = C.zones.find((z) => z.id === s.active && z.tab === s.tab);
     let card = { show: false }, lead = { show: false };
     if (az) {
+      const ac = C.dirs[az.dir];
       const on = !!s.sel[az.id];
       const cx = Math.round(az.x * W), cy = Math.round(TOP + az.y * H);
       const right = cx < 470;
@@ -303,16 +394,17 @@ class Component extends DCLogic {
       const ex = right ? x : x + 240, ey = y + 26;
       const mx = right ? cx + 34 : cx - 34;
       card = {
-        mat: ({ noise: 'Шумофф', film: az.id === 'f_glass' ? 'гидрофобный состав' : 'Hexis Bodyfence X', salon: (az.id === 's_screen' || az.id === 's_dash') ? 'матовая статика' : 'полиуретан по лекалам', equip: 'комплект под модель' })[az.tab],
-        show: true, x: x, y: y, name: az.name, desc: az.desc, isClosers: az.id === 'e_closers',
-        border: on ? cur.line : 'rgba(255,255,255,0.14)', priceColor: on ? cur.text : '#F2F4F7', price: fmt(zPrice(az.id)),
-        btn: on ? 'Убрать' : 'Добавить', btnBorder: on ? 'rgba(255,255,255,0.2)' : cur.c,
-        btnBg: on ? 'transparent' : cur.c, btnFg: on ? '#F2F4F7' : cur.ink,
+        mat: matOf(az),
+        show: true, hasThumb: !!THUMB[az.id], thumb: THUMB[az.id] || '', thumbAlt: 'Пример: ' + az.name, x: x, y: y, name: az.name, desc: az.desc, isClosers: az.id === 'e_closers',
+        border: on ? ac.line : 'rgba(255,255,255,0.14)', priceColor: on ? ac.text : '#F2F4F7', price: fmt(zPrice(az.id)),
+        btn: on ? 'Убрать' : 'Добавить', btnBorder: on ? 'rgba(255,255,255,0.2)' : ac.c,
+        btnBg: on ? 'transparent' : ac.c, btnFg: on ? '#F2F4F7' : ac.ink,
         toggle: () => toggle(az.id)
       };
-      lead = { show: true, color: on ? cur.c : 'rgba(242,244,247,0.5)', d: 'M' + cx + ' ' + cy + ' L' + mx + ' ' + ey + ' L' + ex + ' ' + ey };
+      lead = { show: true, color: on ? ac.c : 'rgba(242,244,247,0.5)', d: 'M' + cx + ' ' + cy + ' L' + mx + ' ' + ey + ' L' + ex + ' ' + ey };
     }
 
+    if (isCons) card = { show: false };
     let pkgs = [], noPkgText = '';
     if (s.tab === 'noise') {
       pkgs = C.noisePkgs.map((p) => ({ name: p.name, active: p.id === s.noisePkg, pick: () => set({ noisePkg: p.id }) }));
@@ -327,9 +419,9 @@ class Component extends DCLogic {
         }
       }));
     } else if (s.tab === 'salon') {
-      noPkgText = 'Отметьте элементы салона на фото';
+      noPkgText = 'Экраны, глянец, подсветка, магнитола и звук';
     } else {
-      noPkgText = 'Режим «рентген»: узлы оснащения подписаны';
+      noPkgText = 'Нажмите на точку — покажем, как работает';
     }
     pkgs = pkgs.map((p) => Object.assign(p, { border: p.active ? cur.c : 'rgba(255,255,255,0.14)', bg: p.active ? (s.tab === 'film' ? 'rgba(226,96,155,0.16)' : 'rgba(205,226,60,0.12)') : 'transparent' }));
 
@@ -338,12 +430,12 @@ class Component extends DCLogic {
       if (z.tab === 'noise') return noiseName;
       if (z.tab === 'film') return z.id === 'f_glass' ? 'Стёкла' : (s.finish === 'matte' ? 'Матовая плёнка' : 'Глянцевая плёнка');
       if (z.id === 'e_closers') return s.closers + ' двери';
-      if (z.tab === 'salon') return 'По лекалам';
+      if (z.tab === 'salon') return z.dir === 'garage' ? 'Установка' : 'По лекалам';
       return 'Установка';
     };
     const groups = ['kosmos', 'garage'].map((dk) => {
       const d = C.dirs[dk];
-      const rows = selected.filter((z) => tabById[z.tab].dir === dk).map((z) => ({ name: z.name, sub: subOf(z), price: pk && pk.z.indexOf(z.id) >= 0 ? 'в пакете' : fmt(zPrice(z.id)), remove: () => toggle(z.id) }));
+      const rows = selected.filter((z) => z.dir === dk).map((z) => ({ name: z.name, sub: subOf(z), price: pk && pk.z.indexOf(z.id) >= 0 ? 'в пакете' : fmt(zPrice(z.id)), remove: () => toggle(z.id) }));
       return { name: d.name, color: d.c, text: d.text, n: rows.length, rows: rows };
     }).filter((g) => g.rows.length > 0);
 
@@ -353,14 +445,14 @@ class Component extends DCLogic {
       return { name: b.name, d: b.d, on: on, border: on ? '#F2F4F7' : 'rgba(255,255,255,0.12)', bg: on ? 'rgba(242,244,247,0.07)' : 'transparent', fg: on ? '#F2F4F7' : '#C9CED6', pick: () => set({ body: b.id }) };
     });
 
-    const photoCaption = s.tab === 'equip' ? 'Режим «рентген»: узлы оснащения на полупрозрачном кузове' : '';
 
+    const az0 = C.zones.find((z) => z.id === s.active && z.tab === s.tab);
     return {
-      tabs: tabs, zones: zones, card: card, lead: lead, pkgs: pkgs, groups: groups, bodies: bodies,
+      photo: photo, filmShapes: filmShapes,
+      
+      tabs: tabs, zones: isCons ? [] : zones, ill: ill, isFilm: isFilm, isNoise: isNoise, filmTiles: filmTiles, noiseTiles: noiseTiles, noisePkgName: (C.noisePkgs.find((p) => p.id === s.noisePkg) || {}).name || '', card: card, lead: lead, pkgs: pkgs, groups: groups, bodies: bodies,
       noPkgs: pkgs.length === 0, noPkgText: noPkgText,
-      photoOpacity: s.tab === 'equip' ? 0.4 : 1, photoSrc: s.tab === 'salon' ? '/img/configurator-salon.jpg' : '/img/configurator-body.jpg', photoAlt: s.tab === 'salon' ? 'Салон: экран, консоль и глянцевые вставки' : 'Кроссовер в три четверти спереди', photoCaption: photoCaption,
-      ambientOn: s.tab === 'equip' && !!s.sel.e_ambient,
-      isEmpty: isEmpty, hasItems: !isEmpty, count: count,
+      showHint: isEmpty && !card.show && !isCons, isEmpty: isEmpty, hasItems: !isEmpty, count: count,
       hintTitle: s.body ? 'Отметьте зоны на машине' : 'Выберите кузов справа и отметьте зоны',
       bodyLabelColor: s.body ? '#9BA3AE' : '#F2F4F7',
       showFinish: s.tab === 'film', isGloss: s.finish === 'gloss', isMatte: s.finish === 'matte',
