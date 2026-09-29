@@ -33,3 +33,5 @@ lighthouse*.json
 *.swp
 .DS_Store
 Thumbs.db
+*.md
+*.md

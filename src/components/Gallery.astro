@@ -12,6 +12,7 @@ const { photos, name } = Astro.props;
 const alt = (i: number) => `${name} — фото ${i + 1} из ${photos.length}`;
 // Крупные версии для лайтбокса
 const large = await Promise.all(photos.map((p) => photoSrcset(p, [960, 1600, 2200])));
+// Крупнее исходника фото не показываем — ни в сетке, ни в лайтбоксе
 ---
 <div class="gal" data-gallery>
   <ul role="list" class:list={['gal__grid', `gal__grid--${Math.min(photos.length, 5)}`]}>
@@ -23,6 +24,8 @@ const large = await Promise.all(photos.map((p) => photoSrcset(p, [960, 1600, 220
           data-index={i}
           data-src={large[i].src}
           data-srcset={large[i].srcset}
+          data-w={large[i].width}
+          data-h={large[i].height}
           data-alt={alt(i)}
           aria-label={`Открыть фото ${i + 1} из ${photos.length}`}
         >
@@ -75,6 +78,9 @@ const large = await Promise.all(photos.map((p) => photoSrcset(p, [960, 1600, 220
       img.srcset = b.dataset.srcset!;
       img.src = b.dataset.src!;
       img.alt = b.dataset.alt!;
+      // Не растягиваем фото крупнее исходника: мелкие снимки из Telegram иначе мылятся
+      img.style.maxWidth = `min(100%, ${b.dataset.w}px)`;
+      img.style.maxHeight = `min(100%, ${b.dataset.h}px)`;
       count.textContent = `${index + 1} / ${items.length}`;
       // Соседние фото подгружаем заранее
       [index + 1, index - 1].forEach((j) => {

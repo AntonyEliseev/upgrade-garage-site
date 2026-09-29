@@ -9,16 +9,19 @@ interface Props {
   before: Shot;
   after: Shot;
   sizes?: string;
+  /** object-position обеих фото — кадры совмещены, поэтому одинаковый */
+  objectPosition?: string;
   class?: string;
 }
-const { before, after, sizes = '(min-width: 1280px) 850px, 100vw', class: cls } = Astro.props;
+const { before, after, sizes = '(min-width: 1280px) 850px, 100vw', objectPosition = '50% 50%', class: cls } = Astro.props;
+const imgStyle = `object-position: ${objectPosition}`;
 ---
 <div class:list={['ba2', cls]} data-ba style="--pos: 50%" data-name="BeforeAfter">
   <span class="ba2__img">
-    <Photo src={before.img} alt={before.alt} sizes={sizes} />
+    <Photo src={before.img} alt={before.alt} sizes={sizes} style={imgStyle} />
   </span>
   <span class="ba2__img ba2__img--after">
-    <Photo src={after.img} alt={after.alt} sizes={sizes} />
+    <Photo src={after.img} alt={after.alt} sizes={sizes} style={imgStyle} />
   </span>
   <span class="tag tag--photo ba2__tag">{before.caption ?? 'ДО · ПРОЦЕСС'}</span>
   <span class="tag tag--photo ba2__tag ba2__tag--r">{after.caption ?? 'ПОСЛЕ'}</span>

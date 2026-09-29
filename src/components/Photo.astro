@@ -1,7 +1,8 @@
 ---
 // Фото из src/assets/img: AVIF/WebP с запасным JPEG, lazy ниже первого экрана.
-import { Picture } from 'astro:assets';
-import { mustPhoto } from '../lib/images';
+// <picture> собираем сами: у <Picture> одно качество на все форматы, а AVIF и WebP при одном числе выглядят по-разному.
+import { getImage } from 'astro:assets';
+import { mustPhoto, QUALITY, QUALITY_LCP } from '../lib/images';
 
 interface Props {
   src: string;
@@ -14,18 +15,31 @@ interface Props {
 }
 const { src, alt, sizes, widths = [400, 640, 960, 1280], eager, class: cls, style } = Astro.props;
 const img = mustPhoto(src);
-const w = widths.filter((x) => x <= img.width);
+const ws = widths.filter((x) => x <= img.width);
+// Исходник меньше нужной ширины — отдаём его в полную величину, дальше не увеличиваем
+if (!ws.length || widths.some((x) => x > img.width)) ws.push(img.width);
+
+const q = eager ? QUALITY_LCP : QUALITY;
+const build = async (format: 'avif' | 'webp' | 'jpg') => {
+  const out = await Promise.all(ws.map((width) => getImage({ src: img, width, format, quality: q[format] })));
+  return { srcset: out.map((o, i) => `${o.src} ${ws[i]}w`).join(', '), last: out[out.length - 1].src };
+};
+const [avif, webp, jpg] = await Promise.all([build('avif'), build('webp'), build('jpg')]);
 ---
-<Picture
-  src={img}
-  alt={alt}
-  widths={w.length ? w : [img.width]}
-  sizes={sizes}
-  formats={['avif', 'webp']}
-  fallbackFormat="jpg"
-  loading={eager ? 'eager' : 'lazy'}
-  fetchpriority={eager ? 'high' : 'auto'}
-  decoding={eager ? 'sync' : 'async'}
-  class={cls}
-  style={style}
-/>
+<picture>
+  <source type="image/avif" srcset={avif.srcset} sizes={sizes} />
+  <source type="image/webp" srcset={webp.srcset} sizes={sizes} />
+  <img
+    src={jpg.last}
+    srcset={jpg.srcset}
+    sizes={sizes}
+    alt={alt}
+    width={img.width}
+    height={img.height}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : 'auto'}
+    decoding={eager ? 'sync' : 'async'}
+    class={cls}
+    style={style}
+  />
+</picture>

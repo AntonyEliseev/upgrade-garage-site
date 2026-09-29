@@ -43,23 +43,31 @@ const cardThumbs = Object.fromEntries(
       <div class="hero__photo" data-name="HeroPhoto">
         <Photo src={home.hero.img} alt={home.hero.alt} sizes="(min-width: 1280px) 62vw, 100vw" widths={[480, 780, 1100, 1560]} eager class="hero__img" />
         <span class="hero__shade" aria-hidden="true"></span>
+        <!-- Выноски в координатах исходника 800×600: slice = тот же кроп, что object-fit: cover -->
+        <svg class="hero__leads" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          {home.hero.hotspots.map((h) => (
+            <path class={h.dir === 'kosmos' ? 'pink' : 'lime'} d={`M${h.x} ${h.y} ${h.lead.map(([x, y]) => `L${x} ${y}`).join(' ')}`} />
+          ))}
+        </svg>
+        {home.hero.hotspots.map((h) => {
+          const [ex, ey] = h.lead[h.lead.length - 1];
+          return (
+            <>
+              <span class:list={['hero__dot', `dir-${h.dir}`]} style={`--sx: ${h.x}; --sy: ${h.y}`} aria-hidden="true" data-name={`HotspotDot/${h.dir}`}></span>
+              <span class="hero__label" style={`--sx: ${ex}; --sy: ${ey}`} aria-hidden="true" data-name="HotspotLabel"><strong>{h.title}</strong><span>{h.sub}</span></span>
+            </>
+          );
+        })}
+        <span class="hero__photo-cap">{home.hero.photoCaption}</span>
       </div>
       <svg class="hero__ambient hero__ambient--d" viewBox="0 0 1440 560" aria-hidden="true" data-name="AmbientLine">
         <path class="draw pink" pathLength="1" d="M600 470 C 760 470, 820 330, 1000 330" />
         <path class="draw lime" pathLength="1" d="M1000 330 C 1160 330, 1220 250, 1440 250" />
-        <path class="thin pink" d="M880 300 L950 230 L1030 230" />
-        <path class="thin lime" d="M1150 420 L1220 350 L1290 350" />
       </svg>
       <svg class="hero__ambient hero__ambient--m" viewBox="0 0 390 260" preserveAspectRatio="none" aria-hidden="true">
         <path class="draw pink" pathLength="1" d="M0 200 C 90 200, 130 140, 200 140" />
         <path class="draw lime" pathLength="1" d="M200 140 C 270 140, 310 110, 390 110" />
       </svg>
-      {home.hero.hotspots.map((h, i) => (
-        <>
-          <span class:list={['hero__dot', `dir-${h.dir}`, `hero__dot--${i}`]} aria-hidden="true" data-name={`HotspotDot/${h.dir}`}></span>
-          <span class:list={['hero__label', `hero__label--${i}`]} aria-hidden="true" data-name="HotspotLabel"><strong>{h.title}</strong><span>{h.sub}</span></span>
-        </>
-      ))}
     </div>
 
     <div class="container hero__in">
@@ -136,6 +144,7 @@ const cardThumbs = Object.fromEntries(
             before={{ img: f.before.img, alt: f.before.alt, caption: f.before.tag }}
             after={{ img: f.after.img, alt: f.after.alt, caption: f.after.tag }}
             sizes="(min-width: 1280px) 850px, (min-width: 768px) 100vw, 300px"
+            objectPosition={f.objectPosition}
             class="works__ba"
           />
           <span class="works__featured-foot">
@@ -293,16 +302,24 @@ const cardThumbs = Object.fromEntries(
   .hero__ambient .lime { stroke: var(--ug-garage); }
   .hero__ambient .draw.pink { filter: drop-shadow(0 0 5px var(--ug-kosmos)); }
   .hero__ambient .draw.lime { filter: drop-shadow(0 0 5px var(--ug-garage)); animation-delay: 0.5s; }
-  .hero__ambient .thin { stroke-width: 1; }
   .hero__ambient .draw { --len: 1; }
   .hero__ambient--d { display: none; }
+  /* Точки и подписи — от координат исходника (--sx, --sy) через масштаб object-fit: cover (--s) */
+  .hero__photo { container-type: size; --s: max(100cqw / 800, 100cqh / 600); }
+  .hero__dot, .hero__label {
+    position: absolute; z-index: 1;
+    left: calc(50% + (var(--sx) - 400) * var(--s));
+    top: calc(50% + (var(--sy) - 300) * var(--s));
+  }
   .hero__dot {
-    position: absolute; width: 32px; height: 32px; border-radius: 50%; transform: translate(-50%, -50%);
+    width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%;
     background: var(--acc); box-shadow: 0 0 0 6px var(--acc-ring), 0 0 24px var(--acc-ring);
   }
-  .hero__dot--0 { left: 32.3%; top: 33%; }
-  .hero__dot--1 { left: 70.8%; top: 63.8%; }
-  .hero__label { display: none; }
+  .hero__leads { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; pointer-events: none; display: none; }
+  .hero__leads path { stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .hero__leads .pink { stroke: var(--ug-kosmos); }
+  .hero__leads .lime { stroke: var(--ug-garage); }
+  .hero__label, .hero__photo-cap { display: none; }
 
   .hero__in { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 20px; padding-top: 8px; padding-bottom: 32px; }
   .hero__content { display: flex; flex-direction: column; gap: 20px; }
@@ -315,7 +332,7 @@ const cardThumbs = Object.fromEntries(
 
   @media (min-width: 768px) {
     .hero__stage { height: 340px; }
-    .hero__dot { width: 24px; height: 24px; box-shadow: 0 0 0 7px var(--acc-ring); }
+    .hero__dot { width: 24px; height: 24px; margin: -12px 0 0 -12px; box-shadow: 0 0 0 7px var(--acc-ring); }
     .hero__in { gap: 24px; padding-bottom: 48px; }
     .hero__content { gap: 24px; }
     .hero__title { line-height: 1.1; letter-spacing: -0.025em; }
@@ -332,16 +349,20 @@ const cardThumbs = Object.fromEntries(
     .hero__ambient--m { display: none; }
     .hero__ambient--d { display: block; }
     .hero__ambient path { stroke-width: 2; }
-    .hero__ambient .thin { stroke-width: 1; }
-    .hero__ambient .draw.pink { filter: drop-shadow(0 0 6px var(--ug-kosmos)); }
+      .hero__ambient .draw.pink { filter: drop-shadow(0 0 6px var(--ug-kosmos)); }
     .hero__ambient .draw.lime { filter: drop-shadow(0 0 6px var(--ug-garage)); }
-    .hero__dot { width: 20px; height: 20px; transform: none; box-shadow: 0 0 0 7px var(--acc-ring), 0 0 24px var(--acc-glow); }
-    .hero__dot--0 { left: 60.42%; top: 51.8%; }
-    .hero__dot--1 { left: 79.17%; top: 73.2%; }
-    .hero__label { display: flex; flex-direction: column; gap: 2px; position: absolute; font-size: 13px; color: #C9CED6; }
+    .hero__dot { width: 20px; height: 20px; margin: -10px 0 0 -10px; box-shadow: 0 0 0 7px var(--acc-ring), 0 0 24px var(--acc-glow); }
+    .hero__leads { display: block; }
+    .hero__label {
+      display: flex; flex-direction: column; gap: 2px; margin-left: 2px; transform: translateY(-50%);
+      padding: 6px 10px; border-radius: 8px; background: rgba(13, 14, 16, 0.72);
+      font-size: 13px; color: #C9CED6; white-space: nowrap;
+    }
     .hero__label strong { font-size: 14px; color: #F2F4F7; }
-    .hero__label--0 { left: 72.08%; top: 35.7%; }
-    .hero__label--1 { left: 90.14%; top: 57.1%; }
+    .hero__photo-cap {
+      display: block; position: absolute; right: var(--gutter); top: 40px; z-index: 1; max-width: 340px;
+      font-size: 14px; font-weight: 600; color: #F2F4F7; text-align: right; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+    }
     .hero__in { padding-top: 88px; padding-bottom: 56px; gap: 24px; }
     .hero__content { width: 700px; gap: 28px; }
     .hero__title { line-height: 1.08; }

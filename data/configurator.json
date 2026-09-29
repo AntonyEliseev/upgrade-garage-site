@@ -417,8 +417,8 @@
         "dir": "garage",
         "name": "Омыватель камеры",
         "desc": "Камера чистая в любую погоду",
-        "x": 0.06,
-        "y": 0.64
+        "x": 0.85,
+        "y": 0.66
       }
     ],
     "noisePkgs": [
@@ -763,13 +763,6 @@
         "w": 3.5
       },
       {
-        "id": "n_roof",
-        "tab": "noise",
-        "d": "M396.3 211.4 L426.1 196.1 L455.2 182.2 L544.4 154.3 L589.2 143.5 L632.5 134.3 L666.1 154.7 L686.3 167.3 L699.8 177 L726.4 198.8 L746 214.7 L749.8 218.3 L752.5 222 L699 241.9 L624.6 269.5 L568.9 296 L525.2 325.5 L484.6 296.3 L442.9 262.9 L415.4 235.4 Z",
-        "line": false,
-        "par": "xMidYMid meet"
-      },
-      {
         "id": "n_floor",
         "tab": "noise",
         "d": "M317.2 387.6 L360 372 L418.6 350.2 L459.6 333.5 L478.7 325.3 L507.4 344.5 L482.2 375.8 L453.7 411.4 L422.6 451 L412.9 449.9 L399.1 445.1 L366 430.5 L340 408.2 Z M454.2 447.3 L457 435.2 L478.7 406.3 L499 379.3 L514.5 360.4 L533.6 342.6 L548 330.1 L564.4 320.1 L582.2 311.4 L591.1 308.8 L594.4 308.9 L597.4 309.4 L600.9 311.6 L603.5 314.8 L605 320.2 L604.7 325.3 L602.3 359.7 L597.9 405.2 L576.1 411 L562.8 415.8 L548.9 421.8 L535 428 L520.9 433.7 L495 446.1 L454.2 472.6 Z M595.7 413.2 L591.8 434.1 L589.5 446.5 L587.4 460 L586.1 473.8 L584.3 481.6 L584.3 483.1 L574.2 482.3 L552.8 479.2 L527.7 477.1 L524.3 461.7 L521.5 459.7 L512.2 460.3 L504.6 463.1 L497 469.5 L494.7 473.9 L490.7 471.5 L491.4 464.5 L496.2 454.6 L500.3 450.7 L508.8 445.8 L517.8 441.3 L526.5 437.3 L536.5 432.6 L544.8 429 L553 425.5 L561.3 422.7 L569.9 420.1 L578.4 417 L585.6 415.6 Z M626.1 312.4 L656.7 338.7 L650.3 359.7 L634.3 400.4 L629.8 401 L627.8 345.6 L626.4 322.4 Z M671.9 349.2 L709.5 379.2 L710.4 390.8 L663.1 388.1 Z",
@@ -780,6 +773,13 @@
         "id": "n_doors",
         "tab": "noise",
         "d": "M455.7 510 L463.1 503.1 L482.1 502.1 L532.8 504.1 L598.9 510.3 L652.5 515.9 L651.3 538.8 L648.1 561.2 L642.8 581.6 L636.9 598.1 L595.9 593.7 L558.9 588.7 L504.2 583.4 L457.9 580.4 L456.5 565.3 L454.1 538.5 Z M712.6 412.2 L799.8 418 L803.7 440.6 L802.7 458.1 L794.6 473.9 L783 480.7 L770.6 489.2 L754.2 506.5 L684.5 500 L692.9 474.2 Z M280.9 313 L296.2 300.9 L398 257.3 L407.6 266.9 L420 279 L428.4 284.9 L423.7 316.1 L420.2 340.1 L406.8 349 L316.8 386 L308.5 378 L300.7 368 L290.9 354.4 L283.3 337.4 L277.9 323.4 Z M634.5 408.5 L682.6 411.9 L686.1 415.2 L687.4 418.2 L687.6 421.6 L687.6 423.9 L686.3 426.3 L662.3 491.2 L642.1 488.7 L622.6 487.6 L626.9 446.7 L629.9 425 Z M461.1 233.9 L575.1 192.4 L578.9 198.2 L577.1 204.4 L549.3 249.4 L521.2 293.7 L512.9 293.8 L503.9 291.2 L457 249 Z M448.5 302.1 L447 329.2 L448.6 332.2 L452.5 332.5 L476.6 323.1 Z",
+        "line": false,
+        "par": "xMidYMid meet"
+      },
+      {
+        "id": "n_roof",
+        "tab": "noise",
+        "d": "M396.3 211.4 L426.1 196.1 L455.2 182.2 L544.4 154.3 L589.2 143.5 L632.5 134.3 L666.1 154.7 L686.3 167.3 L699.8 177 L726.4 198.8 L746 214.7 L749.8 218.3 L752.5 222 L699 241.9 L624.6 269.5 L568.9 296 L525.2 325.5 L484.6 296.3 L442.9 262.9 L415.4 235.4 Z",
         "line": false,
         "par": "xMidYMid meet"
       },
@@ -828,18 +828,36 @@
     "noise": {
       "textures": {
         "foil": {
-          "meaning": "вибропоглотитель (фольга)",
-          "svgPattern": "<pattern id=\"foil-<zoneId>\" width=\"16\" height=\"16\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"16\" height=\"16\" fill=\"#CDD1D6\"/><path d=\"M0 8 H16 M8 0 V16\" stroke=\"#A9AFB7\" stroke-width=\"0.7\"/><rect x=\"6\" y=\"6\" width=\"4\" height=\"4\" transform=\"rotate(45 8 8)\" fill=\"#8F969F\"/></pattern>"
+          "svgPattern": "<pattern id=\"foil-<zoneId>\" width=\"16\" height=\"16\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"16\" height=\"16\" fill=\"#2E63B8\"/><path d=\"M0 8 H16 M8 0 V16\" stroke=\"#1D4388\" stroke-width=\"0.7\"/><rect x=\"6\" y=\"6\" width=\"4\" height=\"4\" transform=\"rotate(45 8 8)\" fill=\"#8DB4F0\"/></pattern>",
+          "meaning": "синяя фольга с ромбом — крыша и капот"
         },
         "absorber": {
-          "meaning": "шумопоглотитель (чёрный вспененный с лаймовой печатью UG)",
-          "svgPattern": "<pattern id=\"absorber-<zoneId>\" width=\"30\" height=\"18\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"30\" height=\"18\" fill=\"#17191C\"/><text x=\"2\" y=\"12\" font-family=\"Manrope, sans-serif\" font-size=\"9\" font-weight=\"800\" fill=\"#CDE23C\">UG</text><circle cx=\"23\" cy=\"9\" r=\"3\" fill=\"none\" stroke=\"#CDE23C\" stroke-width=\"1\"/><circle cx=\"23\" cy=\"9\" r=\"0.9\" fill=\"#CDE23C\"/></pattern>"
+          "svgPattern": "<pattern id=\"absorber-<zoneId>\" width=\"30\" height=\"18\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"30\" height=\"18\" fill=\"#17191C\"/><text x=\"2\" y=\"12\" font-family=\"Manrope, sans-serif\" font-size=\"9\" font-weight=\"800\" fill=\"#CDE23C\">UG</text><circle cx=\"23\" cy=\"9\" r=\"3\" fill=\"none\" stroke=\"#CDE23C\" stroke-width=\"1\"/><circle cx=\"23\" cy=\"9\" r=\"0.9\" fill=\"#CDE23C\"/></pattern>",
+          "meaning": "чёрный шумопоглотитель с лаймовой печатью — двери и крышка багажника"
+        },
+        "red": {
+          "svgPattern": "<pattern id=\"red-<zoneId>\" width=\"22\" height=\"22\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"22\" height=\"22\" fill=\"#B7302C\"/><path d=\"M11 2 L20 11 L11 20 L2 11 Z\" fill=\"none\" stroke=\"#7E1D1A\" stroke-width=\"1.2\"/><circle cx=\"11\" cy=\"11\" r=\"1.6\" fill=\"#E9A39D\"/></pattern>",
+          "meaning": "красный с ромбами — пол и багажник"
+        },
+        "orange": {
+          "svgPattern": "<pattern id=\"orange-<zoneId>\" width=\"20\" height=\"17.32\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(-24)\"><rect width=\"20\" height=\"17.32\" fill=\"#C9772E\"/><path d=\"M5 0 L15 0 L20 8.66 L15 17.32 L5 17.32 L0 8.66 Z\" fill=\"none\" stroke=\"#8A4B16\" stroke-width=\"1\"/><circle cx=\"10\" cy=\"8.66\" r=\"1.4\" fill=\"#F3C38F\"/></pattern>",
+          "meaning": "оранжевые соты — моторный щит и арки"
         }
       },
-      "rule": "пакет «Практичный» и зона n_hood — foil; иначе absorber. Отмеченная зона заливается паттерном (opacity 0.94, blend normal), обводка #CDE23C 1.5px; n_arches — absorber, обводка 2px.",
+      "rule": "Текстура зависит от зоны (byZone), а не от пакета. 4 цветовые группы: крыша+капот, двери+крышка багажника, моторный щит+арки, пол+багажник.",
       "viewBox": "0 0 950 750",
       "preserveAspectRatio": "xMidYMid meet",
-      "note": "Контуры нарисованы заказчиком в редакторе зон: только листовые панели, каркас виден."
+      "note": "Контуры нарисованы заказчиком в редакторе зон: только листовые панели, каркас виден.",
+      "byZone": {
+        "n_roof": "foil",
+        "n_hood": "foil",
+        "n_lid": "absorber",
+        "n_doors": "absorber",
+        "n_wall": "orange",
+        "n_arches": "orange",
+        "n_floor": "red",
+        "n_trunk": "red"
+      }
     }
   },
   "zoneThumbs": {
@@ -963,6 +981,27 @@
         "n_trunk": "вибро М4 + Комфорт 10",
         "n_lid": "вибро М4 + Комфорт 6"
       }
+    }
+  },
+  "mobileLabels": {
+    "tabs": [
+      "salon",
+      "equip"
+    ],
+    "short": {
+      "s_screen": "Экран",
+      "s_dash": "Приборы",
+      "s_gloss": "Глянец",
+      "s_console": "Консоль",
+      "s_carbon": "Карбон",
+      "e_hu": "Магнитола",
+      "e_ambient": "Ambient",
+      "e_audio": "Автозвук",
+      "e_closers": "Доводчики",
+      "e_tail": "Багажник",
+      "e_lights": "Автосвет",
+      "e_cam": "Камеры",
+      "e_washer": "Омыватель"
     }
   }
 }

@@ -8,9 +8,11 @@
   "leadShort": "Две команды в одном боксе на Алтуфьевском. Оклеят и сделают тише за один визит.",
   "img": "/img/maybach-gls-hero.jpg",
   "alt": "Mercedes-Maybach GLS в боксе студии",
+  "photoCaption": "Mercedes-Maybach GLS у нас в боксе",
+  "_hotspots": "Точки и выноски — в координатах исходника maybach-gls-hero.jpg (800×600): так они совпадают с object-fit: cover на любой ширине. lead — излом и конец выноски, у конца стоит подпись.",
   "hotspots": [
-   { "dir": "kosmos", "title": "Фары и капот", "sub": "оклейка · Космос Wrap" },
-   { "dir": "garage", "title": "Двери", "sub": "шумка · Апгрейд" }
+   { "dir": "kosmos", "title": "Фары и капот", "sub": "плёнка · Космос Wrap", "x": 505, "y": 282, "lead": [[563.6, 214.5], [615, 214.5]] },
+   { "dir": "garage", "title": "Колёсные арки", "sub": "шумоизоляция · Апгрейд Garage", "x": 296, "y": 312, "lead": [[354.5, 472.7], [409.1, 472.7]] }
   ]
  },
  "directions": {
@@ -35,8 +37,9 @@
   "chips": ["film", "salon", "pdr", "glass", "noise", "closers", "light", "hu"],
   "featured": {
    "slug": "hyundai-santa-fe",
-   "before": { "img": "/img/santa-fe-polishing.jpg", "alt": "Hyundai Santa Fe в процессе полировки", "tag": "ДО · ПРОЦЕСС" },
-   "after": { "img": "/img/santa-fe-front.jpg", "alt": "Hyundai Santa Fe после полировки и плёнки", "tag": "ПОСЛЕ" },
+   "before": { "img": "/img/santa-fe-mirror-before.jpg", "alt": "Зеркало Hyundai Santa Fe до полировки: мутный лак, разводы", "tag": "ДО" },
+   "after": { "img": "/img/santa-fe-mirror-after.jpg", "alt": "Зеркало Hyundai Santa Fe после полировки: глубокий глянец", "tag": "ПОСЛЕ" },
+   "objectPosition": "62% 45%",
    "tags": ["Полировка", "Плёнка на перед", "PDR"]
   },
   "cards": [

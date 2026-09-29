@@ -9,7 +9,7 @@ git push в main или master
       │
       ▼
 GitHub Actions  (.github/workflows/deploy.yml)
-  1. npm ci                      — зависимости из package-lock.json, Node 22
+  1. npm ci                      — зависимости из package-lock.json, Node из .nvmrc (24)
   2. configure-pages             — узнаёт адрес сайта из настроек Pages
   3. npm run check               — проверка типов
   4. npm run build               — SITE_URL и BASE_PATH из шага 2 → dist/
@@ -65,4 +65,6 @@ Workflow сам берёт адрес из настроек Pages, в коде �
 - **Адреса без `.html`:** страницы собираются как `calculator.html`, GitHub Pages сам отдаёт их по `/calculator`.
 - **404:** GitHub Pages показывает `dist/404.html`.
 - **Локальная проверка как на Pages:** `BASE_PATH=/<репозиторий>/ SITE_URL=https://<аккаунт>.github.io npm run build`.
-- **Node:** в Actions — 22. Локально собирается и на 18.20.8, но `npm run check` требует Node 20+.
+- **Node:** версия задана в `.nvmrc` — сейчас 24 (LTS), её берёт и Actions. Локально лучше та же: `nvm use` или `brew install node@24`. На Node 18 сайт ещё собирается, но `npm run check` требует Node 20+, а сам Node 18 больше не поддерживается.
+- **Actions** обновлены до версий на Node 24 (`checkout@v7`, `setup-node@v7`, `configure-pages@v6`, `upload-pages-artifact@v5`, `deploy-pages@v5`). Если GitHub снова предупредит про устаревший Node у actions — поднять их мажорные версии.
+- **Предупреждение npm про install scripts** у `esbuild` и `sharp` — безвредно: оба берут готовые сборки под платформу, сайт собирается полностью.

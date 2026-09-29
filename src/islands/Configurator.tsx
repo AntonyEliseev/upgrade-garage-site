@@ -7,6 +7,7 @@ import {
   type CalcState, type DirId, type Shape, type TabId, type Zone,
 } from '../lib/calc';
 import { goal, GOALS } from '../lib/analytics';
+import cfgData from '@data/configurator.json';
 import './configurator.css';
 
 // Калькулятор: ничего не отправляет. Выбор хранится в адресе, кнопка копирует ссылку на расчёт.
@@ -37,7 +38,11 @@ interface Props {
 const MOBILE_Q = '(max-width: 767.98px)';
 const FILM_SHAPES = SHAPES.filter((f) => f.tab === 'film');
 const NOISE_SHAPES = SHAPES.filter((f) => f.tab === 'noise');
-const NOISE = SHAPE_STYLE.noise;
+const NOISE = SHAPE_STYLE.noise as typeof SHAPE_STYLE.noise & { textures: Record<string, { svgPattern: string }> };
+const NOISE_TEXTURE = NOISE.byZone as Record<string, string>;
+// Короткие подписи точек для мобайла (configurator.json → mobileLabels)
+const MOBILE_LABELS = cfgData.mobileLabels.short as Record<string, string>;
+const MOBILE_LABEL_TABS = cfgData.mobileLabels.tabs as TabId[];
 
 function useMedia(q: string) {
   const [m, setM] = useState(false);
@@ -93,20 +98,29 @@ function lockScroll(on: boolean, cls: string) {
 }
 
 interface Box { x: number; y: number; w: number; h: number }
-const PAD = 4;
-const hit = (a: Box, b: Box) => a.x < b.x + b.w + PAD && b.x < a.x + a.w + PAD && a.y < b.y + b.h + PAD && b.y < a.y + a.h + PAD;
+const overlap = (a: Box, b: Box, pad: number) =>
+  a.x < b.x + b.w + pad && b.x < a.x + a.w + pad && a.y < b.y + b.h + pad && b.y < a.y + a.h + pad;
 
 /**
- * Подписи без наложений (renderVals(), блок «Подписи без наложений»): для каждой точки слева направо
- * пробуем справа, слева, сверху, снизу и по диагоналям; берём первую позицию внутри фото,
- * которая не задевает точки, подпись фото и уже поставленные подписи. Ширина — по getBoundingClientRect().
+ * Подписи без наложений: для каждой точки слева направо пробуем позиции по очереди и берём первую,
+ * которая помещается в границы и не задевает точки, плашку фото и уже поставленные подписи.
+ * Ширина — по getBoundingClientRect().
+ * Десктоп — renderVals() ConfigDesktop, «Подписи без наложений»: если места нет, подпись всё равно ставится справа.
+ * Мобайл — renderVals() ConfigMobile, «Подписи на мобайле»: подписи могут выходить за фото в пределах блока 358×300,
+ * а если места нет — подпись скрыта, точка остаётся.
  */
-function placeLabels(area: HTMLElement, zones: Zone[], labels: Record<string, HTMLElement | null>, caption: HTMLElement | null) {
+function placeLabels(area: HTMLElement, zones: Zone[], labels: Record<string, HTMLElement | null>, caption: HTMLElement | null, mobile: boolean) {
   const W = area.clientWidth, H = area.clientHeight;
   if (!W || !H) return;
   const ar = area.getBoundingClientRect();
+  const stage = area.parentElement!.getBoundingClientRect();
+  const pad = mobile ? 2 : 4;
+  const edge = mobile ? 4 : 6;
+  // Границы в координатах области фото
+  const minY = mobile ? stage.top - ar.top + edge : edge;
+  const maxY = mobile ? stage.bottom - ar.top - edge : H - edge;
   const boxes: Box[] = zones.map((z) => ({ x: z.x! * W - 16, y: z.y! * H - 16, w: 32, h: 32 }));
-  if (caption) {
+  if (caption && caption.offsetParent) {
     const r = caption.getBoundingClientRect();
     boxes.push({ x: r.left - ar.left, y: r.top - ar.top, w: r.width, h: r.height });
   }
@@ -115,21 +129,31 @@ function placeLabels(area: HTMLElement, zones: Zone[], labels: Record<string, HT
     if (!el) return;
     const { width: w, height: h } = el.getBoundingClientRect();
     const cx = z.x! * W, cy = z.y! * H;
-    // G — отступ от центра точки: радиус 16 + зазор 4 + 2 px запаса на дробные координаты
-    const G = 22;
-    const cand: [number, number][] = [
-      [cx + G, cy - h / 2], [cx - G - w, cy - h / 2], [cx - w / 2, cy - G - h], [cx - w / 2, cy + G],
-      [cx + 10, cy - G - h], [cx + 10, cy + G], [cx - 10 - w, cy - G - h], [cx - 10 - w, cy + G],
-    ];
+    // G — отступ от центра точки: радиус 16 + зазор + запас на дробные координаты
+    const G = mobile ? 21 : 22;
+    const cand: [number, number][] = mobile
+      ? [
+          [cx + G, cy - h / 2], [cx - G - w, cy - h / 2], [cx - w / 2, cy - G - h], [cx - w / 2, cy + G],
+          [cx + 14, cy - G - h], [cx + 14, cy + G - 1], [cx - 14 - w, cy - G - h], [cx - 14 - w, cy + G - 1],
+          [cx - w + 12, cy - G - h], [cx - w + 12, cy + G], [cx - 4, cy - G - h], [cx - 4, cy + G],
+        ]
+      : [
+          [cx + G, cy - h / 2], [cx - G - w, cy - h / 2], [cx - w / 2, cy - G - h], [cx - w / 2, cy + G],
+          [cx + 10, cy - G - h], [cx + 10, cy + G], [cx - 10 - w, cy - G - h], [cx - 10 - w, cy + G],
+        ];
     let pick: Box | null = null;
     for (const [x, y] of cand) {
       const b = { x: Math.round(x), y: Math.round(y), w, h };
-      if (b.x < 6 || b.x + w > W - 6 || b.y < 6 || b.y + h > H - 6) continue;
-      if (boxes.some((o) => hit(b, o))) continue;
+      if (b.x < edge || b.x + w > W - edge || b.y < minY || b.y + h > maxY) continue;
+      if (boxes.some((o) => overlap(b, o, pad))) continue;
       pick = b;
       break;
     }
-    if (!pick) pick = { x: Math.round(Math.max(6, Math.min(W - 6 - w, cx + G))), y: Math.round(cy - h / 2), w, h };
+    if (!pick && mobile) {
+      el.style.visibility = 'hidden';
+      return;
+    }
+    if (!pick) pick = { x: Math.round(Math.max(edge, Math.min(W - edge - w, cx + G))), y: Math.round(cy - h / 2), w, h };
     boxes.push(pick);
     el.style.transform = `translate(${pick.x}px, ${pick.y}px)`;
     el.style.visibility = 'visible';
@@ -260,12 +284,12 @@ export default function Configurator({ photos, thumbs, phones, hours, mode = 'em
   /* ---------- Точки и подписи (Салон, Оснащение) ---------- */
   const dotZones = isConstructor ? [] : ZONES.filter((z) => z.tab === s.tab && z.x !== undefined);
   if (Object.keys(labelRefs.current).some((id) => !dotZones.some((z) => z.id === id))) labelRefs.current = {};
-  const showLabels = !isMobile && dotZones.length > 0;
+  const showLabels = dotZones.length > 0 && (!isMobile || MOBILE_LABEL_TABS.includes(s.tab));
 
   useLayoutEffect(() => {
     const el = areaRef.current;
     if (!showLabels || !el) return;
-    const place = () => placeLabels(el, dotZones, labelRefs.current, captionRef.current);
+    const place = () => placeLabels(el, dotZones, labelRefs.current, captionRef.current, isMobile);
     place();
     // Шрифт может догрузиться после первой раскладки — тогда ширина подписей меняется, раскладываем заново
     let raf = 0;
@@ -273,7 +297,7 @@ export default function Configurator({ photos, thumbs, phones, hours, mode = 'em
     Object.values(labelRefs.current).forEach((l) => l && ro.observe(l));
     if (captionRef.current) ro.observe(captionRef.current);
     return () => { ro.disconnect(); cancelAnimationFrame(raf); };
-  }, [s.tab, showLabels, area.w, area.h, fontsReady]);
+  }, [s.tab, showLabels, area.w, area.h, fontsReady, isMobile]);
 
   const photo = photos[s.tab];
   const az = ZONES.find((z) => z.id === s.active && z.tab === s.tab);
@@ -296,9 +320,10 @@ export default function Configurator({ photos, thumbs, phones, hours, mode = 'em
   };
   const noiseShape = (f: Shape) => {
     const sel = on(f.id), act = f.id === s.active && !sel;
-    // Правило текстуры: пакет «Практичный» и капот — фольга, иначе шумопоглотитель; арки — всегда шумопоглотитель
-    const texture = f.id !== 'n_arches' && (s.noisePkg === 'prac' || f.id === 'n_hood') ? 'foil' : 'absorber';
+    // Текстура — по группе зоны (zoneShapes.noise.byZone), от пакета не зависит
+    const texture = NOISE_TEXTURE[f.id] ?? 'absorber';
     return {
+      texture,
       opacity: sel ? (f.id === 'n_arches' ? 0.96 : 0.94) : 1,
       fill: sel ? `url(#${texture}-${uid}-${f.id})` : act ? 'rgba(255,255,255,0.10)' : 'transparent',
       stroke: sel ? '#CDE23C' : act ? 'rgba(255,255,255,0.9)' : 'none',
@@ -549,10 +574,7 @@ export default function Configurator({ photos, thumbs, phones, hours, mode = 'em
               const v = noiseShape(f);
               return (
                 <svg class="cfg__shape" viewBox={NOISE.viewBox} preserveAspectRatio={NOISE.preserveAspectRatio} style={{ opacity: v.opacity }} aria-hidden="true" key={f.id} data-zone={f.id} data-name="NoiseZone">
-                  <defs dangerouslySetInnerHTML={{
-                    __html: NOISE.textures.foil.svgPattern.replace('<zoneId>', `${uid}-${f.id}`)
-                      + NOISE.textures.absorber.svgPattern.replace('<zoneId>', `${uid}-${f.id}`),
-                  }} />
+                  <defs dangerouslySetInnerHTML={{ __html: NOISE.textures[v.texture].svgPattern.replace('<zoneId>', `${uid}-${f.id}`) }} />
                   <path d={f.d} fill={v.fill} fill-rule="evenodd" stroke={v.stroke} stroke-width={v.sw} stroke-linejoin="round" stroke-linecap="round" />
                 </svg>
               );
@@ -578,7 +600,7 @@ export default function Configurator({ photos, thumbs, phones, hours, mode = 'em
                 ref={(el) => { labelRefs.current[z.id] = el; }}
                 class={`cfg__label dir-${z.dir}` + (on(z.id) ? ' is-on' : '')}
                 aria-hidden="true"
-              >{z.label ?? z.name}</span>
+              >{isMobile ? (MOBILE_LABELS[z.id] ?? z.name) : (z.label ?? z.name)}</span>
             ))}
 
             <span class="cfg__caption" ref={captionRef} data-name="PhotoCaption">{photo.caption}</span>

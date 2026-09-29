@@ -10,6 +10,7 @@ import Gallery from '../../components/Gallery.astro';
 import casesJson from '@data/cases.json';
 import { DIR_NAME, cases, caseBySlug, services, telegram, type Case } from '../../lib/data';
 import { breadcrumbs } from '../../lib/schema';
+import { mustPhoto } from '../../lib/images';
 
 type Detail = (typeof casesJson.cases)['bmw-g60'];
 const details = casesJson.cases as Record<string, Detail>;
@@ -26,6 +27,9 @@ const dir = c.d;
 const title = d?.title ?? c.name;
 const tags = d?.tags ?? c.tags;
 const cover = d?.cover ?? (c.img ? { img: c.img, alt: `${c.name}: ${c.photo.toLowerCase()}` } : null);
+const coverWidth = cover ? mustPhoto(cover.img).width : 0;
+// С какой ширины экрана кадр (исходник ×1,2) уже экрана — с неё включаем маску краёв
+const maskFrom = Math.round(coverWidth * 1.2) + 1;
 const serviceLinks = [...new Set(c.s.map((id) => filterService[id]).filter(Boolean))]
   .map((url) => services.find((s) => s.url === url))
   .filter((s): s is NonNullable<typeof s> => !!s);
@@ -49,7 +53,13 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
 >
   <div class={`dir-${dir}`}>
     <section class:list={['cover', !cover && 'cover--empty']} data-name="CaseCover">
-      {cover && <Photo src={cover.img} alt={cover.alt} sizes="100vw" widths={[480, 800, 1200, 1600, 2000]} eager class="cover__img" />}
+      {cover && (
+        <span class="cover__media" style={`--native: ${coverWidth}px`} aria-hidden="false">
+          <!-- Мелкий исходник не тянем на всю ширину: кадр не больше исходника ×1,2, края — размытая копия -->
+          <span class="cover__backdrop" aria-hidden="true"><Photo src={cover.img} alt="" sizes="480px" widths={[480]} eager /></span>
+          <span class="cover__frame" data-mask-from={maskFrom}><Photo src={cover.img} alt={cover.alt} sizes={`min(100vw, ${Math.round(coverWidth * 1.2)}px)`} widths={[480, 800, 1200, 1600, 2000]} eager class="cover__img" /></span>
+        </span>
+      )}
       <span class="cover__shade" aria-hidden="true"></span>
       <div class="container cover__in">
         <Crumbs items={[{ name: 'Работы', href: url('/works') }, { name: d?.crumb ?? c.name }]} class="cover__crumbs" />
@@ -90,6 +100,15 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
               </div>
               {b.layout === 'before-after' ? (
                 <BeforeAfter before={b.photos[0]} after={b.photos[1]} />
+              ) : b.layout === 'pair' ? (
+                <div class="block__pair" data-name="PhotoPair">
+                  {b.photos.map((p) => (
+                    <span class="block__ph">
+                      <Photo src={p.img} alt={p.alt} sizes="(min-width: 1280px) 420px, (min-width: 768px) 50vw, 100vw" />
+                      {'caption' in p && p.caption && <span class="tag tag--photo block__tag">{p.caption}</span>}
+                    </span>
+                  ))}
+                </div>
               ) : (
                 <div class:list={['block__photos', `block__photos--${b.layout}`]}>
                   {b.photos.map((p) => (
@@ -147,6 +166,15 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
   </div>
 </Base>
 
+<script>
+  document.querySelectorAll<HTMLElement>('.cover__frame[data-mask-from]').forEach((el) => {
+    const mq = window.matchMedia(`(min-width: ${el.dataset.maskFrom}px)`);
+    const on = () => el.classList.toggle('is-masked', mq.matches);
+    on();
+    mq.addEventListener('change', on);
+  });
+</script>
+
 <style>
   .gap-12 { gap: 12px; }
   .gap-16 { gap: 16px; }
@@ -155,7 +183,13 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
 
   .cover { position: relative; overflow: hidden; min-height: 420px; display: flex; align-items: flex-end; background: var(--ug-bg); }
   .cover--empty { min-height: 320px; background: repeating-linear-gradient(135deg, var(--ug-surface) 0 16px, var(--ug-surface-hover) 16px 32px); }
+  .cover__media, .cover__backdrop, .cover__frame { position: absolute; inset: 0; }
+  .cover__backdrop { overflow: hidden; }
+  .cover__backdrop :global(img) { width: 100%; height: 100%; object-fit: cover; filter: blur(32px) brightness(0.45) saturate(0.9); transform: scale(1.15); }
+  .cover__frame { margin: 0 auto; max-width: calc(var(--native) * 1.2); }
   .cover :global(.cover__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.72) saturate(0.9); }
+  /* Когда кадр уже экрана, края растворяются в размытом фоне — порог у каждого кейса свой, см. coverMaskCss */
+  .cover__frame.is-masked { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%); }
   .cover__shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--ug-bg-deep) 0%, rgba(10, 11, 13, 0.2) 55%, rgba(10, 11, 13, 0.5) 100%); }
   [data-theme='light'] .cover__shade { background: linear-gradient(0deg, var(--ug-bg-deep) 0%, rgba(245, 244, 240, 0.1) 60%); }
   .cover__in { position: relative; z-index: 1; padding-bottom: 32px; display: flex; flex-direction: column; gap: 16px; }
@@ -198,6 +232,10 @@ const description = `${c.name}: ${c.tags.join(', ').toLowerCase()}. Фото р�
   .block__ph { position: relative; display: block; overflow: hidden; border-radius: 18px; background: var(--ug-bg); aspect-ratio: 4 / 3; }
   .block__ph :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .block__photos--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Пара фото без ползунка: рядом, на мобайле — одна под другой */
+  .block__pair { display: grid; gap: 12px; }
+  .block__tag { position: absolute; left: 16px; top: 16px; z-index: 1; }
+  @media (min-width: 768px) { .block__pair { grid-template-columns: 1fr 1fr; } .block__pair .block__ph { aspect-ratio: auto; height: 360px; } }
   .block__photos--three .block__ph { aspect-ratio: 3 / 4; }
   .block__photos--big-two { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
   .block__photos--big-two .block__ph:first-child { grid-row: span 2; aspect-ratio: auto; min-height: 240px; }
